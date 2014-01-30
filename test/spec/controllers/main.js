@@ -41,4 +41,25 @@ describe('Controller: MainCtrl', function () {
     expect(_.toArray(scope.ranges['TT'].combos).length).toBe(6); 
     expect(_.toArray(scope.ranges['AA'].combos).length).toBe(6); 
   });
+
+  it('hand objects all function returns true if all combos have value true', function() {
+    _.each(scope.ranges['T8'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(scope.ranges['T8'].all()).toBe(true);
+
+    scope.ranges['T8'].combos.cd = false;
+    expect(scope.ranges['T8'].all()).toBe(false);
+  });
+
+  it('hand objects suited function returns true if all suited combos have value true', function() {
+    _.each(scope.ranges['T8'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(scope.ranges['T8'].suited()).toBe(true);
+
+    scope.ranges['T8'].combos.cc = false;
+    expect(scope.ranges['T8'].suited()).toBe(false);
+    expect(scope.ranges['44'].suited()).toBe(false);
+  });
 });
