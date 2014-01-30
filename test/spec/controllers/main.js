@@ -16,50 +16,65 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
-  });
-
-  it('range object should have 91 combos', function() {
+  it('should attach a range object with 91 hand combos', function() {
     expect(_.size(scope.ranges)).toBe(91); 
   });
 
-  it('range object combos should be unique', function() {
-    expect(_.uniq(_.toArray(scope.ranges)).length).toBe(91); 
+});
+
+describe('Factory: preflopHands', function () {
+
+  // load the controller's module
+  beforeEach(module('flopzillaApp'));
+
+  var preflopHands;
+
+  // Initialize the controller and a mock scope
+  beforeEach(inject(function (_preflopHands_) {
+    preflopHands = _preflopHands_; 
+  }))
+ 
+  it('should have 91 combos', function() {
+    expect(_.size(preflopHands)).toBe(91); 
   });
 
-  it('range object should have own combos child object', function() {
-    scope.ranges['T8'].combos['hc'] = false;
-    expect(scope.ranges['T9'].combos['hc']).toBe(true); 
-    expect(scope.ranges['T8'].combos['hc']).toBe(false); 
+  it('should have unique hand keys', function() {
+    expect(_.uniq(_.toArray(preflopHands)).length).toBe(91); 
   });
 
-  it('range object pair comobs have different combos subobject', function() {
-    expect(_.toArray(scope.ranges['22'].combos).length).toBe(6); 
-    expect(_.toArray(scope.ranges['33'].combos).length).toBe(6); 
-    expect(_.toArray(scope.ranges['99'].combos).length).toBe(6); 
-    expect(_.toArray(scope.ranges['TT'].combos).length).toBe(6); 
-    expect(_.toArray(scope.ranges['AA'].combos).length).toBe(6); 
+  it('should have own combos child object', function() {
+    preflopHands['T8'].combos['hc'] = false;
+    expect(preflopHands['T9'].combos['hc']).toBe(true); 
+    expect(preflopHands['T8'].combos['hc']).toBe(false); 
   });
 
-  it('hand objects all function returns true if all combos have value true', function() {
-    _.each(scope.ranges['T8'].combos, function(val, key, obj) {
+  it('should have pair combos with different combos subobject', function() {
+    expect(_.toArray(preflopHands['22'].combos).length).toBe(6); 
+    expect(_.toArray(preflopHands['33'].combos).length).toBe(6); 
+    expect(_.toArray(preflopHands['99'].combos).length).toBe(6); 
+    expect(_.toArray(preflopHands['TT'].combos).length).toBe(6); 
+    expect(_.toArray(preflopHands['AA'].combos).length).toBe(6); 
+  });
+
+  it('should have all function return true if all combos have value true', function() {
+    _.each(preflopHands['T8'].combos, function(val, key, obj) {
       obj[key] = true;
     });
-    expect(scope.ranges['T8'].all()).toBe(true);
+    expect(preflopHands['T8'].all()).toBe(true);
 
-    scope.ranges['T8'].combos.cd = false;
-    expect(scope.ranges['T8'].all()).toBe(false);
+    preflopHands['T8'].combos.cd = false;
+    expect(preflopHands['T8'].all()).toBe(false);
   });
 
-  it('hand objects suited function returns true if all suited combos have value true', function() {
-    _.each(scope.ranges['T8'].combos, function(val, key, obj) {
+  it('should have a suited function return true if all suited combos have value true', function() {
+    _.each(preflopHands['T8'].combos, function(val, key, obj) {
       obj[key] = true;
     });
-    expect(scope.ranges['T8'].suited()).toBe(true);
+    expect(preflopHands['T8'].suited()).toBe(true);
 
-    scope.ranges['T8'].combos.cc = false;
-    expect(scope.ranges['T8'].suited()).toBe(false);
-    expect(scope.ranges['44'].suited()).toBe(false);
+    preflopHands['T8'].combos.cc = false;
+    expect(preflopHands['T8'].suited()).toBe(false);
+    expect(preflopHands['44'].suited()).toBe(false);
   });
+
 });

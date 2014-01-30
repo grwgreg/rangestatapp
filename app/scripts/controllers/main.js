@@ -1,13 +1,8 @@
 'use strict';
 
 angular.module('flopzillaApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  //clean up above eventually
+  .factory('preflopHands', function() {
+      
     var ranges = {},
       cards = '23456789TJQKA'.split(''),
       nonPaired = {
@@ -55,17 +50,17 @@ angular.module('flopzillaApp')
       _.each(lCards, function(lcard) {
         var type = (lcard === rcard) ? paired : nonPaired;
         ranges[lcard + rcard] = _.extend({combos: _.clone(type)}, handProto);
-     //   ranges[lcard + rcard] = {  //use extend here with all function and on object extended with combos
-      //    on: false,
-      //  all: true,
-      //  combos: _.clone(type) 
-      //  };
       });    
     });
 
-    $scope.ranges = ranges;
-
+    return ranges; //change this name to preflophands maybe
   })
+
+  .controller('MainCtrl', ['$scope', 'preflopHands', function ($scope, preflopHands) {
+
+    $scope.ranges = preflopHands;
+
+  }])
   
 .directive('preflopHand', function() {
   return {
