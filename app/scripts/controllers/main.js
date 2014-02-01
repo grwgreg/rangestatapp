@@ -38,10 +38,36 @@ angular.module('flopzillaApp')
         },
         suited: function() {
           if (this.combos.length === 6) return false;
+          //suitedcombos is an array of [true, true, false, true]
           var suitedCombos = _.map(['cc','dd','hh','ss'], function(suit) {
             return this.combos[suit];
           }, this);
           return _.every(suitedCombos, _.identity);
+        },
+        toggleSuited: function() {
+          if (this.combos.length === 6) return false;
+          _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
+            this.combos[suit] = !this.combos[suit];
+          }, this);
+        },
+        offSuited: function() {
+          if (this.combos.length === 6) return false;
+          return _.every(_.toArray(this.offSuits()), _.identity);
+        },
+        toggleOffSuited: function() {
+          if (this.combos.length === 6) return false;
+          console.log('this.offsuits: ', this.offSuits());
+          _.each(this.offSuits(), function(val, key, obj) {
+            this.combos[key] = !this.combos[key];
+          }, this);
+        },
+        offSuits: function() {
+          var offSuitTags =  _.without(Object.keys(this.combos), 'cc', 'dd', 'hh', 'ss'),
+            offSuitObj = {};
+          _.each(offSuitTags, function(offSuit) {
+             offSuitObj[offSuit] = this.combos[offSuit]; 
+          }, this);
+          return offSuitObj;
         }
       };
 
@@ -69,15 +95,49 @@ angular.module('flopzillaApp')
     scope: {
       cards: '=',
       color: '@',
-      tag: '@' 
+      tag: '@',
+      handType: '@'
     },
     template: '<button type="button" class="{{color}} btn btn-xs" \
-              ng-class="{pressed : cards.on}" ng-click="toggleOn()"> \
+              ng-class="{pressed : isOn()}" ng-click="toggleOn()"> \
               {{tag}}</button>',
     controller: function($scope) { //link works here too
       $scope.toggleOn = function() {                                                   //greg add toggleall for suited!
-        $scope.cards.on = !$scope.cards.on;
-        console.log($scope.cards);
+        $scope.alwayspressed = !$scope.alwayspressed;
+        if ($scope.handType === 'o') {
+
+          $scope.cards.toggleOffSuited();
+
+        } else if ($scope.handType === 'p') {
+//write a toggle all method and use here
+         
+        } else {
+          $scope.cards.toggleSuited();          
+        }
+      }
+      $scope.isOn = function() {
+
+//add a pairOn, offsuitedOn, and suitedOn attributes to top hands object
+//its very possible the toggle methods are useless :(
+//but the suited() and offsuited() methods are still usefull for determining
+//the color of the button
+//i guess can use the toggles as references for clear and all methods too
+//
+//next step is to add the pairOn type attributes, just booleans and replace
+//above
+//
+//then add a new class for 'all' which will show if its been edited fine grain
+//the function to determine that checks the offsuited() type methods
+//then in css make .pressed.finegrain class that changes color to orange
+//or something
+
+        if ($scope.handType === 'o') {
+          return $scope.cards.offSuited();
+        } else if ($scope.handType === 'p') {
+          return $scope.cards.all();
+        } else {
+          return $scope.cards.suited();          
+        }
       }
     }
   };
@@ -138,6 +198,7 @@ angular.module('flopzillaApp')
           matrixString += '<preflop-hand '; 
           matrixString += "cards='" + hand + "' ";
           matrixString += "tag='" + tag + "' ";
+          matrixString += "hand-type='" + cardData.type + "' ";
           matrixString += "color='" + color + "'>"; 
           matrixString += "</preflop-hand>";
         }); 

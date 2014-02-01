@@ -77,4 +77,51 @@ describe('Factory: preflopHands', function () {
     expect(preflopHands['44'].suited()).toBe(false);
   });
 
+  it('should have toggle suited method', function() {
+    _.each(preflopHands['97'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['97'].suited()).toBe(true);
+    preflopHands['97'].toggleSuited(); 
+    expect(preflopHands['97'].suited()).toBe(false);
+    preflopHands['97'].toggleSuited(); 
+    expect(preflopHands['97'].suited()).toBe(true);
+  });
+
+  it('should have offsuits helper method return offsuited combos', function() {
+     expect(_.size(preflopHands['QJ'].offSuits())).toBe(12); 
+  });
+
+  it('should have offsuited method', function() {
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['94'].offSuited()).toBe(true);
+
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      obj[key] = false;
+    });
+    expect(preflopHands['94'].offSuited()).toBe(false);
+
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    preflopHands['94'].cc = false;
+    expect(preflopHands['94'].offSuited()).toBe(true);
+
+  });
+  it('should have toggle offsuits method', function() {
+    _.each(preflopHands['T7'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['T7'].offSuited()).toBe(true);
+
+    preflopHands['T7'].toggleOffSuited(); 
+    expect(preflopHands['T7'].offSuited()).toBe(false);
+    expect(preflopHands['T7'].combos.hs).toBe(false);
+    expect(preflopHands['T7'].combos.cd).toBe(false);
+
+    preflopHands['T7'].toggleOffSuited(); 
+    expect(preflopHands['T7'].offSuited()).toBe(true);
+  });
 });
