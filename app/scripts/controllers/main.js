@@ -36,7 +36,7 @@ angular.module('flopzillaApp')
         all: function() {
           return _.every(this.combos, _.identity);
         },
-        suited: function() {
+        suited: function() { //rename this allSuits
           if (this.combos.length === 6) return false;
           //suitedcombos is an array of [true, true, false, true]
           var suitedCombos = _.map(['cc','dd','hh','ss'], function(suit) {
@@ -44,7 +44,7 @@ angular.module('flopzillaApp')
           }, this);
           return _.every(suitedCombos, _.identity);
         },
-        toggleSuited: function() {
+        toggleSuited: function() { //this methods useless, change to set all to true or false, take as param
           if (this.combos.length === 6) return false;
           _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
             this.combos[suit] = !this.combos[suit];
@@ -192,7 +192,7 @@ angular.module('flopzillaApp')
             printType = (cardData.type === 'p') ? '' : cardData.type,
             tag = cardData.cards + printType,
             color = '';
-          if (cardData.type == 's') color = 'btn-info'; 
+          if (cardData.type == 's') color = 'btn-info'; //make this ifelse statements 
           if (cardData.type == 'p') color = 'btn-success'; 
           if (cardData.type == 'o') color = 'btn-primary'; 
           matrixString += '<preflop-hand '; 
