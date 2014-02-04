@@ -126,3 +126,11 @@ body {
 .card-matrix .pressed:hover {
   background: rgb(161, 0, 202);
 }
+
+.card-matrix .pressed.notall {
+  background: pink;
+  border: none;
+  border-top: 3px solid rgb(138, 0, 138);
+  border-left: 3px solid rgb(138, 0, 138);  
+  color: white; 
+}

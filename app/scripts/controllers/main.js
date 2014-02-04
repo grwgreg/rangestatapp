@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('flopzillaApp')
+angular.module('rangeStatApp')
   .factory('preflopHands', function() {
       
     var ranges = {},
@@ -32,13 +32,15 @@ angular.module('flopzillaApp')
         hs: true,
       },
       handProto = {
-        on: false,
+        on: false, //general on isn't needed I dont think
+        pairOn: false,
+        suitedOn: false,
+        offSuitedOn: false,
         all: function() {
           return _.every(this.combos, _.identity);
         },
-        suited: function() { //rename this allSuits
+        allSuits: function() {
           if (this.combos.length === 6) return false;
-          //suitedcombos is an array of [true, true, false, true]
           var suitedCombos = _.map(['cc','dd','hh','ss'], function(suit) {
             return this.combos[suit];
           }, this);
@@ -50,7 +52,7 @@ angular.module('flopzillaApp')
             this.combos[suit] = !this.combos[suit];
           }, this);
         },
-        offSuited: function() {
+        allOffSuits: function() {
           if (this.combos.length === 6) return false;
           return _.every(_.toArray(this.offSuits()), _.identity);
         },
@@ -86,6 +88,8 @@ angular.module('flopzillaApp')
 
     $scope.ranges = preflopHands;
 
+    $scope.active = {tag: ''};
+
   }])
   
 .directive('preflopHand', function() {
@@ -94,25 +98,29 @@ angular.module('flopzillaApp')
     replace: true,
     scope: {
       cards: '=',
+      active: '=',
       color: '@',
       tag: '@',
       handType: '@'
     },
     template: '<button type="button" class="{{color}} btn btn-xs" \
-              ng-class="{pressed : isOn()}" ng-click="toggleOn()"> \
+              ng-class="{pressed : isOn(), notall : !all()}" ng-click="toggleOn()"> \
               {{tag}}</button>',
     controller: function($scope) { //link works here too
       $scope.toggleOn = function() {                                                   //greg add toggleall for suited!
-        $scope.alwayspressed = !$scope.alwayspressed;
+        $scope.active.tag = $scope.tag;
         if ($scope.handType === 'o') {
 
-          $scope.cards.toggleOffSuited();
+          $scope.cards.offSuitedOn = !$scope.cards.offSuitedOn;
 
         } else if ($scope.handType === 'p') {
-//write a toggle all method and use here
          
+          $scope.cards.pairOn = !$scope.cards.pairOn;
+
         } else {
-          $scope.cards.toggleSuited();          
+
+          $scope.cards.suitedOn = !$scope.cards.suitedOn;
+
         }
       }
       $scope.isOn = function() {
@@ -132,13 +140,36 @@ angular.module('flopzillaApp')
 //or something
 
         if ($scope.handType === 'o') {
-          return $scope.cards.offSuited();
+
+          return $scope.cards.offSuitedOn;
+
         } else if ($scope.handType === 'p') {
-          return $scope.cards.all();
+
+          return $scope.cards.pairOn;
+
         } else {
-          return $scope.cards.suited();          
+
+          return $scope.cards.suitedOn;          
+
         }
-      }
+      };
+
+      $scope.all = function() {
+
+        if ($scope.handType === 'o') {
+
+          return $scope.cards.allOffSuits();
+
+        } else if ($scope.handType === 'p') {
+
+          return $scope.cards.all();
+
+        } else {
+
+          return $scope.cards.allSuits();          
+
+        }
+      };
     }
   };
 })
@@ -153,6 +184,10 @@ angular.module('flopzillaApp')
     controller: function($scope) { //link works here too
       $scope.deb = function() {
         console.log($scope.ranges);
+        console.log($scope.active.tag);
+        $scope.ranges['97'].combos.cc = false;
+        $scope.ranges['98'].combos.dc = false;
+        $scope.ranges['99'].combos.cd = false;
       }
     }
   };
@@ -194,9 +229,10 @@ angular.module('flopzillaApp')
             color = '';
           if (cardData.type == 's') color = 'btn-info'; //make this ifelse statements 
           if (cardData.type == 'p') color = 'btn-success'; 
-          if (cardData.type == 'o') color = 'btn-primary'; 
+          if (cardData.type == 'o') color = 'btn-primary';  //this belongs in preflop-hand directive controller
           matrixString += '<preflop-hand '; 
           matrixString += "cards='" + hand + "' ";
+          matrixString += "active='active' ";
           matrixString += "tag='" + tag + "' ";
           matrixString += "hand-type='" + cardData.type + "' ";
           matrixString += "color='" + color + "'>"; 

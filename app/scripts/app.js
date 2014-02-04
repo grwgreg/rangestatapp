@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('flopzillaApp', [
+angular.module('rangeStatApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
