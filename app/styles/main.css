@@ -134,3 +134,26 @@ body {
   border-left: 3px solid rgb(138, 0, 138);  
   color: white; 
 }
+
+
+/*suitmatrix*/
+.club:before {
+  content: "\2663";
+  color: green;
+  margin: 2px;
+}
+.diam:before {
+  content: "\2666";
+  color: blue;
+  margin: 2px;
+}
+.heart:before {
+  content: "\2665";
+  color: red;
+  margin: 2px;
+}
+.spade:before {
+  content: "\2660";
+  color: black;
+  margin: 2px;
+}

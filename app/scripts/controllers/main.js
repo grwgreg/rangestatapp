@@ -88,7 +88,11 @@ angular.module('rangeStatApp')
 
     $scope.ranges = preflopHands;
 
-    $scope.active = {tag: ''};
+    $scope.active = {
+      cards: $scope.ranges['AK'],
+      tag: 'AKo',
+      type: 'o'
+    };
 
   }])
   
@@ -108,7 +112,9 @@ angular.module('rangeStatApp')
               {{tag}}</button>',
     controller: function($scope) { //link works here too
       $scope.toggleOn = function() {                                                   //greg add toggleall for suited!
+        $scope.active.cards = $scope.cards;
         $scope.active.tag = $scope.tag;
+        $scope.active.type = $scope.handType;
         if ($scope.handType === 'o') {
 
           $scope.cards.offSuitedOn = !$scope.cards.offSuitedOn;
@@ -125,19 +131,6 @@ angular.module('rangeStatApp')
       }
       $scope.isOn = function() {
 
-//add a pairOn, offsuitedOn, and suitedOn attributes to top hands object
-//its very possible the toggle methods are useless :(
-//but the suited() and offsuited() methods are still usefull for determining
-//the color of the button
-//i guess can use the toggles as references for clear and all methods too
-//
-//next step is to add the pairOn type attributes, just booleans and replace
-//above
-//
-//then add a new class for 'all' which will show if its been edited fine grain
-//the function to determine that checks the offsuited() type methods
-//then in css make .pressed.finegrain class that changes color to orange
-//or something
 
         if ($scope.handType === 'o') {
 
@@ -245,5 +238,107 @@ angular.module('rangeStatApp')
       el.replaceWith(matrixString);
     }
   };
+})
+
+
+.directive('suitMatrix', function() {
+  var suits = 'cdhs'.split(''),
+    matrix = [];
+
+  _.each(suits, function(colSuit) {
+    var row = [];
+    _.each(suits, function(rowSuit) {
+      row.push(rowSuit + colSuit);
+    });
+    matrix.push(row);
+  });
+  console.log(matrix);
+
+  return {
+    restrict: 'E',
+//    replace: true, //cant replace with no root el
+//maybe this can be compile too?
+    template: function(el, attr) {
+      var matrixString = '{{active.tag}}';
+      _.each(matrix, function(row) {
+        matrixString += '<ul class="suit-matrix">'; 
+        _.each(row, function(suits) {
+          matrixString += '<li>';
+          matrixString += "<suit-control ";
+          matrixString += "active='active'";
+      //    matrixString += "ranges='ranges'";
+          matrixString += "suits='" + suits + "'>";
+      //    matrixString += "activeCombo='active.combo'>";
+          matrixString += "</suit-control>";
+          matrixString += '</li>';
+        }); 
+        matrixString += '</ul>';
+      });
+      return matrixString;
+    },
+  };
+})
+
+
+
+.directive('suitControl', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      active: '=',
+      suits: '@'
+    },
+    template: ['<button type="button" class="btn btn-xs "', 
+              'ng-class="{pressed : isOn()}" ',
+              'ng-click="toggleOn()" ', 
+              'ng-disabled="isDisabled()">',
+              '<span class="{{suitClass1}}"></span>',
+              '<span class="{{suitClass2}}"></span>',
+              '</button>'].join(''),
+    controller: function($scope) { //link works here too
+      var comboByType = {
+        's' : ['cc', 'dd', 'hh', 'ss'],
+        'p' : ['cd', 'ch', 'cs', 'dh', 'ds', 'hs'],
+        'o' : ['cd', 'ch', 'cs', 'dc', 'dh', 'ds', 'hc', 'hd', 'hs', 'sc', 'sd', 'sh']
+      };
+
+      $scope.isOn = function() {
+        return $scope.active.cards.combos[$scope.suits];
+      };
+
+      $scope.isDisabled = function() {
+        return -1 == _.indexOf(comboByType[$scope.active.type], $scope.suits);
+      };
+
+      $scope.toggleOn = function() {
+        /*
+        var handType = 'p',
+          tag = $scope.active.tag, activeCombos = '';
+        if ($scope.active.tag.length == 3) {
+          handType = tag[2] == 'o' ? 'o' : 's'; //dont need this if you can disable buttons
+          tag = tag.slice(0,2);
+          console.log(tag);
+        }
+        activeCombos = $scope.ranges[tag].combos;
+        console.log(tag, $scope.hand, $scope.ranges, $scope.suits); 
+        activeCombos[$scope.suits] = !activeCombos[$scope.suits];
+        console.log('activecomb: ', $scope.activeCombo);
+        */
+        console.log('fuckme ', $scope.active);
+        $scope.active.cards.combos[$scope.suits] = !$scope.active.cards.combos[$scope.suits];
+      };
+
+
+      var suitsClasses = $scope.suits.split('').map(function(suit) {
+        if (suit == 'c') return 'club';
+        else if (suit == 'd') return "diam";
+        else if (suit == 'h') return "heart";
+        else return 'spade';
+      });
+      $scope.suitClass1 = suitsClasses[0];
+      $scope.suitClass2 = suitsClasses[1];
+    }
+  }
 })
 ;
