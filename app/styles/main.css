@@ -120,6 +120,8 @@ body {
   border: none;
   border-top: 3px solid rgb(138, 0, 138);
   border-left: 3px solid rgb(138, 0, 138);  
+  border-right: 1px solid rgb(138, 0, 138);  
+  border-bottom: 1px solid rgb(138, 0, 138);  
   color: white; 
 }
 
@@ -157,3 +159,50 @@ body {
   color: black;
   margin: 2px;
 }
+
+.suit-matrix {
+  list-style: none;
+}
+
+.suit-matrix button {
+  width: 40px;
+  height: 30px;
+  font-size: 1.6em;
+  padding: 0px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+  background: rgb(239, 255, 254);
+  border-bottom: 2px solid rgb(0, 109, 143);
+  border-right: 2px solid rgb(0, 109, 143);
+}
+
+.suit-matrix button:hover {
+  background-color: #C5E4FF;
+}
+
+.suit-matrix button span {
+  position: relative;
+  top: -3px;
+}
+
+.suit-matrix button.pressed {
+  background: rgb(165, 183, 255);
+  border-bottom: 1px solid rgb(0, 87, 146);
+  border-right: 1px solid rgb(0, 87, 146);
+  border-top: 3px solid rgb(0, 87, 146);
+  border-left: 3px solid rgb(0, 87, 146);
+}
+
+.suit-matrix button.pressed:hover {
+  background: rgb(148, 170, 255);
+}
+
+.suit-matrix button[disabled] {
+  background: #868686;
+  border-bottom: none;
+  border-right: none;
+  border-top: 2px solid #a3a3a3;
+  border-left: 2px solid #a3a3a3;
+  opacity: 0.3;
+}
+

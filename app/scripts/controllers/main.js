@@ -88,6 +88,8 @@ angular.module('rangeStatApp')
 
     $scope.ranges = preflopHands;
 
+    //$scope.ranges['AK'].offSuitedOn = true;
+
     $scope.active = {
       cards: $scope.ranges['AK'],
       tag: 'AKo',
@@ -260,22 +262,22 @@ angular.module('rangeStatApp')
 //maybe this can be compile too?
     template: function(el, attr) {
       var matrixString = '{{active.tag}}';
+      matrixString += '<ul class="suit-matrix">'; 
       _.each(matrix, function(row) {
-        matrixString += '<ul class="suit-matrix">'; 
+        matrixString += '<li>';
         _.each(row, function(suits) {
-          matrixString += '<li>';
           matrixString += "<suit-control ";
           matrixString += "active='active'";
       //    matrixString += "ranges='ranges'";
           matrixString += "suits='" + suits + "'>";
       //    matrixString += "activeCombo='active.combo'>";
           matrixString += "</suit-control>";
-          matrixString += '</li>';
         }); 
-        matrixString += '</ul>';
+        matrixString += '</li>';
       });
+      matrixString += '</ul>';
       return matrixString;
-    },
+    }
   };
 })
 
@@ -289,7 +291,7 @@ angular.module('rangeStatApp')
       active: '=',
       suits: '@'
     },
-    template: ['<button type="button" class="btn btn-xs "', 
+    template: ['<button type="button" class="btn btn-xs btn-primary "', 
               'ng-class="{pressed : isOn()}" ',
               'ng-click="toggleOn()" ', 
               'ng-disabled="isDisabled()">',
