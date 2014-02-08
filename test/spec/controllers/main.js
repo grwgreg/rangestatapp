@@ -77,6 +77,19 @@ describe('Factory: preflopHands', function () {
     expect(preflopHands['44'].allSuits()).toBe(false);
   });
 
+  
+  it('should have an allOnCombos function return array of all combos with value true', function() {
+    _.each(preflopHands['88'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['88'].allOnCombos().join('') == 'cdchcsdhdshs').toBe(true);
+
+    preflopHands['88'].combos.dh = false;
+
+    expect(preflopHands['88'].allOnCombos().join('') == 'cdchcsdshs').toBe(true);
+
+  });
+  
   it('should have a suitedOnCombos function return array of suited combos with value true', function() {
     _.each(preflopHands['T8'].combos, function(val, key, obj) {
       obj[key] = true;
@@ -101,7 +114,7 @@ describe('Factory: preflopHands', function () {
     _.each(preflopHands['T8'].combos, function(val, key, obj) {
       obj[key] = true;
     });
-    console.log('dbg', preflopHands['T8'].offSuitedOnCombos());
+    //console.log('dbg', preflopHands['T8'].offSuitedOnCombos());
     expect(preflopHands['T8'].offSuitedOnCombos().join('') == 'cdchcsdcdhdshchdhsscsdsh').toBe(true);
 
     _.each(preflopHands['T8'].combos, function(val, key, obj) {
@@ -315,7 +328,17 @@ describe('Factory: rangeFormatter', function () {
     _.each(testhands1, function(hand) {
       preflopHands[hand].suitedOn = true; 
     }, this); 
-//    console.log('result', rangeFormatter.groupHands(aceX, 's'));
+    var groups = rangeFormatter.groupHands(aceX, 's');
+    expect(_.isEqual(groups, [['AK'], ['AJ'], ['A9', 'A8', 'A7'], ['A4']])).toBe(true);
+  });
+
+  it('group hands method return empty array if no on cards', function() {
+    var tags = '23456789TJQKA',
+      aceX = _.map(_.range(0, 12), function(el) {
+        return 'A' + tags[el]; 
+      }).reverse();
+    var groups = rangeFormatter.groupHands(aceX, 's');
+    expect(_.isEmpty(groups) && _.isArray(groups)).toBe(true);
   });
 
   it('should have group suited hands that arent all on as single group', function() {
@@ -328,7 +351,8 @@ describe('Factory: rangeFormatter', function () {
       preflopHands[hand].suitedOn = true; 
     }, this); 
     preflopHands['A8'].combos.dd = false;
-//    console.log('result', rangeFormatter.groupHands(aceX, 's'));
+    var groups = rangeFormatter.groupHands(aceX, 's');
+    expect(_.isEqual(groups, [['AK'], ['AJ'], ['A9'], ['A8cc', 'A8hh', 'A8ss'], ['A7'], ['A4']])).toBe(true);
   });
 
   it('should have group hands method return nested arrays of sequential on offsuited cards', function() {
@@ -340,7 +364,8 @@ describe('Factory: rangeFormatter', function () {
     _.each(testhands1, function(hand) {
       preflopHands[hand].offSuitedOn = true; 
     }, this); 
-    //console.log('result', rangeFormatter.groupHands(kingX, 'o'));
+    var groups = rangeFormatter.groupHands(kingX, 'o');
+    expect(_.isEqual(groups, [['KJ'], ['K9', 'K8', 'K7'], ['K4', 'K3', 'K2']])).toBe(true);
   });
   it('should have group hands method return nested arrays of sequential on offsuited cards', function() {
     var testhands1 = ['KJ', 'K9', 'K8', 'K7', 'K4', 'K3','K2'],
@@ -354,6 +379,59 @@ describe('Factory: rangeFormatter', function () {
     preflopHands['KJ'].combos.hc = false;
     preflopHands['K8'].combos.dc = false;
     preflopHands['K2'].combos.sc = false;
-    console.log('result', rangeFormatter.groupHands(kingX, 'o'));
+    var groups = rangeFormatter.groupHands(kingX, 'o');
+    expect(_.isEqual(groups[0], ['KJcd', 'KJch', 'KJcs', 'KJdc', 'KJdh', 'KJds', 'KJhd', 'KJhs', 'KJsc', 'KJsd', 'KJsh'])).toBe(true);
+    expect(_.isEqual(groups.length, 6)).toBe(true);
   });
+
+  it('should have group hands method return sequential pairs', function() {
+    var tags = '23456789TJQKA'.split('').reverse(),
+      pairs = _.map(tags, function(tag) {
+        return tag + tag; 
+      });
+
+    _.each(pairs, function(hand) {
+      preflopHands[hand].pairOn = true; 
+    }, this); 
+
+    var offTags = ['22', '44', '55', '66', '99', 'AA'];
+    _.each(offTags, function(tag) {
+      preflopHands[tag].pairOn = false; 
+    }, this); 
+
+    var groups = rangeFormatter.groupHands(pairs, 'p');
+    expect(_.isEqual(groups, [['KK', 'QQ', 'JJ', 'TT'], ['88', '77'], ['33']])).toBe(true);
+  });
+  
+  
+  it('should have group hands method return sequential pairs and group individually if not all combos for hand', function() {
+    var tags = '23456789TJQKA'.split('').reverse(),
+      pairs = _.map(tags, function(tag) {
+        return tag + tag; 
+      });
+
+    _.each(pairs, function(hand) {
+      preflopHands[hand].pairOn = true; 
+    }, this); 
+
+    var offTags = ['22', '44', '55', '66', '99', 'AA'];
+    _.each(offTags, function(tag) {
+      preflopHands[tag].pairOn = false; 
+    }, this); 
+    //console.log(preflopHands['TT']);
+
+    
+    preflopHands['33'].combos.dh = false; 
+    preflopHands['TT'].combos.dh = false; 
+    preflopHands['TT'].combos.ds = false; 
+    preflopHands['TT'].combos.ch = false; 
+    preflopHands['KK'].combos.hs = false; 
+    
+    var groups = rangeFormatter.groupHands(pairs, 'p');
+    //console.log('groups', groups);
+    expect(_.isEqual(groups[0], ['KKcd', 'KKch', 'KKcs', 'KKdh', 'KKds'])).toBe(true);
+    expect(_.isEqual(groups[4], ['33cd', '33ch', '33cs', '33ds', '33hs'])).toBe(true);
+ 
+  });
+  
 });

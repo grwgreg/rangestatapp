@@ -37,6 +37,13 @@ angular.module('rangeStatApp')
         all: function() {
           return _.every(this.combos, _.identity);
         },
+        allOnCombos: function() {
+          var found = [];
+          _.each(this.combos, function(val, key) {
+            if (this.combos[key]) found.push(key); 
+          }, this); 
+          return found;
+        },
         allSuits: function() {
           if (this.combos.length === 6) return false;
           var suitedCombos = _.map(['cc','dd','hh','ss'], function(suit) {
@@ -50,7 +57,7 @@ angular.module('rangeStatApp')
             this.combos[suit] = !this.combos[suit];
           }, this);
         },
-        suitedOnCombos: function() {
+        suitedOnCombos: function() {//getSuitedOn instead? these names are sloppy and confusing
           var found = []; 
           _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
             if (this.combos[suit]) found.push(suit);
@@ -165,7 +172,7 @@ angular.module('rangeStatApp')
     replace: true,
     //template: '<span ng-click="add()">{{it }}</span>',
     template: function() { return['<button type="button" class="btn btn-xs"',
-              'ng-click="deb()">DEBUG</button>'].join('')},
+              'ng-click="deb()">DEBUG</button>'].join('');},
     controller: function($scope) { //link works here too
       $scope.deb = function() {
         console.log($scope.ranges);
@@ -258,9 +265,7 @@ angular.module('rangeStatApp')
         _.each(row, function(suits) {
           matrixString += "<suit-control ";
           matrixString += "active='active'";
-      //    matrixString += "ranges='ranges'";
           matrixString += "suits='" + suits + "'>";
-      //    matrixString += "activeCombo='active.combo'>";
           matrixString += "</suit-control>";
         }); 
         matrixString += '</li>';
@@ -304,19 +309,6 @@ angular.module('rangeStatApp')
       };
 
       $scope.toggleOn = function() {
-        /*
-        var handType = 'p',
-          tag = $scope.active.tag, activeCombos = '';
-        if ($scope.active.tag.length == 3) {
-          handType = tag[2] == 'o' ? 'o' : 's'; //dont need this if you can disable buttons
-          tag = tag.slice(0,2);
-          console.log(tag);
-        }
-        activeCombos = $scope.ranges[tag].combos;
-        console.log(tag, $scope.hand, $scope.ranges, $scope.suits); 
-        activeCombos[$scope.suits] = !activeCombos[$scope.suits];
-        console.log('activecomb: ', $scope.activeCombo);
-        */
         $scope.active.cards.combos[$scope.suits] = !$scope.active.cards.combos[$scope.suits];
       };
 
@@ -382,24 +374,35 @@ angular.module('rangeStatApp')
         else prevStaged = false;
 
       }, this);
-      return groups;
+      return _.reject(groups, function(el) {
+        return _.isEmpty(el); 
+      });
     };
 
     this.comboFind = function(hand, type) {
-      var finderFn = (type == 's') ? 'suitedOnCombos' : 'offSuitedOnCombos',
-        combos = preflopHands[hand][finderFn]();
+      var finderFn = '';
+      if (type === 's') finderFn = 'suitedOnCombos';
+      else if (type === 'o') finderFn = 'offSuitedOnCombos';
+      else finderFn = 'allOnCombos';
+      var combos = preflopHands[hand][finderFn]();
       return _.map(combos, function(combo) {
         return hand + combo; 
       });
     };
 
     this.checkOn = function(hand, type) {
-      var on = (type == 's') ? 'suitedOn' : 'offSuitedOn';
+      var on = '';
+      if (type === 's') on = 'suitedOn';
+      else if (type === 'o') on = 'offSuitedOn';
+      else on = 'pairOn'; 
       return preflopHands[hand][on];
     };
 
     this.checkAll = function(hand, type) {
-      var checker = (type == 's') ? 'allSuits' : 'allOffSuits'; 
+      var checker = '';
+      if (type === 's') checker = 'allSuits';
+      else if (type === 'o') checker = 'allOffSuits';
+      else checker = 'all';
       return preflopHands[hand][checker]();
     };
 
