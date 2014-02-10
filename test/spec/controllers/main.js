@@ -434,4 +434,74 @@ describe('Factory: rangeFormatter', function () {
  
   });
   
+  it('should have inBothGroups return array of groups in both suited and offsuited', function() {
+    var offSuitedGroup =  [['KJ'], ['K9', 'K8', 'K7'], ['K4', 'K3', 'K2']],
+      suitedGroup =  [['AK'], ['KJ'], ['K9', 'K8'], ['K4', 'K3', 'K2']],
+      inBothGroups = rangeFormatter.inBothGroups(offSuitedGroup, suitedGroup);
+    expect(_.isEqual(inBothGroups, [['KJ'], ['K4', 'K3', 'K2']])).toBe(true);
+  });
+
+  it('should have listToString method turn array of hands into range string', function() {
+    var group =  [['KJ'], ['K9', 'K8', 'K7'], ['K4', 'K3', 'K2']],
+      rangeStrings = '';
+
+    _.each(group, function(list) {
+      rangeStrings += rangeFormatter.listToString(list, 's') + ' ';
+    });
+    expect(_.isEqual(rangeStrings, 'KJs K9-7s K4-2s ')).toBe(true);
+    
+    rangeStrings = '';
+    _.each(group, function(list) {
+      rangeStrings += rangeFormatter.listToString(list, 'o') + ' ';
+    });
+    expect(_.isEqual(rangeStrings, 'KJo K9-7o K4-2o ')).toBe(true);
+
+    rangeStrings = '';
+    _.each(group, function(list) {
+      rangeStrings += rangeFormatter.listToString(list) + ' ';
+    });
+    expect(_.isEqual(rangeStrings, 'KJ K9-7 K4-2 ')).toBe(true);
+
+    rangeStrings = rangeFormatter.listToString(['A8cc', 'A8hh', 'A8ss'], 's');
+    expect(_.isEqual(rangeStrings, 'A8cc, A8hh, A8ss')).toBe(true);
+  });
+
+  it('should have get groups method return groups for matrix columns by type', function() {
+    preflopHands['JJ'].pairOn = true;
+    preflopHands['88'].pairOn = true;
+    preflopHands['77'].pairOn = true;
+    preflopHands['66'].pairOn = true;
+    preflopHands['KJ'].offSuitedOn = true;
+    preflopHands['QJ'].offSuitedOn = true;
+    preflopHands['JT'].offSuitedOn = true;
+    preflopHands['J9'].offSuitedOn = true;
+    preflopHands['J8'].offSuitedOn = true;
+
+    preflopHands['J9'].combos.cd = false;
+    preflopHands['J9'].combos.dc = false;
+    preflopHands['J9'].combos.ch = false;
+    preflopHands['J9'].combos.hc = false;
+    preflopHands['J9'].combos.cs = false;
+    preflopHands['J9'].combos.sh = false;
+
+    preflopHands['98'].suitedOn = true;
+    preflopHands['97'].suitedOn = true;
+    preflopHands['98'].offSuitedOn = true;
+    preflopHands['97'].offSuitedOn = true;
+
+    preflopHands['76'].suitedOn = true;
+    preflopHands['75'].suitedOn = true;
+    preflopHands['75'].offSuitedOn = true;
+    preflopHands['74'].suitedOn = true;
+    preflopHands['73'].suitedOn = true;
+    preflopHands['72'].suitedOn = true;
+
+    preflopHands['73'].combos.dd = false;
+
+    preflopHands['54'].offSuitedOn = true;
+    preflopHands['53'].offSuitedOn = true;
+    preflopHands['52'].offSuitedOn = true;
+
+    rangeFormatter.test();
+  });
 });

@@ -327,7 +327,7 @@ angular.module('rangeStatApp')
 
 .factory('rangeFormatter', function() {
   var cards = '23456789TJQKA'.split('').reverse(),
-    offSuited = [],
+    offSuited = [],//rename nonpaired
     paired = [];
 
   _.each(cards, function(lCard, index) {
@@ -345,16 +345,66 @@ angular.module('rangeStatApp')
 
   var RangeFormatter = function(preflopHands) {
     
+    this.test = function() {
+      _.each(offSuited, function(col) {//rename offSutied nonpaired
+        var offs = this.groupHands(col, 'o'); 
+        var suits = this.groupHands(col, 's'); 
+        console.log(this.inBothGroups(offs,suits));
+//here, remove the inboth groups result from both offs and suits, then
+//use the commented out code below to loop through the groups, to the lists
+//then call listToString on each list, fill up an array of strings
+//and ultimately join them
 
-    this.offSuitedStage = [];
-    this.suitedStage = [];
-    //hands is array of tags, type is 's' suited or 'o' offsuit
+
+      }, this);
+    };
+
+      /*use this in range to string
+      _.each(groups, function(group) {
+        _.each(group, function(list) {
+          console.log('list2str', this.listToString(list, 'o')); 
+        }, this);
+      } , this);
+    };
+      */
+
+    this.listToString = function(list, typeString) {
+      if (_.isUndefined(typeString)) typeString = '';
+      if (list.length === 1) {
+        return list[0] + typeString; 
+      } else if (list[0].length == 2) {
+        return list[0] + '-' + _.last(list)[1] + typeString;
+      } else if (list[0].length == 4) {
+        return list.join(', ');
+      }
+    };
+
+    this.inBothGroups = function(osGroups, sGroups) {
+      var cards = '23456789TJQKA'.split('');
+      var osLen = osGroups.length, sLen = sGroups.length,
+      both = [], i=0, j=0;
+      for (; i < osLen ; i++) {
+        for (; j < sLen; j++) {
+          //break if second card is lower ie TJ wont match anything past TT
+          //make hash instead of card array? todo performance
+          if (_.indexOf(cards, osGroups[i][0][1]) > _.indexOf(cards, sGroups[j][0][1])) {
+            break;
+          } 
+          if (_.isEqual(osGroups[i], sGroups[j])) {
+            both.push(osGroups[i]);
+            break;
+          }
+        }
+      }
+      return both;
+    };
+
     this.groupHands = function(hands, type) {
       var prevStaged = false,
           groupPointer = 0,
           groups = [[]];
       _.each(hands, function(hand, index) {
-        var on = this.checkOn(hand, type),
+        var on = this.checkOn(hand, type),//this is redundant if only called from rangetostringmethod
           all = this.checkAll(hand, type);
         if (on && all) {
           if (prevStaged) groups[groupPointer].push(hand); 
@@ -406,17 +456,6 @@ angular.module('rangeStatApp')
       return preflopHands[hand][checker]();
     };
 
-    this.groupPairs = function(hands) {
-
-    };
-
-    this.groupToString = function(group) {
-
-    };
-
-    this.format = function() {
-    //here loop through offsuited, suited create groups and then group to string, return string
-    };
   };
   return RangeFormatter;
 })
