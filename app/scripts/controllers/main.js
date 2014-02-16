@@ -1,3 +1,6 @@
+'use strict';
+var _ = window._;//to shut up jshint
+
 angular.module('rangeStatApp')
   .factory('preflopHands', function() {
       
@@ -40,8 +43,8 @@ angular.module('rangeStatApp')
         allOnCombos: function() {
           var found = [];
           _.each(this.combos, function(val, key) {
-            if (this.combos[key]) found.push(key); 
-          }, this); 
+            if (this.combos[key]) found.push(key);
+          }, this);
           return found;
         },
         allSuits: function() {
@@ -58,7 +61,7 @@ angular.module('rangeStatApp')
           }, this);
         },
         suitedOnCombos: function() {//getSuitedOn instead? these names are sloppy and confusing
-          var found = []; 
+          var found = [];
           _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
             if (this.combos[suit]) found.push(suit);
           }, this);
@@ -77,7 +80,6 @@ angular.module('rangeStatApp')
         },
         toggleOffSuited: function() {
           if (this.combos.length === 6) return false;
-          //console.log('this.offsuits: ', this.offSuits());
           _.each(this.offSuits(), function(val, key, obj) {
             this.combos[key] = !this.combos[key];
           }, this);
@@ -86,7 +88,7 @@ angular.module('rangeStatApp')
           var offSuitTags =  _.without(Object.keys(this.combos), 'cc', 'dd', 'hh', 'ss'),
             offSuitObj = {};
           _.each(offSuitTags, function(offSuit) {
-             offSuitObj[offSuit] = this.combos[offSuit]; 
+            offSuitObj[offSuit] = this.combos[offSuit];
           }, this);
           return offSuitObj;
         }
@@ -97,7 +99,7 @@ angular.module('rangeStatApp')
       _.each(lCards, function(lcard) {
         var type = (lcard === rcard) ? paired : nonPaired;
         ranges[lcard + rcard] = _.extend({combos: _.clone(type)}, handProto);
-      });    
+      });
     });
 
     return ranges; //change this name to preflophands maybe
@@ -106,7 +108,7 @@ angular.module('rangeStatApp')
   .controller('MainCtrl', ['$scope', 'preflopHands', 'rangeFormatter', function ($scope, preflopHands, rangeFormatter) {
 
     var rangeFormatter = new rangeFormatter(preflopHands);
-    $scope.rangeFormatter = rangeFormatter
+    $scope.rangeFormatter = rangeFormatter;
     console.log('formatter: ', rangeFormatter);
     $scope.ranges = preflopHands;
 
@@ -151,7 +153,7 @@ angular.module('rangeStatApp')
 
         else if ($scope.handType === 'p') return $scope.cards.pairOn;
 
-        else return $scope.cards.suitedOn;          
+        else return $scope.cards.suitedOn;
       };
 
       $scope.all = function() {
@@ -160,7 +162,7 @@ angular.module('rangeStatApp')
 
         else if ($scope.handType === 'p') return $scope.cards.all();
 
-        else return $scope.cards.allSuits();          
+        else return $scope.cards.allSuits();
       };
     }
   };
@@ -180,7 +182,7 @@ angular.module('rangeStatApp')
         $scope.ranges['97'].combos.cc = false;
         $scope.ranges['98'].combos.dc = false;
         $scope.ranges['99'].combos.cd = false;
-      }
+      };
     }
   };
 })
@@ -199,7 +201,7 @@ angular.module('rangeStatApp')
       if (colIndex + rowIndex > 12) type = 's';
       else if (colIndex + rowIndex === 12) type = 'p';
       else if (colIndex + rowIndex < 12) type = 'o';
-      var tag = (type == 's') ? colCard + rowCard : rowCard + colCard;
+      var tag = (type === 's') ? colCard + rowCard : rowCard + colCard;
       row.push({cards: tag, type: type});
     });
     matrix.push(row);
@@ -211,7 +213,7 @@ angular.module('rangeStatApp')
     restrict: 'E',
     //replace: true,
     compile: function(el, attr) {
-      var matrixString = '<ul class="card-matrix">'; 
+      var matrixString = '<ul class="card-matrix">';
       _.each(matrix, function(row) {
         matrixString += '<li>';
         _.each(row, function(cardData) {
@@ -219,21 +221,20 @@ angular.module('rangeStatApp')
             printType = (cardData.type === 'p') ? '' : cardData.type,
             tag = cardData.cards + printType,
             color = '';
-          if (cardData.type == 's') color = 'btn-info'; //make this ifelse statements 
-          else if (cardData.type == 'p') color = 'btn-success'; 
-          else if (cardData.type == 'o') color = 'btn-primary';  //this belongs in preflop-hand directive controller
-          matrixString += '<preflop-hand '; 
+          if (cardData.type === 's') color = 'btn-info'; //make this ifelse statements 
+          else if (cardData.type === 'p') color = 'btn-success';
+          else if (cardData.type === 'o') color = 'btn-primary';  //this belongs in preflop-hand directive controller
+          matrixString += '<preflop-hand ';
           matrixString += "cards='" + hand + "' ";
           matrixString += "active='active' ";
           matrixString += "tag='" + tag + "' ";
           matrixString += "hand-type='" + cardData.type + "' ";
-          matrixString += "color='" + color + "'>"; 
+          matrixString += "color='" + color + "'>";
           matrixString += "</preflop-hand>";
-        }); 
+        });
         matrixString += '</li>';
       });
       matrixString += '</ul>';
-      //el.html(matrixString);
       el.replaceWith(matrixString);
     }
   };
@@ -259,7 +260,7 @@ angular.module('rangeStatApp')
 //maybe this can be compile too?
     template: function(el, attr) {
       var matrixString = '{{active.tag}}';
-      matrixString += '<ul class="suit-matrix">'; 
+      matrixString += '<ul class="suit-matrix">';
       _.each(matrix, function(row) {
         matrixString += '<li>';
         _.each(row, function(suits) {
@@ -267,7 +268,7 @@ angular.module('rangeStatApp')
           matrixString += "active='active'";
           matrixString += "suits='" + suits + "'>";
           matrixString += "</suit-control>";
-        }); 
+        });
         matrixString += '</li>';
       });
       matrixString += '</ul>';
@@ -286,9 +287,9 @@ angular.module('rangeStatApp')
       active: '=',
       suits: '@'
     },
-    template: ['<button type="button" class="btn btn-xs btn-primary "', 
+    template: ['<button type="button" class="btn btn-xs btn-primary "',
               'ng-class="{pressed : isOn()}" ',
-              'ng-click="toggleOn()" ', 
+              'ng-click="toggleOn()" ',
               'ng-disabled="isDisabled()">',
               '<span class="{{suitClass1}}"></span>',
               '<span class="{{suitClass2}}"></span>',
@@ -305,7 +306,7 @@ angular.module('rangeStatApp')
       };
 
       $scope.isDisabled = function() {
-        return -1 == _.indexOf(comboByType[$scope.active.type], $scope.suits);
+        return -1 === _.indexOf(comboByType[$scope.active.type], $scope.suits);
       };
 
       $scope.toggleOn = function() {
@@ -314,82 +315,100 @@ angular.module('rangeStatApp')
 
 
       var suitsClasses = $scope.suits.split('').map(function(suit) {
-        if (suit == 'c') return 'club';
-        else if (suit == 'd') return "diam";
-        else if (suit == 'h') return "heart";
+        if (suit === 'c') return 'club';
+        else if (suit === 'd') return "diam";
+        else if (suit === 'h') return "heart";
         else return 'spade';
       });
       $scope.suitClass1 = suitsClasses[0];
       $scope.suitClass2 = suitsClasses[1];
     }
-  }
+  };
 })
 
 .factory('rangeFormatter', function() {
   var cards = '23456789TJQKA'.split('').reverse(),
-    offSuited = [],//rename nonpaired
+    nonPaired = [],
     paired = [];
 
-  _.each(cards, function(lCard, index) {
+  _.each(cards, function(lCard) {
     var rCards = cards.slice(cards.indexOf(lCard) + 1),
       col = [];
     _.each(rCards, function(rCard) {
-        col.push(lCard + rCard); 
-    });
-    if (col.length > 0) offSuited.push(col); 
+        col.push(lCard + rCard);
+      });
+    if (col.length > 0) nonPaired.push(col);
   });
 
   _.each(cards, function(card) {
-    paired.push(card + card); 
+    paired.push(card + card);
   });
 
   var RangeFormatter = function(preflopHands) {
-    
-    this.test = function() {
-      _.each(offSuited, function(col) {//rename offSutied nonpaired
-        var offs = this.groupHands(col, 'o'); 
-        var suits = this.groupHands(col, 's'); 
-        console.log(this.inBothGroups(offs,suits));
-//here, remove the inboth groups result from both offs and suits, then
-//use the commented out code below to loop through the groups, to the lists
-//then call listToString on each list, fill up an array of strings
-//and ultimately join them
+    this.rangeToString = function() {
+      var rangeStrings = [],
+        pairs = this.groupHands(paired, 'p');
 
-
+      _.each(pairs, function(list) {
+        rangeStrings.push(this.listToString(list, 'p'));
       }, this);
+
+      _.each(nonPaired, function(col) {
+        var offs = this.groupHands(col, 'o'),
+          suits = this.groupHands(col, 's'),
+          inBoth = this.inBothGroups(offs,suits);
+
+        offs = this.removeInBoth(offs, inBoth);
+        suits = this.removeInBoth(suits, inBoth);
+
+        _.each([[inBoth, ''], [offs, 'o'], [suits, 's']], function(el) {
+          _.each(el[0], function(list) {
+            rangeStrings.push(this.listToString(list, el[1]));
+          }, this);
+        }, this);
+      }, this);
+
+      return rangeStrings.join(', ');
     };
 
-      /*use this in range to string
-      _.each(groups, function(group) {
-        _.each(group, function(list) {
-          console.log('list2str', this.listToString(list, 'o')); 
-        }, this);
-      } , this);
+    this.removeInBoth = function(group1, group2) {
+      return _.filter(group1, function(list) {
+        var found = true;
+        _.each(group2, function(listInBoth) {
+          if (_.isEqual(listInBoth, list)) found = false;
+        });
+        return found;
+      });
     };
-      */
 
     this.listToString = function(list, typeString) {
       if (_.isUndefined(typeString)) typeString = '';
+      if (typeString === 'p') {
+        if (list.length === 1) {
+          return list[0];
+        }
+        return list[0] + '-' + _.last(list);
+      }
       if (list.length === 1) {
-        return list[0] + typeString; 
-      } else if (list[0].length == 2) {
+        return list[0] + typeString;
+      } else if (list[0].length === 2) {
         return list[0] + '-' + _.last(list)[1] + typeString;
-      } else if (list[0].length == 4) {
+      } else if (list[0].length === 4) {
         return list.join(', ');
       }
     };
 
     this.inBothGroups = function(osGroups, sGroups) {
-      var cards = '23456789TJQKA'.split('');
-      var osLen = osGroups.length, sLen = sGroups.length,
-      both = [], i=0, j=0;
+      var cards = '23456789TJQKA'.split(''),
+        osLen = osGroups.length, sLen = sGroups.length,
+        both = [], i=0, j=0;
       for (; i < osLen ; i++) {
         for (; j < sLen; j++) {
           //break if second card is lower ie TJ wont match anything past TT
           //make hash instead of card array? todo performance
           if (_.indexOf(cards, osGroups[i][0][1]) > _.indexOf(cards, sGroups[j][0][1])) {
             break;
-          } 
+          }
           if (_.isEqual(osGroups[i], sGroups[j])) {
             both.push(osGroups[i]);
             break;
@@ -403,11 +422,11 @@ angular.module('rangeStatApp')
       var prevStaged = false,
           groupPointer = 0,
           groups = [[]];
-      _.each(hands, function(hand, index) {
+      _.each(hands, function(hand) {
         var on = this.checkOn(hand, type),//this is redundant if only called from rangetostringmethod
           all = this.checkAll(hand, type);
         if (on && all) {
-          if (prevStaged) groups[groupPointer].push(hand); 
+          if (prevStaged) groups[groupPointer].push(hand);
           else {
             groups.push([hand]);
             groupPointer++;
@@ -425,7 +444,7 @@ angular.module('rangeStatApp')
 
       }, this);
       return _.reject(groups, function(el) {
-        return _.isEmpty(el); 
+        return _.isEmpty(el);
       });
     };
 
@@ -436,7 +455,7 @@ angular.module('rangeStatApp')
       else finderFn = 'allOnCombos';
       var combos = preflopHands[hand][finderFn]();
       return _.map(combos, function(combo) {
-        return hand + combo; 
+        return hand + combo;
       });
     };
 
@@ -444,7 +463,7 @@ angular.module('rangeStatApp')
       var on = '';
       if (type === 's') on = 'suitedOn';
       else if (type === 'o') on = 'offSuitedOn';
-      else on = 'pairOn'; 
+      else on = 'pairOn';
       return preflopHands[hand][on];
     };
 
@@ -458,5 +477,4 @@ angular.module('rangeStatApp')
 
   };
   return RangeFormatter;
-})
-;
+});

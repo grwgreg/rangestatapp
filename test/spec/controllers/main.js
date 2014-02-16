@@ -439,6 +439,8 @@ describe('Factory: rangeFormatter', function () {
       suitedGroup =  [['AK'], ['KJ'], ['K9', 'K8'], ['K4', 'K3', 'K2']],
       inBothGroups = rangeFormatter.inBothGroups(offSuitedGroup, suitedGroup);
     expect(_.isEqual(inBothGroups, [['KJ'], ['K4', 'K3', 'K2']])).toBe(true);
+
+
   });
 
   it('should have listToString method turn array of hands into range string', function() {
@@ -466,16 +468,21 @@ describe('Factory: rangeFormatter', function () {
     expect(_.isEqual(rangeStrings, 'A8cc, A8hh, A8ss')).toBe(true);
   });
 
-  it('should have get groups method return groups for matrix columns by type', function() {
+  it('should have rangeToString method return groups for matrix columns by type', function() {
     preflopHands['JJ'].pairOn = true;
     preflopHands['88'].pairOn = true;
     preflopHands['77'].pairOn = true;
     preflopHands['66'].pairOn = true;
     preflopHands['KJ'].offSuitedOn = true;
+    preflopHands['KT'].offSuitedOn = true;
+    preflopHands['K9'].offSuitedOn = true;
     preflopHands['QJ'].offSuitedOn = true;
     preflopHands['JT'].offSuitedOn = true;
+    preflopHands['JT'].suitedOn = true;
     preflopHands['J9'].offSuitedOn = true;
+    preflopHands['J9'].suitedOn = true;
     preflopHands['J8'].offSuitedOn = true;
+    preflopHands['J8'].suitedOn = true;
 
     preflopHands['J9'].combos.cd = false;
     preflopHands['J9'].combos.dc = false;
@@ -502,6 +509,7 @@ describe('Factory: rangeFormatter', function () {
     preflopHands['53'].offSuitedOn = true;
     preflopHands['52'].offSuitedOn = true;
 
-    rangeFormatter.test();
+    var rangeString = rangeFormatter.rangeToString();
+    expect(_.isEqual(rangeString, 'JJ, 88-66, KJ-9o, QJo, JTo, J9dh, J9ds, J9hd, J9hs, J9sc, J9sd, J8o, JT-8s, 98-7, 75o, 76-4s, 73cc, 73hh, 73ss, 72s, 54-2o')).toBe(true);
   });
 });
