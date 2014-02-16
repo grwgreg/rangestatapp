@@ -18,7 +18,7 @@ rangeStatApp.directive('preflopHand', function() {
       template: '<button type="button" class="{{color}} btn btn-xs" \
                 ng-class="{pressed : isOn(), notall : !all()}" ng-click="toggleOn()"> \
                 {{tag}}</button>',
-      controller: function($scope) { //link works here too
+      controller: ['$scope', function($scope) { //link works here too
         $scope.toggleOn = function() {
           $scope.active.cards = $scope.cards;
           $scope.active.tag = $scope.tag;
@@ -46,6 +46,6 @@ rangeStatApp.directive('preflopHand', function() {
 
           else return $scope.cards.allSuits();
         };
-      }
+      }]
     };
   });

@@ -53,7 +53,7 @@ rangeStatApp.directive('suitMatrix', function() {
               '<span class="{{suitClass1}}"></span>',
               '<span class="{{suitClass2}}"></span>',
               '</button>'].join(''),
-    controller: function($scope) { //link works here too
+    controller: ['$scope', function($scope) { //link works here too
       var comboByType = {
         's' : ['cc', 'dd', 'hh', 'ss'],
         'p' : ['cd', 'ch', 'cs', 'dh', 'ds', 'hs'],
@@ -81,6 +81,6 @@ rangeStatApp.directive('suitMatrix', function() {
       });
       $scope.suitClass1 = suitsClasses[0];
       $scope.suitClass2 = suitsClasses[1];
-    }
+    }]
   };
 });

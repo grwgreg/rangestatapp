@@ -25,7 +25,7 @@ rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'rangeFormatter',
     //template: '<span ng-click="add()">{{it }}</span>',
     template: function() { return['<button type="button" class="btn btn-xs"',
               'ng-click="deb()">DEBUG</button>'].join('');},
-    controller: function($scope) { //link works here too
+    controller: ['$scope', function($scope) { //link works here too
       $scope.deb = function() {
         console.log($scope.ranges);
         console.log($scope.active.tag);
@@ -33,6 +33,6 @@ rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'rangeFormatter',
         $scope.ranges['98'].combos.dc = false;
         $scope.ranges['99'].combos.cd = false;
       };
-    }
+    }]
   };
 });
