@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rangeStatApp', [
+var rangeStatApp = angular.module('rangeStatApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
