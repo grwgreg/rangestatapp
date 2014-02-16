@@ -1,17 +1,16 @@
 'use strict';
 var _ = window._;//to shut up jshint
 
-rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'rangeFormatter', function ($scope, preflopHands, rangeFormatter) {
+rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'RangeFormatter', function ($scope, preflopHands, RangeFormatter) {
 
-    var rangeFormatter = new rangeFormatter(preflopHands);
-    $scope.rangeFormatter = rangeFormatter;
-    console.log('formatter: ', rangeFormatter);
-    $scope.ranges = preflopHands;
+    var RangeFormatter = new RangeFormatter(preflopHands);
+    $scope.main = {};
+    $scope.main.RangeFormatter = RangeFormatter;
+    console.log('formatter: ', RangeFormatter);
+    $scope.main.preflopHands = preflopHands;
 
-    //$scope.ranges['AK'].offSuitedOn = true;
-
-    $scope.active = {
-      cards: $scope.ranges['AK'],
+    $scope.main.active = {
+      cards: $scope.main.preflopHands['AK'],
       tag: 'AKo',
       type: 'o'
     };
@@ -27,11 +26,11 @@ rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'rangeFormatter',
               'ng-click="deb()">DEBUG</button>'].join('');},
     controller: ['$scope', function($scope) { //link works here too
       $scope.deb = function() {
-        console.log($scope.ranges);
-        console.log($scope.active.tag);
-        $scope.ranges['97'].combos.cc = false;
-        $scope.ranges['98'].combos.dc = false;
-        $scope.ranges['99'].combos.cd = false;
+        console.log($scope.main.preflopHands);
+        console.log($scope.main.active.tag);
+        $scope.main.preflopHands['97'].combos.cc = false;
+        $scope.main.preflopHands['98'].combos.dc = false;
+        $scope.main.preflopHands['99'].combos.cd = false;
       };
     }]
   };

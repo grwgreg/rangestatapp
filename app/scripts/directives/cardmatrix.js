@@ -35,7 +35,7 @@ rangeStatApp.directive('cardMatrix', function() {
         _.each(matrix, function(row) {
           matrixString += '<li>';
           _.each(row, function(cardData) {
-            var hand = 'ranges.' + cardData.cards,
+            var hand = 'main.preflopHands.' + cardData.cards,
               printType = (cardData.type === 'p') ? '' : cardData.type,
               tag = cardData.cards + printType,
               color = '';
@@ -44,7 +44,7 @@ rangeStatApp.directive('cardMatrix', function() {
             else if (cardData.type === 'o') color = 'btn-primary';  //this belongs in preflop-hand directive controller
             matrixString += '<preflop-hand ';
             matrixString += "cards='" + hand + "' ";
-            matrixString += "active='active' ";
+            matrixString += "active='main.active' ";
             matrixString += "tag='" + tag + "' ";
             matrixString += "hand-type='" + cardData.type + "' ";
             matrixString += "color='" + color + "'>";

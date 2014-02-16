@@ -17,7 +17,7 @@ describe('Controller: MainCtrl', function () {
   }));
 
   it('should attach a range object with 91 hand combos', function() {
-    expect(_.size(scope.ranges)).toBe(91); 
+    expect(_.size(scope.main.preflopHands)).toBe(91); 
   });
 
 });

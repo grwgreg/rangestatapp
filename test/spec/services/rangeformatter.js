@@ -1,4 +1,4 @@
-describe('Factory: rangeFormatter', function () {
+describe('Factory: RangeFormatter', function () {
 
   // load the controller's module
   beforeEach(module('rangeStatApp'));
@@ -7,9 +7,9 @@ describe('Factory: rangeFormatter', function () {
     preflopHands;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function (_rangeFormatter_, _preflopHands_) {
+  beforeEach(inject(function (_RangeFormatter_, _preflopHands_) {
     preflopHands = _preflopHands_;
-    rangeFormatter = new _rangeFormatter_(preflopHands); 
+    rangeFormatter = new _RangeFormatter_(preflopHands); 
   }))
  
   it('should have comboFind function return on combos based on type param', function() {

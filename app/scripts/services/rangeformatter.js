@@ -1,7 +1,7 @@
 'use strict';
 var _ = window._;
 
-rangeStatApp.factory('rangeFormatter', function() {
+rangeStatApp.factory('RangeFormatter', function() {
   var cards = '23456789TJQKA'.split('').reverse(),
     nonPaired = [],
     paired = [];

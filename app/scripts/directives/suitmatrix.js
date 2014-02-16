@@ -20,13 +20,13 @@ rangeStatApp.directive('suitMatrix', function() {
 //    replace: true, //cant replace with no root el
 //maybe this can be compile too?
     template: function(el, attr) {
-      var matrixString = '{{active.tag}}';
+      var matrixString = '{{main.active.tag}}';
       matrixString += '<ul class="suit-matrix">';
       _.each(matrix, function(row) {
         matrixString += '<li>';
         _.each(row, function(suits) {
           matrixString += "<suit-control ";
-          matrixString += "active='active'";
+          matrixString += "active='main.active'";
           matrixString += "suits='" + suits + "'>";
           matrixString += "</suit-control>";
         });
