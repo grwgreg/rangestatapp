@@ -3,10 +3,11 @@ var _ = window._;//to shut up jshint
 
 rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'RangeFormatter', function ($scope, preflopHands, RangeFormatter) {
 
-    var RangeFormatter = new RangeFormatter(preflopHands);
+    var rangeFormatter = new RangeFormatter(preflopHands);
     $scope.main = {};
-    $scope.main.RangeFormatter = RangeFormatter;
-    console.log('formatter: ', RangeFormatter);
+    $scope.main.rangeFormatter = rangeFormatter;
+    $scope.main.rangeStringModel = 'hijeje';
+    console.log('formatter: ', rangeFormatter);
     $scope.main.preflopHands = preflopHands;
 
     $scope.main.active = {

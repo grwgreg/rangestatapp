@@ -27,6 +27,7 @@
     <card-matrix></card-matrix>
     <deb></deb>
     <suit-matrix></suit-matrix> 
+    <input ng-model='main.rangeStringModel' range-string preflop-hands='main.preflopHands' range-string-model='main.rangeStringModel' range-formatter='main.rangeFormatter' type='text'>
     <!-- Add your site or application content here -->
     <div class="container" ng-view=""></div>
 
@@ -66,6 +67,7 @@
         <script src="scripts/directives/preflophand.js"></script>
         <script src="scripts/directives/cardmatrix.js"></script>
         <script src="scripts/directives/suitmatrix.js"></script>
+        <script src="scripts/directives/rangestring.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <!-- endbuild -->
 </body>
