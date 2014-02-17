@@ -62,9 +62,15 @@ rangeStatApp.factory('RangeFormatter', function() {
         if (list.length === 1) {
           return list[0];
         }
+        if (list[0].length === 4) {//88cs,88ch
+          return list.join(', ');
+        }
         return list[0] + '-' + _.last(list);
       }
       if (list.length === 1) {
+        if (list[0].length === 4) {
+          return list[0];//AKcs already has typeString
+        }
         return list[0] + typeString;
       } else if (list[0].length === 2) {
         return list[0] + '-' + _.last(list)[1] + typeString;
