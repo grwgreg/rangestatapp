@@ -24,6 +24,7 @@ rangeStatApp.factory('RangeParser', function() {
 
 
     //rangeString is the input field value
+    /*
     this.parseRange = function(rangeString) {
       var tags = _.map(rangeString.split(','), function(el) {
         return el.trim(); 
@@ -34,6 +35,7 @@ rangeStatApp.factory('RangeParser', function() {
       }, this);
       return tagBuckets;
     };
+    */
 
     //tags is array of tags no spanners set in this.buildTagBuckets
     //rangeType is key of tagBuckets
@@ -44,6 +46,7 @@ rangeStatApp.factory('RangeParser', function() {
         'both' : 'toggleAll'
       }
       //need to reset all tags to off somehow... should this be on the prototype
+      /*
       _.each(tags, function(tag) {
         if (rangeType) === 'single' {
           preflopHands[tag][suitCombo] = true;
@@ -51,6 +54,7 @@ rangeStatApp.factory('RangeParser', function() {
         preflopHands[tag][methodMap[rangeType]]();
         }
       });
+      */
     };
 
     //tags is array of tags but no spanners ie K7-3

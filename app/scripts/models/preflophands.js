@@ -56,12 +56,6 @@ rangeStatApp.factory('preflopHands', function() {
           }, this);
           return _.every(suitedCombos, _.identity);
         },
-        toggleSuited: function() { //this methods useless, change to set all to true or false, take as param
-          if (this.combos.length === 6) return false;
-          _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
-            this.combos[suit] = !this.combos[suit];
-          }, this);
-        },
         suitedOnCombos: function() {//getSuitedOn instead? these names are sloppy and confusing
           var found = [];
           _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
@@ -80,12 +74,6 @@ rangeStatApp.factory('preflopHands', function() {
           }, this);
           return found;
         },
-        toggleOffSuited: function() {
-          if (this.combos.length === 6) return false;
-          _.each(this.offSuits(), function(val, key, obj) {
-            this.combos[key] = !this.combos[key];
-          }, this);
-        },
         offSuits: function() {
           var offSuitTags =  _.without(Object.keys(this.combos), 'cc', 'dd', 'hh', 'ss'),
             offSuitObj = {};
@@ -93,6 +81,23 @@ rangeStatApp.factory('preflopHands', function() {
             offSuitObj[offSuit] = this.combos[offSuit];
           }, this);
           return offSuitObj;
+        },
+        setAll: function(bool) {
+          _.each(this.combos, function(val, key) {
+            this.combos[key] = bool;
+          }, this);
+        },
+        setAllSuited: function(bool) {
+          if (this.combos.length === 6) return false;
+          _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
+            this.combos[suit] = bool;
+          }, this);
+        },
+        setAllOffSuited: function(bool) {
+          if (this.combos.length === 6) return false;
+          _.each(this.offSuits(), function(val, key, obj) {
+            this.combos[key] = bool;
+          }, this);
         }
       };
 

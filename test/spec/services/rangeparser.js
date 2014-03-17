@@ -50,6 +50,7 @@ describe('Factory: RangeParser', function () {
     expect(tagBuckets.offSuited.indexOf('85') !== -1).toBe(true);
     expect(tagBuckets.both.indexOf('KT') !== -1).toBe(true);
   });
+  /*
   it('should have method to parse range strings and set preflop hand objects', function() {
     var tagBuckets = rangeParser.parseRange('KJs, KT, 8c8h, 85o, 83s');
     expect(tagBuckets.single.indexOf('8c8h') !== -1).toBe(true);
@@ -58,4 +59,5 @@ describe('Factory: RangeParser', function () {
     expect(tagBuckets.offSuited.indexOf('85') !== -1).toBe(true);
     expect(tagBuckets.both.indexOf('KT') !== -1).toBe(true);
   });
+  */
 });

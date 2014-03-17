@@ -103,18 +103,6 @@ describe('Factory: preflopHands', function () {
     preflopHands['T8'].combos.cd = true;
     expect(preflopHands['T8'].offSuitedOnCombos().join('') == 'cdhchdsd').toBe(true);
   });
-  /* disabled but reuse this for toggling all suited
-  it('should have toggle suited method', function() {
-    _.each(preflopHands['97'].combos, function(val, key, obj) {
-      obj[key] = true;
-    });
-    expect(preflopHands['97'].suited()).toBe(true);
-    preflopHands['97'].toggleSuited(); 
-    expect(preflopHands['97'].suited()).toBe(false);
-    preflopHands['97'].toggleSuited(); 
-    expect(preflopHands['97'].suited()).toBe(true);
-  });
-  */
 
   it('should have offsuits helper method return offsuited combos', function() {
      expect(_.size(preflopHands['QJ'].offSuits())).toBe(12); 
@@ -138,20 +126,51 @@ describe('Factory: preflopHands', function () {
     expect(preflopHands['94'].allOffSuits()).toBe(true);
 
   });
-  /*
-  it('should have toggle offsuits method', function() {
+
+  it('should have setAll method set all combos to true or false', function() {
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['94'].all()).toBe(true);
+    preflopHands['94'].setAll(false);
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      var isOn = obj[key];
+      expect(isOn).toBe(false);
+    });
+
+    preflopHands['94']['cd'] = true;
+    preflopHands['94'].setAll(false);
+    _.each(preflopHands['94'].combos, function(val, key, obj) {
+      var isOn = obj[key];
+      expect(isOn).toBe(false);
+    });
+
+    preflopHands['94'].setAll(true);
+    expect(preflopHands['94'].all()).toBe(true);
+
+
+  });
+
+  it('should have set all suited method', function() {
+    _.each(preflopHands['97'].combos, function(val, key, obj) {
+      obj[key] = true;
+    });
+    expect(preflopHands['97'].allSuits()).toBe(true);
+    preflopHands['97'].setAllSuited(false); 
+    expect(preflopHands['97'].allSuits()).toBe(false);
+    preflopHands['97'].setAllSuited(true); 
+    expect(preflopHands['97'].allSuits()).toBe(true);
+  });
+
+  it('should have set all offsuits method', function() {
     _.each(preflopHands['T7'].combos, function(val, key, obj) {
       obj[key] = true;
     });
-    expect(preflopHands['T7'].offSuited()).toBe(true);
+    expect(preflopHands['T7'].allOffSuits()).toBe(true);
 
-    preflopHands['T7'].toggleOffSuited(); 
-    expect(preflopHands['T7'].offSuited()).toBe(false);
-    expect(preflopHands['T7'].combos.hs).toBe(false);
-    expect(preflopHands['T7'].combos.cd).toBe(false);
-
-    preflopHands['T7'].toggleOffSuited(); 
-    expect(preflopHands['T7'].offSuited()).toBe(true);
+    preflopHands['T7'].setAllOffSuited(false); 
+    expect(preflopHands['T7'].allOffSuits()).toBe(false);
+    preflopHands['T7'].setAllOffSuited(true); 
+    expect(preflopHands['T7'].allOffSuits()).toBe(true);
   });
-  */
 });
