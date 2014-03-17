@@ -24,38 +24,45 @@ rangeStatApp.factory('RangeParser', function() {
 
 
     //rangeString is the input field value
-    /*
     this.parseRange = function(rangeString) {
       var tags = _.map(rangeString.split(','), function(el) {
         return el.trim(); 
       });
       var tagBuckets = this.buildTagBuckets(tags);
-      _.each(tagBuckets, function(tags, rangeType) {
-        this.toggleTags(tags, rangeType); 
-      }, this);
-      return tagBuckets;
+      
+      this.buildRange(tagBuckets);
+      
     };
-    */
 
-    //tags is array of tags no spanners set in this.buildTagBuckets
-    //rangeType is key of tagBuckets
-    this.toggleTags = function(tags, rangeType) {
-      var methodMap = {
-        'suited' : 'toggleSuited',
-        'offSuited' : 'toggleOffSuited',
-        'both' : 'toggleAll'
-      }
-      //need to reset all tags to off somehow... should this be on the prototype
-      /*
-      _.each(tags, function(tag) {
-        if (rangeType) === 'single' {
-          preflopHands[tag][suitCombo] = true;
-        } else {
-        preflopHands[tag][methodMap[rangeType]]();
-        }
+    this.buildRange = function(tagBuckets) {
+      this.resetPreflopHands();
+      //dnry?
+      _.each(tagBuckets.suited, function(tag) {
+        preflopHands[tag].setAllSuited(true);
       });
-      */
+      _.each(tagBuckets.offSuited, function(tag) {
+        preflopHands[tag].setAllOffSuited(true);
+      });
+      _.each(tagBuckets.both, function(tag) {
+        preflopHands[tag].setAll(true);
+      });
+      _.each(tagBuckets.single, function(tag) {
+        this.turnOnSingle(tag);
+      }, this);
     };
+
+    this.turnOnSingle = function(tag) {
+      var hand = tag.slice(0,2);
+      var suit = tag.slice(2,4);
+      preflopHands[hand].combos[suit] = true;  
+    };
+
+    this.resetPreflopHands = function() {
+      _.each(preflopHands, function(hand) {
+        hand.setAll(false); 
+      });
+    }
+
 
     //tags is array of tags but no spanners ie K7-3
     this.buildTagBuckets = function(tags) {
@@ -67,7 +74,7 @@ rangeStatApp.factory('RangeParser', function() {
       };
       _.each(tags, function(tag) {
         if(tag.length === 2) tagBuckets.both.push(tag); 
-        else if(tag.length === 4) tagBuckets.single.push(tag);//parse which suit in range handler method 
+        else if(tag.length === 4) tagBuckets.single.push(tag);
         else if(tag.length === 3 && tag[2] === 's') tagBuckets.suited.push(tag.slice(0,2)); 
         else if(tag.length === 3 && tag[2] === 'o') tagBuckets.offSuited.push(tag.slice(0,2)); 
       }, this);
