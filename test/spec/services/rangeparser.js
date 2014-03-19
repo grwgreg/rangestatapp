@@ -42,9 +42,28 @@ describe('Factory: RangeParser', function () {
     expect(rangeParser.expandRangeTags('76-3s, AK-9o').join(',') === '76s,75s,74s,73s,AKo,AQo,AJo,ATo,A9o').toBe(true);
   });
 
-  it('should have method to organize tag strings by type', function() {
+  it('should have addSingle helper method to add single card sags to tagBuckets', function() {
+    var tagBuckets = {
+      'suited': [],
+      'offSuited' : [],
+      'both' : [],
+      'single' : {}//hash of arrays of suits keyed by 2card tag 
+    };
+    rangeParser.addSingle('KTsc', tagBuckets);
+    rangeParser.addSingle('83sc', tagBuckets);
+    rangeParser.addSingle('KTss', tagBuckets);
+    rangeParser.addSingle('K4sc', tagBuckets);
+console.log(tagBuckets.single);
+    expect(tagBuckets.single['KT'].indexOf('sc') !== -1).toBe(true);
+    expect(tagBuckets.single['KT'].indexOf('ss') !== -1).toBe(true);
+    expect(tagBuckets.single['KT'].length === 2).toBe(true);
+  });
+
+  it('should have buildTagBuckets method to organize tag strings by type', function() {
     var tagBuckets = rangeParser.buildTagBuckets(['KJs', 'KT', '88ch', '85o', '83s']);
+    /*
     expect(tagBuckets.single.indexOf('88ch') !== -1).toBe(true);
+    */
     expect(tagBuckets.suited.indexOf('KJ') !== -1).toBe(true);
     expect(tagBuckets.suited.indexOf('83') !== -1).toBe(true);
     expect(tagBuckets.offSuited.indexOf('85') !== -1).toBe(true);
@@ -65,11 +84,42 @@ describe('Factory: RangeParser', function () {
     expect(preflopHands.T5.offSuitedOn).toBe(false);
   });
 
-  it('should have helper to turn on single combos', function() {
-    preflopHands['76'].setAll(false);
-    rangeParser.turnOnSingle('76hs');
-    expect(preflopHands['76'].combos.hs).toBe(true);
-    expect(preflopHands['76'].combos.hd).toBe(false);
+  it('should have helper to turn on singles combos', function() {
+    var singles = {
+      '83': ['sc'],
+      'KT': ['sc', 'ss'],
+      'K4': ['sh', 'ds', 'cd'],
+      '55' : ['cs', 'hs']
+    };
+    var tagBuckets = {
+      'suited': ['K4', '76', 'QJ',],
+      'offSuited' : ['KT', '32', 'AT'],
+      'both' : ['JJ', '83', 'AK', 'Q6', '99'],
+      'single' : singles
+    };
+    rangeParser.turnOnSingles(tagBuckets);
+    expect(preflopHands['K4'].combos.sd).toBe(false);
+    expect(preflopHands['K4'].combos.sc).toBe(false);
+    expect(preflopHands['K4'].combos.hc).toBe(false);
+    expect(preflopHands['K4'].combos.sh).toBe(true);
+    expect(preflopHands['K4'].combos.ds).toBe(true);
+    expect(preflopHands['K4'].combos.cd).toBe(true);
+    expect(preflopHands['K4'].offSuitedOn).toBe(true);
+
+    expect(preflopHands['55'].combos.cs).toBe(true);
+    expect(preflopHands['55'].combos.hs).toBe(true);
+    expect(preflopHands['55'].combos.ds).toBe(false);
+    expect(preflopHands['55'].combos.dh).toBe(false);
+    expect(preflopHands['55'].combos.cd).toBe(false);
+    expect(preflopHands['55'].pairOn).toBe(true);
+
+    expect(preflopHands['99'].combos.cs).toBe(true);
+    expect(preflopHands['99'].combos.hs).toBe(true);
+    expect(preflopHands['99'].combos.ds).toBe(true);
+    expect(preflopHands['99'].combos.dh).toBe(true);
+    expect(preflopHands['99'].combos.cd).toBe(true);
+    //in this test pairOn is never set because already set
+    expect(preflopHands['99'].pairOn).toBe(false);
   });
   /*
   it('should have range builder method that reads tagBuckets and sets values on preflopHand object', function() {
@@ -108,7 +158,6 @@ describe('Factory: RangeParser', function () {
     expect(preflopHands['AJ'].combos.hc).toBe(true);
     expect(preflopHands['AJ'].combos.hs).toBe(false);
   });
-
   it('should have method to parse range strings and set preflop hand objects', function() {
     var rangeString = 'KJs, 76s, QJs, 43o, 32o, ATo, JJ, 33, AK, Q6, 22hs, 43cd, 98cc, AJhc';
     preflopHands.KJ.setAll(false);

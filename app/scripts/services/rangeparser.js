@@ -52,21 +52,64 @@ rangeStatApp.factory('RangeParser', function() {
       _.each(tagBuckets.both, function(tag) {
         preflopHands[tag].setAll(true);
       });
-      _.each(tagBuckets.single, function(tag) {
-        this.turnOnSingle(tag);
+      _.each(tagBuckets.single, function(singles) {
+        this.turnOnSingles(tagBuckets);
       }, this);
     };
 
-    this.turnOnSingle = function(tag) {
-      var hand = tag.slice(0,2);
-      var suit = tag.slice(2,4);
-      var onType = (hand[0] === hand[1]) ? 'pairOn' : 'notpair';
-      if (onType === 'notpair') {
-        onType = (suit[0] === suit[1]) ? 'suitedOn' : 'offSuitedOn';
-      }
-      preflopHands[hand].combos[suit] = true;  
-      preflopHands[hand][onType] = true;  
-    };
+    //this method is an abomination
+    this.turnOnSingles = function(tagBuckets) {
+      var singles = tagBuckets.single;
+      _.each(singles, function(combos, tag) {
+        var alreadyOn = 'none';
+        var onTypes = [];
+        if (tagBuckets.both.indexOf(tag) !== -1) {
+          console.log(tag, 'inboth');
+          return;//already on
+        } else {
+          if (tagBuckets.suited.indexOf(tag) !== -1) {
+            console.log(tag, 'insuitedbucket');
+            alreadyOn = 'suited';
+          }
+          if (tagBuckets.offSuited.indexOf(tag) !== -1) {
+            console.log(tag, 'inoffsuitedbucket');
+            alreadyOn = 'offSuited';
+          }
+        }
+        //make above new method
+        //whts left below can be shortened with methodmap
+        if (alreadyOn === 'suited') {
+          preflopHands[tag].setAllOffSuited(false);
+          _.each(combos, function(combo) {
+            preflopHands[tag].combos[combo] = true;
+            var onType = (combo[0] === combo[1]) ? 'suited' : 'offSuited';
+            onTypes =_.union([onType], onTypes);
+            console.log('the tag: ', tag, 'onTypes: ', onTypes);
+          }, this);
+        }
+        if (alreadyOn === 'offSuited') {
+          preflopHands[tag].setAllSuited(false);
+          _.each(combos, function(combo) {
+            preflopHands[tag].combos[combo] = true;
+            var onType = (combo[0] === combo[1]) ? 'suited' : 'offSuited';
+            onTypes =_.union([onType], onTypes);
+          }, this);
+        }
+        if (alreadyOn === 'none') {
+          preflopHands[tag].setAll(false);
+          _.each(combos, function(combo) {
+            preflopHands[tag].combos[combo] = true;
+            var onType = (combo[0] === combo[1]) ? 'suited' : 'offSuited';
+            onTypes = _.union([onType], onTypes);
+          }, this);
+        }
+        //omg this is so terrible
+        if (onTypes.indexOf('suited') !== -1) preflopHands[tag].suitedOn = true;
+        if (onTypes.indexOf('offSuited') !== -1) preflopHands[tag].offSuitedOn = true;
+        if (tag[0] === tag[1]) preflopHands[tag].pairOn = true;
+      }, this);
+
+      };
 
     this.resetPreflopHands = function() {
       _.each(preflopHands, function(hand) {
@@ -85,16 +128,31 @@ rangeStatApp.factory('RangeParser', function() {
         'suited': [],
         'offSuited' : [],
         'both' : [],
-        'single' : []
+        'single' : {}//hash of arrays of suits keyed by 2card tag 
       };
+
       _.each(tags, function(tag) {
-        if(tag.length === 2) tagBuckets.both.push(tag); 
+        if(tag.length === 2) tagBuckets.both.push(tag);
+        else if(tag.length === 4) this.addSingle(tag, tagBuckets);
+        /*
         else if(tag.length === 4) tagBuckets.single.push(tag);
-        else if(tag.length === 3 && tag[2] === 's') tagBuckets.suited.push(tag.slice(0,2)); 
-        else if(tag.length === 3 && tag[2] === 'o') tagBuckets.offSuited.push(tag.slice(0,2)); 
+        */
+        else if(tag.length === 3 && tag[2] === 's') tagBuckets.suited.push(tag.slice(0,2));
+        else if(tag.length === 3 && tag[2] === 'o') tagBuckets.offSuited.push(tag.slice(0,2));
       }, this);
       return tagBuckets;
     };
+
+    this.addSingle = function(tag, tagBuckets) {
+      var hand = tag.slice(0,2);
+      var suit = tag.slice(2,4);
+      if (tagBuckets.single.hasOwnProperty(hand)) {
+        tagBuckets.single[hand].push(suit);
+      } else {
+        tagBuckets.single[hand] = tagBuckets.single[hand] || [];
+        tagBuckets.single[hand].push(suit);
+      }
+    }
 
     this.expandRangeTags = function(rangeString) {
       var allTags = [];    
