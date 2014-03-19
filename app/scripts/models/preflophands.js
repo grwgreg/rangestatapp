@@ -5,7 +5,7 @@ var _ = window._;//to shut up jshint
  * The main preflop hand object
  */
 rangeStatApp.factory('preflopHands', function() {
-      
+
     var ranges = {},
       cards = '23456789TJQKA'.split(''),
       nonPaired = {
@@ -83,18 +83,24 @@ rangeStatApp.factory('preflopHands', function() {
           return offSuitObj;
         },
         setAll: function(bool) {
+          this.on = bool;
+          this.pairOn = bool;
+          this.suitedOn = bool;
+          this.offSuitedOn = bool;
           _.each(this.combos, function(val, key) {
             this.combos[key] = bool;
           }, this);
         },
         setAllSuited: function(bool) {
           if (this.combos.length === 6) return false;
+          this.suitedOn = bool;
           _.each(['cc', 'dd', 'hh', 'ss'], function(suit) {
             this.combos[suit] = bool;
           }, this);
         },
         setAllOffSuited: function(bool) {
           if (this.combos.length === 6) return false;
+          this.offSuitedOn = bool;
           _.each(this.offSuits(), function(val, key, obj) {
             this.combos[key] = bool;
           }, this);

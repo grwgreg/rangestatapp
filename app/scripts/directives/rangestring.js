@@ -11,7 +11,8 @@ rangeStatApp.directive('rangeString', [function() {
     scope: {
       rangeStringModel: '=',
       preflopHands: '=',
-      rangeFormatter: '='
+      rangeFormatter: '=',
+      rangeParser: '='
     },
     require: 'ngModel',
     link: function(scope, element, attrs, rangeStringCtrl) {
@@ -26,10 +27,15 @@ rangeStatApp.directive('rangeString', [function() {
       }, true);
 
       scope.$watch('rangeStringModel', function(newval) {
-      console.log(newval);
-      console.log('hello?');
-        //scope.it.x = newval/2;
+        console.log('new', newval);
+        console.log(scope.rangeStringModel);
+
+        //scope.rangeStringModel = 'ahaahaha changed you';
+
+        //scope.rangeParser.parseRange('AK-5, 55, K6o, 76s, T2sc');
+        scope.rangeParser.parseRange(newval);
       }, true);
+
     }
   }
 }]);

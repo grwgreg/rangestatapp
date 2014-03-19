@@ -56,6 +56,9 @@ rangeStatApp.factory('RangeFormatter', function() {
       });
     };
 
+    //consider renaming to groupToString, it makes more sense!
+    //also break this up so its readable ie this.pairlistToString or something
+    //or maybe make a method to parse out what type of list it is and then use that
     this.listToString = function(list, typeString) {
       if (_.isUndefined(typeString)) typeString = '';
       if (typeString === 'p') {

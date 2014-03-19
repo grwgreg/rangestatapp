@@ -50,14 +50,19 @@ describe('Factory: RangeParser', function () {
     expect(tagBuckets.offSuited.indexOf('85') !== -1).toBe(true);
     expect(tagBuckets.both.indexOf('KT') !== -1).toBe(true);
   });
-  it('should have method to set all preflopHands combos to false', function() {
-    preflopHands.KJ.setAll(true);
-    preflopHands.QT.combos.cc = true;
-    preflopHands.T5.combos.ds = true;
+
+  it('should have method to set all preflopHands to off and their combos to true', function() {
+    preflopHands.QT.combos.cc = false;
+    preflopHands.QT.suitedOn = true;
+    preflopHands.T5.combos.ds = false;
+    preflopHands.T5.offSuitedOn = true;
+
     rangeParser.resetPreflopHands();
-    expect(preflopHands.KJ.all()).toBe(false);
-    expect(preflopHands.QT.combos.cc).toBe(false);
-    expect(preflopHands.T5.combos.ds).toBe(false);
+
+    expect(preflopHands.QT.combos.cc).toBe(true);
+    expect(preflopHands.QT.suitedOn).toBe(false);
+    expect(preflopHands.T5.combos.ds).toBe(true);
+    expect(preflopHands.T5.offSuitedOn).toBe(false);
   });
 
   it('should have helper to turn on single combos', function() {
@@ -66,7 +71,7 @@ describe('Factory: RangeParser', function () {
     expect(preflopHands['76'].combos.hs).toBe(true);
     expect(preflopHands['76'].combos.hd).toBe(false);
   });
-
+  /*
   it('should have range builder method that reads tagBuckets and sets values on preflopHand object', function() {
       var tagBuckets = {
         'suited': ['KJ', '76', 'QJ',],
@@ -135,4 +140,5 @@ describe('Factory: RangeParser', function () {
     expect(preflopHands['AJ'].combos.hc).toBe(true);
     expect(preflopHands['AJ'].combos.hs).toBe(false);
   });
+  */
 });

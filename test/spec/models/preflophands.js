@@ -137,6 +137,8 @@ describe('Factory: preflopHands', function () {
       var isOn = obj[key];
       expect(isOn).toBe(false);
     });
+    expect(preflopHands['94'].suitedOn).toBe(false); 
+    expect(preflopHands['94'].offSuitedOn).toBe(false); 
 
     preflopHands['94']['cd'] = true;
     preflopHands['94'].setAll(false);
@@ -153,24 +155,24 @@ describe('Factory: preflopHands', function () {
 
   it('should have set all suited method', function() {
     _.each(preflopHands['97'].combos, function(val, key, obj) {
-      obj[key] = true;
+      obj[key] = false;
     });
-    expect(preflopHands['97'].allSuits()).toBe(true);
-    preflopHands['97'].setAllSuited(false); 
+    preflopHands['97'].suitedOn = false;
     expect(preflopHands['97'].allSuits()).toBe(false);
     preflopHands['97'].setAllSuited(true); 
     expect(preflopHands['97'].allSuits()).toBe(true);
+    expect(preflopHands['97'].suitedOn).toBe(true);
   });
 
   it('should have set all offsuits method', function() {
     _.each(preflopHands['T7'].combos, function(val, key, obj) {
-      obj[key] = true;
+      obj[key] = false;
     });
-    expect(preflopHands['T7'].allOffSuits()).toBe(true);
-
-    preflopHands['T7'].setAllOffSuited(false); 
+    preflopHands['T7'].offSuitedOn = false;
     expect(preflopHands['T7'].allOffSuits()).toBe(false);
+
     preflopHands['T7'].setAllOffSuited(true); 
     expect(preflopHands['T7'].allOffSuits()).toBe(true);
+    expect(preflopHands['T7'].offSuitedOn).toBe(true);
   });
 });

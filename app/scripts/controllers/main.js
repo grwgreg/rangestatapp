@@ -1,13 +1,12 @@
 'use strict';
 var _ = window._;//to shut up jshint
 
-rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'RangeFormatter', function ($scope, preflopHands, RangeFormatter) {
+rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'RangeFormatter', 'RangeParser', function ($scope, preflopHands, RangeFormatter, RangeParser) {
 
-    var rangeFormatter = new RangeFormatter(preflopHands);
     $scope.main = {};
-    $scope.main.rangeFormatter = rangeFormatter;
+    $scope.main.rangeFormatter = new RangeFormatter(preflopHands);
+    $scope.main.rangeParser = new RangeParser(preflopHands);
     $scope.main.rangeStringModel = 'hijeje';
-    console.log('formatter: ', rangeFormatter);
     $scope.main.preflopHands = preflopHands;
 
     $scope.main.active = {

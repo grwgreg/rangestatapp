@@ -23,11 +23,10 @@
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <button><span class="nigs">jejeje</span></button>
     <card-matrix></card-matrix>
     <deb></deb>
     <suit-matrix></suit-matrix> 
-    <input ng-model='main.rangeStringModel' range-string preflop-hands='main.preflopHands' range-string-model='main.rangeStringModel' range-formatter='main.rangeFormatter' type='text'>
+    <input ng-model='main.rangeStringModel' range-string preflop-hands='main.preflopHands' range-string-model='main.rangeStringModel' range-formatter='main.rangeFormatter' range-parser='main.rangeParser' type='text'>
     <!-- Add your site or application content here -->
     <div class="container" ng-view=""></div>
 
@@ -69,6 +68,7 @@
         <script src="scripts/directives/suitmatrix.js"></script>
         <script src="scripts/directives/rangestring.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
+        <script src="scripts/services/rangeparser.js"></script>
         <!-- endbuild -->
 </body>
 </html>
