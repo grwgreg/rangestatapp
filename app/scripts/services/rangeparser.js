@@ -34,15 +34,15 @@ rangeStatApp.factory('RangeParser', function() {
 
     //rangeString is the input field value
     this.parseRange = function(rangeString) {
+      if (rangeString.trim() === '') return this.resetPreflopHands();
       var tags = this.expandRangeTags(rangeString);
       var tagBuckets = this.buildTagBuckets(tags);
       this.buildRange(tagBuckets);
-      
     };
 
     this.buildRange = function(tagBuckets) {
       this.resetPreflopHands();
-      //dnry?
+      //dry?
       _.each(tagBuckets.suited, function(tag) {
         preflopHands[tag].setAllSuited(true);
       });
@@ -146,7 +146,7 @@ rangeStatApp.factory('RangeParser', function() {
     this.addSingle = function(tag, tagBuckets) {
       var hand = tag.slice(0,2);
       var suit = tag.slice(2,4);
-      if (tagBuckets.single.hasOwnProperty(hand)) {
+      if (tagBuckets.single.hasOwnProperty(hand)) {//greg you can remove this if and just use line 152
         tagBuckets.single[hand].push(suit);
       } else {
         tagBuckets.single[hand] = tagBuckets.single[hand] || [];
@@ -154,17 +154,26 @@ rangeStatApp.factory('RangeParser', function() {
       }
     }
 
+    /*getTagType returns the type then above we use conditions to break up into
+     * different tag buckets again, never using this data. just add to the correct
+     * tagbucket within this function maybe?
+     */
     this.expandRangeTags = function(rangeString) {
       var allTags = [];    
       var rangeTags = rangeString.split(',');    
       _.each(rangeTags, function(rangeTag) {
-        rangeTag = rangeTag.trim();
-        var tagType = this.getTagType(rangeTag), 
-          tags = [rangeTag];
-        if (tagType.toLowerCase().indexOf('spanner') !== -1) {
-          tags = this.expandRangeTag(rangeTag, tagType);
+        /*todo just check return type of getTagType instead of try/catch, kindagross*/
+        try {
+          rangeTag = rangeTag.trim();
+          var tagType = this.getTagType(rangeTag), 
+            tags = [rangeTag];
+          if (tagType.toLowerCase().indexOf('spanner') !== -1) {
+            tags = this.expandRangeTag(rangeTag, tagType);
+          }
+          allTags = allTags.concat(tags);
+        } catch(err) {
+          throw 'invalid tag';
         }
-        allTags = allTags.concat(tags);
       }, this);
       return allTags;
     };

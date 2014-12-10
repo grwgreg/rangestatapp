@@ -22,12 +22,15 @@ rangeStatApp.factory('RangeFormatter', function() {
   var RangeFormatter = function(preflopHands) {
     this.rangeToString = function() {
       var rangeStrings = [],
+//refact here
         pairs = this.groupHands(paired, 'p');
 
       _.each(pairs, function(list) {
         rangeStrings.push(this.listToString(list, 'p'));
       }, this);
+//tohere
 
+//refacthere
       _.each(nonPaired, function(col) {
         var offs = this.groupHands(col, 'o'),
           suits = this.groupHands(col, 's'),
@@ -42,6 +45,7 @@ rangeStatApp.factory('RangeFormatter', function() {
           }, this);
         }, this);
       }, this);
+//tohere
 
       return rangeStrings.join(', ');
     };
@@ -86,10 +90,10 @@ rangeStatApp.factory('RangeFormatter', function() {
       var cards = '23456789TJQKA'.split(''),
         osLen = osGroups.length, sLen = sGroups.length,
         both = [], i=0, j=0;
+
       for (; i < osLen ; i++) {
         for (; j < sLen; j++) {
           //break if second card is lower ie TJ wont match anything past TT
-          //make hash instead of card array? todo performance
           if (_.indexOf(cards, osGroups[i][0][1]) > _.indexOf(cards, sGroups[j][0][1])) {
             break;
           }
@@ -107,7 +111,7 @@ rangeStatApp.factory('RangeFormatter', function() {
           groupPointer = 0,
           groups = [[]];
       _.each(hands, function(hand) {
-        var on = this.checkOn(hand, type),//this is redundant if only called from rangetostringmethod
+        var on = this.checkOn(hand, type),
           all = this.checkAll(hand, type);
         if (on && all) {
           if (prevStaged) groups[groupPointer].push(hand);

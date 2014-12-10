@@ -1,18 +1,16 @@
 'use strict';
 var _ = window._;//to shut up jshint
 
-rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'RangeFormatter', 'RangeParser', function ($scope, preflopHands, RangeFormatter, RangeParser) {
+rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', function ($scope, preflopHands) {
 
     $scope.main = {};
-    $scope.main.rangeFormatter = new RangeFormatter(preflopHands);
-    $scope.main.rangeParser = new RangeParser(preflopHands);
-    $scope.main.rangeStringModel = 'hijeje';
     $scope.main.preflopHands = preflopHands;
 
     $scope.main.active = {
       cards: $scope.main.preflopHands['AK'],
       tag: 'AKo',
-      type: 'o'
+      type: 'o',
+      inputMode: 'cardmatrix'
     };
 
   }])

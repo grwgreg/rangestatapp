@@ -23,6 +23,7 @@ rangeStatApp.directive('preflopHand', function() {
           $scope.active.cards = $scope.cards;
           $scope.active.tag = $scope.tag;
           $scope.active.type = $scope.handType;
+          $scope.active.inputMode = 'cardmatrix';
           if ($scope.handType === 'o') $scope.cards.offSuitedOn = !$scope.cards.offSuitedOn;
 
           else if ($scope.handType === 'p') $scope.cards.pairOn = !$scope.cards.pairOn;

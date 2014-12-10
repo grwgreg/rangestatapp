@@ -3,39 +3,67 @@ var _ = window._;//to shut up jshint
 
 /**
  * Creates the range string directive to put on the
- * range string model's input 
+ * range string model's input
  */
-//put card matrix logic in a factory too
-rangeStatApp.directive('rangeString', [function() {
+
+/**
+ *
+ * greg why didn't you just inject the formatter and parser into this directive???
+ * can I set up parser and formatter 1x in compile? ie is link run every digest?
+ */
+rangeStatApp.directive('rangeString', ['RangeParser', 'RangeFormatter', function(RangeParser, RangeFormatter) {
   return {
     scope: {
-      rangeStringModel: '=',
       preflopHands: '=',
-      rangeFormatter: '=',
-      rangeParser: '='
+      activeInputMode: '='
     },
     require: 'ngModel',
     link: function(scope, element, attrs, rangeStringCtrl) {
-      console.log('wat', scope.rangeStringModel);
-      console.log(rangeStringCtrl);
 
-      scope.$watch('preflopHands', function(){ 
 
-        //element[0].value = scope.it.x * 2;
-        element[0].value = scope.rangeFormatter.rangeToString();
+      var rangeFormatter = new RangeFormatter(scope.preflopHands);
+      var rangeParser = new RangeParser(scope.preflopHands);
 
+
+      scope.$watch('preflopHands', function(){
+        if (scope.activeInputMode === 'userstring') return;
+        var oldval = element[0].value.split(',');
+      //  var newval = scope.rangeFormatter.rangeToString().split(',');
+        var newval = rangeFormatter.rangeToString().split(',');
+        oldval = _.map(oldval, function(el) { return el.trim(); });
+        newval = _.map(newval, function(el) { return el.trim(); });
+
+        //try to preserve users input order
+        var oldOnes = _.intersection(oldval, newval);
+        var newOnes = _.difference(newval, oldOnes);
+        var newRangeString = _.union(oldOnes, newOnes).join(', ');
+        element[0].value = newRangeString;
+        rangeStringCtrl.$setValidity('rangeString', true);
       }, true);
 
-      scope.$watch('rangeStringModel', function(newval) {
-        console.log('new', newval);
-        console.log(scope.rangeStringModel);
+      //greg todo might be able to use rangeStringCtr.$viewValue in a function
+      //ie pass teh $watch a function to return $rangeStringCtrl, then pass in
+      //the callback
+      var stringWatcher = function() {
+        scope.activeInputMode = 'userstring';
+        // make a test for this directive this point of failure is arbitrary
+        try {
+          var success = true;
+          //scope.rangeParser.parseRange(this.$viewValue);
+          rangeParser.parseRange(rangeStringCtrl.$viewValue);
+        } catch(err) {
+          if (err === 'invalid tag') {
+            success = false;
+            rangeStringCtrl.$setValidity('rangeString', false);
+          } else {
+            throw err;
+          }
+        }
+        if (success) rangeStringCtrl.$setValidity('rangeString', true);
+      };
 
-        //scope.rangeStringModel = 'ahaahaha changed you';
-
-        //scope.rangeParser.parseRange('AK-5, 55, K6o, 76s, T2sc');
-        scope.rangeParser.parseRange(newval);
-      }, true);
-
+//      rangeStringCtrl.$viewChangeListeners.push(stringWatcher);
+      scope.$watch(function() {return rangeStringCtrl.$viewValue;}, stringWatcher);
     }
   }
 }]);
