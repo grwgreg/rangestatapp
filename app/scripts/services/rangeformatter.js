@@ -61,6 +61,10 @@ rangeStatApp.factory('RangeFormatter', function() {
     };
 
     //consider renaming to groupToString, it makes more sense!
+        //dec'14 no its not a group, groups are like offsuits which are made up of lists to convert to
+       // a single spanning tag ie [AK,AQ...] to AK-2
+       //name those spans or something like that? list seems too broad a descritpion
+       //
     //also break this up so its readable ie this.pairlistToString or something
     //or maybe make a method to parse out what type of list it is and then use that
     this.listToString = function(list, typeString) {
@@ -93,10 +97,6 @@ rangeStatApp.factory('RangeFormatter', function() {
 
       for (; i < osLen ; i++) {
         for (; j < sLen; j++) {
-          //break if second card is lower ie TJ wont match anything past TT
-          if (_.indexOf(cards, osGroups[i][0][1]) > _.indexOf(cards, sGroups[j][0][1])) {
-            break;
-          }
           if (_.isEqual(osGroups[i], sGroups[j])) {
             both.push(osGroups[i]);
             break;
@@ -108,7 +108,7 @@ rangeStatApp.factory('RangeFormatter', function() {
 
     this.groupHands = function(hands, type) {
       var prevStaged = false,
-          groupPointer = 0,
+          groupPointer = 0,//rename group index
           groups = [[]];
       _.each(hands, function(hand) {
         var on = this.checkOn(hand, type),

@@ -23,23 +23,38 @@
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <card-matrix></card-matrix>
+
+
+
     <deb></deb>
-    <suit-matrix></suit-matrix> 
-    <input class = 'range-string' ng-model='main.rangeStringModel' range-string preflop-hands='main.preflopHands' active-input-mode='main.active.inputMode' type='text'>
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<div ng-controller="cardMatrixCtrl">
+<ul class="card-matrix">
+  <li ng-repeat="row in tagMatrix"><!-- will be ::tagMatrix for one way binding -->
+    <preflop-hand ng-repeat="cardData in row" 
+                  ranks='{{cardData.cards}}' 
+                  suit-type='{{cardData.type}}' 
+                  active="main.active">
+    </preflop-hand>
+  </li>
+</ul>
+</div><!-- /cardMatrix -->
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
+<div ng-controller="suitMatrixCtrl">
+<h2>{{main.active.tag}}</h2>
+<ul class="suit-matrix">
+  <li ng-repeat="row in suitMatrix">
+    <hand-suits ng-repeat="suits in row" active="main.active" suits="{{suits}}"></hand-suits>
+  </li>
+</ul>
+</div><!-- /suitMatrixCtrl -->
+
+    <input class = 'range-string' 
+      ng-model='main.rangeStringModel' 
+      active-input-mode='main.active' 
+      range-string preflop-hands='main.preflopHands' 
+      type='text'>
+
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -61,12 +76,18 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/models/preflophand.js"></script>
         <script src="scripts/models/preflophands.js"></script>
+        <script src="scripts/models/activeinputmode.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/preflophand.js"></script>
+        <script src="scripts/controllers/cardmatrix.js"></script>
+        <script src="scripts/controllers/suitmatrix.js"></script>
         <script src="scripts/directives/preflophand.js"></script>
-        <script src="scripts/directives/cardmatrix.js"></script>
-        <script src="scripts/directives/suitmatrix.js"></script>
+        <script src="scripts/services/tagmatrix.js"></script>
+        <script src="scripts/services/suitmatrix.js"></script>
         <script src="scripts/directives/rangestring.js"></script>
+        <script src="scripts/directives/handsuits.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <script src="scripts/services/rangeparser.js"></script>
         <!-- endbuild -->
