@@ -1,7 +1,6 @@
 'use strict';
-var _ = window._;
 
-rangeStatApp.factory('RangeFormatter', function() {
+rangeStatApp.factory('RangeFormatter', ['_', function(_) {
 
     var cards = '23456789TJQKA'.split('').reverse(),
         nonPaired = [],
@@ -194,4 +193,4 @@ rangeStatApp.factory('RangeFormatter', function() {
     };
 
     return RangeFormatter;
-});
+}]);
