@@ -54,7 +54,7 @@ rangeStatApp.factory('RangeParser', ['_', function(_) {
 
                 var task = [
                     { alreadyOn: 'suited',
-                      opposite:  'offSuits' },
+                      opposite:  'offsuits' },
                     { alreadyOn: 'offSuited',
                       opposite:  'suits' },
                     { alreadyOn: 'none',
