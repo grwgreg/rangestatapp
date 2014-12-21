@@ -1,7 +1,6 @@
 'use strict';
 var _ = window._;
 
-//todo I have this spilt into 2 objs (and even that may not be enough) in ruby...
 rangeStatApp.factory('RangeParser', function() {
 
   var RangeParser = function(preflopHands) {
@@ -98,21 +97,17 @@ rangeStatApp.factory('RangeParser', function() {
       var onTypes = [];
       if (tagBuckets.both.indexOf(tag) !== -1) {
         alreadyOn = 'both';
-      } else {
-        if (tagBuckets.suited.indexOf(tag) !== -1) {
+      } else if (tagBuckets.suited.indexOf(tag) !== -1) {
           alreadyOn = 'suited';
-        }
-        if (tagBuckets.offSuited.indexOf(tag) !== -1) {
-          console.log(tag, 'inoffsuitedbucket');
+      } else if (tagBuckets.offSuited.indexOf(tag) !== -1) {
           alreadyOn = 'offSuited';
-        }
       }
       return alreadyOn;
     };
 
     this.resetPreflopHands = function() {
       _.each(preflopHands, function(hand) {
-        hand.setAllBoth(true); 
+        hand.setAll('both', true); 
         hand.on = false;
         hand.pairOn = false;
         hand.suitedOn = false;
@@ -130,10 +125,10 @@ rangeStatApp.factory('RangeParser', function() {
       };
 
       _.each(tags, function(tag) {
-        if(tag.length === 2) tagBuckets.both.push(tag);
-        else if(tag.length === 4) this.addSingle(tag, tagBuckets);
-        else if(tag.length === 3 && tag[2] === 's') tagBuckets.suited.push(tag.slice(0,2));
-        else if(tag.length === 3 && tag[2] === 'o') tagBuckets.offSuited.push(tag.slice(0,2));
+        if (tag.length === 2) tagBuckets.both.push(tag);
+        else if (tag.length === 4) this.addSingle(tag, tagBuckets);
+        else if (tag.length === 3 && tag[2] === 's') tagBuckets.suited.push(tag.slice(0,2));
+        else if (tag.length === 3 && tag[2] === 'o') tagBuckets.offSuited.push(tag.slice(0,2));
       }, this);
       return tagBuckets;
     };

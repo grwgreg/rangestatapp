@@ -43,6 +43,16 @@ rangeStatApp.factory('PreflopHand', function() {
   }
 
   PreflopHand.prototype = {
+    checkOn: function(type) {
+      switch(type) {
+        case 'o':
+          return this.offSuitedOn;
+        case 's':
+          return this.suitedOn;
+        case 'p':
+          return this.pairOn;
+      }
+    },
     all: function() {
       return _.every(this.combos, _.identity);
     },
@@ -85,6 +95,28 @@ rangeStatApp.factory('PreflopHand', function() {
         offSuitObj[offSuit] = this.combos[offSuit];
       }, this);
       return offSuitObj;
+    },
+
+    checkAll: function(type) {
+      switch(type) {
+        case 'o':
+          return this.allOffSuits();
+        case 's':
+          return this.allSuits();
+        case 'p':
+          return this.all();
+      }
+    },
+    comboFind: function(type) {
+      switch(type) {
+        case 'o':
+          return this.offSuitedOnCombos();
+        case 's':
+          return this.suitedOnCombos();
+        case 'p':
+          return this.allOnCombos();
+      }
+
     },
     setAllBoth: function(bool) {
       this.on = bool;
