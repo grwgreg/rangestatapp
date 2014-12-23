@@ -50,6 +50,7 @@ rangeStatApp.factory('PreflopHand', ['_', function(_) {
                 case 'p':
                     return this.pairOn;
             }
+            throw "unknown hand type";
         },
         checkAll: function(type) {
             switch(type) {
@@ -60,6 +61,7 @@ rangeStatApp.factory('PreflopHand', ['_', function(_) {
                 case 'p':
                     return this.all();
             }
+            throw "unknown hand type";
         },
         comboFind: function(type) {
             switch(type) {
@@ -70,6 +72,7 @@ rangeStatApp.factory('PreflopHand', ['_', function(_) {
                 case 'p':
                     return this.allOnCombos();
             }
+            throw "unknown hand type";
         },
         all: function() {
             return _.every(this.combos, _.identity);
@@ -142,15 +145,13 @@ rangeStatApp.factory('PreflopHand', ['_', function(_) {
       setAll: function(type, bool) {
         switch(type) {
             case 'offsuits':
-                this.setAllOffSuited(bool);
-                break;
+                return this.setAllOffSuited(bool);
             case 'suits':
-                this.setAllSuited(bool);
-                break;
+                return this.setAllSuited(bool);
             case 'both':
-                this.setAllBoth(bool);
-                break;
+                return this.setAllBoth(bool);
         }
+        throw "unknown hand type";
       }
 
     };

@@ -209,3 +209,25 @@ body {
 .range-string {
   width: 600px;
 }
+
+.board-matrix button {
+height: 30px;
+width: 35px;
+font-weight: 700;
+margin-right: 1px;
+margin-bottom: 1px;
+}
+
+.board-matrix ul {
+list-style: none;
+}
+
+.board-matrix button.pressed {
+background: rgb(178, 0, 223);
+border: none;
+border-top: 3px solid rgb(138, 0, 138);
+border-left: 3px solid rgb(138, 0, 138);
+border-right: 1px solid rgb(138, 0, 138);
+border-bottom: 1px solid rgb(138, 0, 138);
+color: white;
+}

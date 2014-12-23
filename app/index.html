@@ -40,6 +40,17 @@
 </ul>
 </div><!-- /cardMatrix -->
 
+<div class="board-matrix" ng-controller="boardMatrixCtrl">
+<ul>
+<li ng-repeat="rank in vm.ranks">
+<board-card ng-repeat="suit in vm.suits" board="vm.board" rank="{{rank}}" suit="{{suit}}"></board-card>
+</li>
+</ul>
+<div>
+{{boardDisplay()}}
+</div>
+</div><!-- /board-matrix -->
+
 <div ng-controller="suitMatrixCtrl">
 <h2>{{main.active.tag}}</h2>
 <ul class="suit-matrix">
@@ -84,7 +95,9 @@
         <script src="scripts/controllers/preflophand.js"></script>
         <script src="scripts/controllers/cardmatrix.js"></script>
         <script src="scripts/controllers/suitmatrix.js"></script>
+        <script src="scripts/controllers/boardmatrix.js"></script>
         <script src="scripts/directives/preflophand.js"></script>
+        <script src="scripts/directives/boardcard.js"></script>
         <script src="scripts/services/tagmatrix.js"></script>
         <script src="scripts/services/suitmatrix.js"></script>
         <script src="scripts/directives/rangestring.js"></script>
