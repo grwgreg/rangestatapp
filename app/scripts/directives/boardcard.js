@@ -11,8 +11,15 @@ rangeStatApp.directive('boardCard', ['preflopHands', function(preflopHands) {
                 rank: '@',
                 board: '='
             },
-            templateUrl: '/flopzilla/app/views/boardcard.html', 
+            templateUrl: '/views/boardcard.html', 
             controller: ['$scope', function($scope) {
+
+              $scope.suits = {
+                c: 'club',
+                d: 'diam',
+                h: 'heart',
+                s: 'spade'
+              };
 
               var on = false;
               $scope.toggleOn = function() {

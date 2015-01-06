@@ -126,22 +126,13 @@ rangeStatApp.factory('RangeFormatter', ['_', function(_) {
         },
 
         inBothGroups: function(osGroups, sGroups) {
-            var cards = '23456789TJQKA'.split(''),
-                    osLen = osGroups.length,
-                    sLen = sGroups.length,
-                    both = [],
-                    i=0,
-                    j=0;
-
-            for (; i < osLen ; i++) {
-                for (; j < sLen; j++) {
-                    if (_.isEqual(osGroups[i], sGroups[j])) {
-                        both.push(osGroups[i]);
-                        break;
-                    }
-                }
-            }
-            return both;
+          var inBoth = [];
+          _.each(osGroups, function(g1) {
+            _.each(sGroups, function(g2) {
+              if (_.isEqual(g1, g2)) { inBoth.push(g1); };
+            });
+          });
+          return inBoth;
         },
 
         groupHands: function(hands, type) {

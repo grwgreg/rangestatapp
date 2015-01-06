@@ -1,9 +1,9 @@
 'use strict';
 
 var rangeStatApp = angular.module('rangeStatApp', [
-    'ngCookies',
+//    'ngCookies',
     'ngResource',
-    'ngSanitize',
+//    'ngSanitize',
     'ngRoute',
     'underscore'
 ])

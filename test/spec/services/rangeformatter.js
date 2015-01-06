@@ -4,7 +4,7 @@ describe('Factory: RangeFormatter', function () {
   beforeEach(module('rangeStatApp'));
 
   var rangeFormatter,
-    preflopHands;
+      preflopHands;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function (_RangeFormatter_, _preflopHands_) {
@@ -13,6 +13,8 @@ describe('Factory: RangeFormatter', function () {
   }))
  
   it('should have comboFind function return on combos based on type param', function() {
+    expect(rangeFormatter.comboFind('AK', 'o').length == 11).toBe(false);
+    expect(rangeFormatter.comboFind('AK', 's').length == 3).toBe(false);
     preflopHands['AK'].combos.cd = false;
     preflopHands['AK'].combos.dd = false;
     expect(rangeFormatter.comboFind('AK', 'o').length == 11).toBe(true);
@@ -118,8 +120,6 @@ describe('Factory: RangeFormatter', function () {
     _.each(offTags, function(tag) {
       preflopHands[tag].pairOn = false; 
     }, this); 
-    //console.log(preflopHands['TT']);
-
     
     preflopHands['33'].combos.dh = false; 
     preflopHands['TT'].combos.dh = false; 
@@ -128,7 +128,6 @@ describe('Factory: RangeFormatter', function () {
     preflopHands['KK'].combos.hs = false; 
     
     var groups = rangeFormatter.groupHands(pairs, 'p');
-    //console.log('groups', groups);
     expect(_.isEqual(groups[0], ['KKcd', 'KKch', 'KKcs', 'KKdh', 'KKds'])).toBe(true);
     expect(_.isEqual(groups[4], ['33cd', '33ch', '33cs', '33ds', '33hs'])).toBe(true);
  
@@ -143,28 +142,28 @@ describe('Factory: RangeFormatter', function () {
 
   });
 
-  it('should have listToString method turn array of hands into range string', function() {
+  it('should have groupToString method turn array of hands into range string', function() {
     var group =  [['KJ'], ['K9', 'K8', 'K7'], ['K4', 'K3', 'K2']],
       rangeStrings = '';
 
     _.each(group, function(list) {
-      rangeStrings += rangeFormatter.listToString(list, 's') + ' ';
+      rangeStrings += rangeFormatter.groupToString(list, 's') + ' ';
     });
     expect(_.isEqual(rangeStrings, 'KJs K9-7s K4-2s ')).toBe(true);
     
     rangeStrings = '';
     _.each(group, function(list) {
-      rangeStrings += rangeFormatter.listToString(list, 'o') + ' ';
+      rangeStrings += rangeFormatter.groupToString(list, 'o') + ' ';
     });
     expect(_.isEqual(rangeStrings, 'KJo K9-7o K4-2o ')).toBe(true);
 
     rangeStrings = '';
     _.each(group, function(list) {
-      rangeStrings += rangeFormatter.listToString(list) + ' ';
+      rangeStrings += rangeFormatter.groupToString(list) + ' ';
     });
     expect(_.isEqual(rangeStrings, 'KJ K9-7 K4-2 ')).toBe(true);
 
-    rangeStrings = rangeFormatter.listToString(['A8cc', 'A8hh', 'A8ss'], 's');
+    rangeStrings = rangeFormatter.groupToString(['A8cc', 'A8hh', 'A8ss'], 's');
     expect(_.isEqual(rangeStrings, 'A8cc, A8hh, A8ss')).toBe(true);
   });
 

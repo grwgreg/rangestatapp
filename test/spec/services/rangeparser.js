@@ -53,7 +53,6 @@ describe('Factory: RangeParser', function () {
     rangeParser.addSingle('83sc', tagBuckets);
     rangeParser.addSingle('KTss', tagBuckets);
     rangeParser.addSingle('K4sc', tagBuckets);
-console.log(tagBuckets.single);
     expect(tagBuckets.single['KT'].indexOf('sc') !== -1).toBe(true);
     expect(tagBuckets.single['KT'].indexOf('ss') !== -1).toBe(true);
     expect(tagBuckets.single['KT'].length === 2).toBe(true);
@@ -61,9 +60,6 @@ console.log(tagBuckets.single);
 
   it('should have buildTagBuckets method to organize tag strings by type', function() {
     var tagBuckets = rangeParser.buildTagBuckets(['KJs', 'KT', '88ch', '85o', '83s']);
-    /*
-    expect(tagBuckets.single.indexOf('88ch') !== -1).toBe(true);
-    */
     expect(tagBuckets.suited.indexOf('KJ') !== -1).toBe(true);
     expect(tagBuckets.suited.indexOf('83') !== -1).toBe(true);
     expect(tagBuckets.offSuited.indexOf('85') !== -1).toBe(true);
@@ -121,73 +117,32 @@ console.log(tagBuckets.single);
     //in this test pairOn is never set because already set
     expect(preflopHands['99'].pairOn).toBe(false);
   });
-  /*
-  it('should have range builder method that reads tagBuckets and sets values on preflopHand object', function() {
-      var tagBuckets = {
-        'suited': ['KJ', '76', 'QJ',],
-        'offSuited' : ['43', '32', 'AT'],
-        'both' : ['JJ', '33', 'AK', 'Q6'],
-        'single' : ['22hs', '43cd', '98cc', 'AJhc']
-      };
-    preflopHands.KJ.setAll(false);
-    preflopHands.K6.setAll(false);
-    preflopHands['43'].setAllOffSuited(false);
-    preflopHands['JJ'].setAll(false);
-    preflopHands['AK'].setAll(false);
-    preflopHands['22'].setAll(false);
-    preflopHands['AJ'].setAll(false);
+  it('should have parseRange method take a string and populate the preflophands object', function() {
+    rangeParser.parseRange('AKo, KQs, K4sh, K4ds, K4cd, 55, 99cs, QT-8');
+    expect(preflopHands['K4'].combos.sd).toBe(false);
+    expect(preflopHands['K4'].combos.sc).toBe(false);
+    expect(preflopHands['K4'].combos.hc).toBe(false);
+    expect(preflopHands['K4'].combos.sh).toBe(true);
+    expect(preflopHands['K4'].combos.ds).toBe(true);
+    expect(preflopHands['K4'].combos.cd).toBe(true);
 
-    rangeParser.buildRange(tagBuckets);
+    expect(preflopHands['55'].combos.cs).toBe(true);
+    expect(preflopHands['55'].combos.hs).toBe(true);
+    expect(preflopHands['55'].combos.ds).toBe(true);
+    expect(preflopHands['55'].combos.dh).toBe(true);
+    expect(preflopHands['55'].combos.cd).toBe(true);
 
-    expect(preflopHands.KJ.allSuits()).toBe(true);
-    expect(preflopHands.KJ.allOffSuits()).toBe(false);
-    expect(preflopHands['76'].allSuits()).toBe(true);
-    expect(preflopHands['75'].allSuits()).toBe(false);
-    expect(preflopHands['43'].allOffSuits()).toBe(true);
-    expect(preflopHands['32'].allOffSuits()).toBe(true);
-    expect(preflopHands['AT'].allOffSuits()).toBe(true);
-    expect(preflopHands['JJ'].all()).toBe(true);
-    expect(preflopHands['33'].all()).toBe(true);
-    expect(preflopHands['AK'].all()).toBe(true);
-    expect(preflopHands['Q6'].all()).toBe(true);
-    expect(preflopHands['22'].combos.hs).toBe(true);
-    expect(preflopHands['22'].combos.ch).toBe(false);
-    expect(preflopHands['43'].combos.cd).toBe(true);
-    expect(preflopHands['98'].combos.cc).toBe(true);
-    expect(preflopHands['98'].combos.ss).toBe(false);
-    expect(preflopHands['AJ'].combos.hc).toBe(true);
-    expect(preflopHands['AJ'].combos.hs).toBe(false);
+    expect(preflopHands['99'].combos.cs).toBe(true);
+    expect(preflopHands['99'].combos.hs).toBe(false);
+
+    expect(preflopHands['QT'].all()).toBe(true);
+    expect(preflopHands['Q9'].all()).toBe(true);
+    expect(preflopHands['Q8'].all()).toBe(true);
+
+    expect(preflopHands['AK'].allOffSuits()).toBe(true);
+    expect(preflopHands['AK'].suitedOn).toBe(false);
+
+    expect(preflopHands['KQ'].offSuitedOn).toBe(false);
+    expect(preflopHands['KQ'].allSuits()).toBe(true);
   });
-  it('should have method to parse range strings and set preflop hand objects', function() {
-    var rangeString = 'KJs, 76s, QJs, 43o, 32o, ATo, JJ, 33, AK, Q6, 22hs, 43cd, 98cc, AJhc';
-    preflopHands.KJ.setAll(false);
-    preflopHands.K6.setAll(false);
-    preflopHands['43'].setAllOffSuited(false);
-    preflopHands['JJ'].setAll(false);
-    preflopHands['AK'].setAll(false);
-    preflopHands['22'].setAll(false);
-    preflopHands['AJ'].setAll(false);
-
-    rangeParser.parseRange(rangeString);
-
-    expect(preflopHands.KJ.allSuits()).toBe(true);
-    expect(preflopHands.KJ.allOffSuits()).toBe(false);
-    expect(preflopHands['76'].allSuits()).toBe(true);
-    expect(preflopHands['75'].allSuits()).toBe(false);
-    expect(preflopHands['43'].allOffSuits()).toBe(true);
-    expect(preflopHands['32'].allOffSuits()).toBe(true);
-    expect(preflopHands['AT'].allOffSuits()).toBe(true);
-    expect(preflopHands['JJ'].all()).toBe(true);
-    expect(preflopHands['33'].all()).toBe(true);
-    expect(preflopHands['AK'].all()).toBe(true);
-    expect(preflopHands['Q6'].all()).toBe(true);
-    expect(preflopHands['22'].combos.hs).toBe(true);
-    expect(preflopHands['22'].combos.ch).toBe(false);
-    expect(preflopHands['43'].combos.cd).toBe(true);
-    expect(preflopHands['98'].combos.cc).toBe(true);
-    expect(preflopHands['98'].combos.ss).toBe(false);
-    expect(preflopHands['AJ'].combos.hc).toBe(true);
-    expect(preflopHands['AJ'].combos.hs).toBe(false);
-  });
-  */
 });

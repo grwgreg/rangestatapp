@@ -132,7 +132,7 @@ describe('Factory: preflopHands', function () {
       obj[key] = true;
     });
     expect(preflopHands['94'].all()).toBe(true);
-    preflopHands['94'].setAll(false);
+    preflopHands['94'].setAll('both', false);
     _.each(preflopHands['94'].combos, function(val, key, obj) {
       var isOn = obj[key];
       expect(isOn).toBe(false);
@@ -141,13 +141,13 @@ describe('Factory: preflopHands', function () {
     expect(preflopHands['94'].offSuitedOn).toBe(false); 
 
     preflopHands['94']['cd'] = true;
-    preflopHands['94'].setAll(false);
+    preflopHands['94'].setAll('both', false);
     _.each(preflopHands['94'].combos, function(val, key, obj) {
       var isOn = obj[key];
       expect(isOn).toBe(false);
     });
 
-    preflopHands['94'].setAll(true);
+    preflopHands['94'].setAll('both', true);
     expect(preflopHands['94'].all()).toBe(true);
 
 

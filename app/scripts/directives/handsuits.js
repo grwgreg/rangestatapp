@@ -9,7 +9,7 @@ rangeStatApp.directive('handSuits', [function() {
             active: '=',
             suits: '@'
         },
-        templateUrl: '/flopzilla/app/views/handsuits.html',
+        templateUrl: '/views/handsuits.html',
         controller: ['$scope', function($scope) {
 
             var comboByType = {

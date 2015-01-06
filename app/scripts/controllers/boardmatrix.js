@@ -1,16 +1,18 @@
 'use strict';
 
-rangeStatApp.controller('boardMatrixCtrl', ['$scope', function ($scope) {
+rangeStatApp.controller('boardMatrixCtrl', [function () {
 
-  var vm;
-  $scope.vm = vm = {};
+  var vm = this;
   vm.ranks = "AKQJT98765432".split('');
   vm.suits = "cdhs".split('');
   vm.board = [];
 
-  $scope.boardDisplay = function() {
-    return vm.board.join();
-  };
+  vm.suitIcon = {
+    c: 'club',
+    d: 'diam',
+    h: 'heart',
+    s: 'spade'
+  }
 
   
   

@@ -1,11 +1,10 @@
 'use strict';
 
-rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'activeInputMode', function ($scope, preflopHands, activeInputMode) {
+rangeStatApp.controller('MainCtrl', ['preflopHands', 'activeInputMode', function (preflopHands, activeInputMode) {
 
-        $scope.main = {};
-        $scope.main.preflopHands = preflopHands;
-        $scope.main.active = activeInputMode;
-
+    var vm = this;    
+    vm.preflopHands = preflopHands;
+    vm.active = activeInputMode;
     }])
     
 .directive('deb', function() {

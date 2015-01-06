@@ -2,37 +2,39 @@
 
 rangeStatApp.controller('preflopHandCtrl', ['$scope', 'preflopHands', function ($scope, preflopHands) {
 
-    var tag = $scope.ranks + $scope.suitType;
-    var twoCardHand = preflopHands[$scope.ranks];
-    $scope.tag = $scope.suitType === 'p' ? $scope.ranks : tag;
+    var vm = $scope;//can't use controller as in directive
+    var tag = vm.ranks + vm.suitType;
+    var twoCardHand = preflopHands[vm.ranks];
+    vm.tag = vm.suitType === 'p' ? vm.ranks : tag;
 
-    $scope.color = function() {
-        if ($scope.suitType === 's') return 'btn-info'; 
-        else if ($scope.suitType === 'p') return 'btn-success';
-        else if ($scope.suitType === 'o') return 'btn-primary';
+    vm.color = function() {
+        if (vm.suitType === 's') return 'btn-info'; 
+        else if (vm.suitType === 'p') return 'btn-success';
+        else if (vm.suitType === 'o') return 'btn-primary';
     };
 
 
-    $scope.toggleOn = function() {
-        $scope.active.cards = twoCardHand;
-        $scope.active.tag = tag;
-        $scope.active.type = $scope.suitType;
-        $scope.active.inputMode = 'cardmatrix';
-        if ($scope.suitType === 'o') twoCardHand.offSuitedOn = !twoCardHand.offSuitedOn;
-        else if ($scope.suitType === 'p') twoCardHand.pairOn = !twoCardHand.pairOn;
+    vm.toggleOn = function() {
+        vm.active.cards = twoCardHand;
+        vm.active.tag = tag;
+        vm.active.type = vm.suitType;
+        vm.active.inputMode = 'cardmatrix';
+        if (vm.suitType === 'o') twoCardHand.offSuitedOn = !twoCardHand.offSuitedOn;
+        else if (vm.suitType === 'p') twoCardHand.pairOn = !twoCardHand.pairOn;
         else twoCardHand.suitedOn = !twoCardHand.suitedOn;
     };
 
-    $scope.isOn = function() {
-        if ($scope.suitType === 'o') return twoCardHand.offSuitedOn;
-        else if ($scope.suitType === 'p') return twoCardHand.pairOn;
+    vm.isOn = function() {
+        if (vm.suitType === 'o') return twoCardHand.offSuitedOn;
+        else if (vm.suitType === 'p') return twoCardHand.pairOn;
         else return twoCardHand.suitedOn;
     };
 
-    $scope.all = function() {
-        if ($scope.suitType === 'o') return twoCardHand.allOffSuits();
-        else if ($scope.suitType === 'p') return twoCardHand.all();
+    vm.all = function() {
+        if (vm.suitType === 'o') return twoCardHand.allOffSuits();
+        else if (vm.suitType === 'p') return twoCardHand.all();
         else return twoCardHand.allSuits();
     };
+
 
 }]);

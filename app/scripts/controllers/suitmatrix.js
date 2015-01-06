@@ -1,7 +1,7 @@
 'use strict';
 
-rangeStatApp.controller('suitMatrixCtrl', ['$scope', 'suitMatrix', function ($scope, suitMatrix) {
+rangeStatApp.controller('suitMatrixCtrl', ['suitMatrix', function (suitMatrix) {
 
-    $scope.suitMatrix = suitMatrix;
+    this.matrix = suitMatrix;
 
 }]);

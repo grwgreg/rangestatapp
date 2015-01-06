@@ -1,7 +1,7 @@
 'use strict';
 
-rangeStatApp.controller('cardMatrixCtrl', ['$scope', 'preflopHands', 'tagMatrix', function ($scope, preflopHands, tagMatrix) {
+rangeStatApp.controller('cardMatrixCtrl', ['preflopHands', 'tagMatrix', function (preflopHands, tagMatrix) {
 
-    $scope.tagMatrix = tagMatrix;
+    this.matrix = tagMatrix;
 
 }]);

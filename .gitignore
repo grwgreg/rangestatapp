@@ -2,6 +2,4 @@ node_modules
 dist
 .tmp
 .sass-cache
-app/bower_components
-todo.txt
-*.swp
+bower_components
