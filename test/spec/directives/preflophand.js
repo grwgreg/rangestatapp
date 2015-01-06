@@ -8,7 +8,7 @@ describe('Directive: preflopHand', function() {
   beforeEach(module('rangeStatApp'));
   beforeEach(module('templates'));
 
-  beforeEach(inject(function(_$compile_, $rootScope, _preflopHands_, _activeInputMode_, $templateCache) {
+  beforeEach(inject(function(_$compile_, $rootScope, _preflopHands_, _activeInputMode_) {
 
       mockScope = $rootScope.$new();
       $compile = _$compile_,
@@ -35,7 +35,6 @@ describe('Directive: preflopHand', function() {
     expect(el.hasClass('pressed')).toBe(false);
   });
 
-/*
   it('should toggle notall class given the property on the card object', function() {
     mockScope.$digest();
     expect(el.hasClass('notall')).toBe(false);
@@ -47,6 +46,19 @@ describe('Directive: preflopHand', function() {
     mockScope.$digest();
     expect(el.hasClass('notall')).toBe(false);
   });
-*/
+
+  it('should toggle properties on the main preflopHand object when clicked', function() {
+    mockScope.$digest();
+    expect(preflopHands['JT'].offSuitedOn).toBe(false);
+    el.triggerHandler('click');
+    expect(preflopHands['JT'].offSuitedOn).toBe(true);
+  });
+
+  it('should set the tag on the active card object when clicked', function() {
+    mockScope.$digest();
+    expect(activeInputMode.tag).not.toEqual('JTo');
+    el.triggerHandler('click');
+    expect(activeInputMode.tag).toEqual('JTo');
+  });
 
 });
