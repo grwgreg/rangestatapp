@@ -1,11 +1,25 @@
 'use strict';
 
-rangeStatApp.controller('MainCtrl', ['preflopHands', 'activeInputMode', function (preflopHands, activeInputMode) {
+rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'activeInputMode', '$stateParams', function ($scope, preflopHands, activeInputMode, $stateParams) {
+
+console.log( ' main loaded' );
+console.log($stateParams);
+
 
     var vm = this;    
     vm.preflopHands = preflopHands;
     vm.active = activeInputMode;
+   
+    vm.rangeStringDummy = 'AA';
+    vm.rangeStringModel = 'AA';
+
+$scope.$watch(function() {return vm.rangeStringModel}, function() {
+console.log(vm.rangeStringModel);
+
+});
+
     }])
+
     
 .directive('deb', function() {
     return {

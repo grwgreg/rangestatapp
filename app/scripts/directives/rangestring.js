@@ -8,18 +8,24 @@ rangeStatApp.directive('rangeString', ['RangeParser', 'RangeFormatter', '_', fun
     return {
         scope: {
             preflopHands: '=',
-            activeInputMode: '='
+            activeInputMode: '=',
+            rangeStringModel: '='
         },
         require: 'ngModel',
-        link: function(scope, element, attrs, rangeStringCtrl) {
-
+        link: function(scope, element, attrs, rangeStringDummyCtrl) {
 
             var rangeFormatter = new RangeFormatter(scope.preflopHands);
             var rangeParser = new RangeParser(scope.preflopHands);
 
+            scope.activeInputMode.inputMode = 'userstring';
+            element[0].value = scope.rangeStringModel;
 
             scope.$watch('preflopHands', function(){
-                if (scope.activeInputMode.inputMode === 'userstring') return;
+
+                if (scope.activeInputMode.inputMode === 'userstring') {
+                  scope.rangeStringModel = rangeStringDummyCtrl.$viewValue;
+                  return;
+                }
                 var oldval = element[0].value.split(',');
                 var newval = rangeFormatter.rangeToString().split(',');
                 oldval = _.map(oldval, function(el) { return el.trim(); });
@@ -30,26 +36,27 @@ rangeStatApp.directive('rangeString', ['RangeParser', 'RangeFormatter', '_', fun
                 var newOnes = _.difference(newval, oldOnes);
                 var newRangeString = _.union(oldOnes, newOnes).join(', ');
                 element[0].value = newRangeString;
-                rangeStringCtrl.$setValidity('rangeString', true);
+                scope.rangeStringModel = newRangeString;
+                rangeStringDummyCtrl.$setValidity('rangeString', true);
             }, true);
 
-            var stringWatcher = function() {
+            function stringWatcher() {
                 scope.activeInputMode.inputMode = 'userstring';
                 try {
                     var success = true;
-                    rangeParser.parseRange(rangeStringCtrl.$viewValue);
+                    rangeParser.parseRange(rangeStringDummyCtrl.$viewValue);
                 } catch(err) {
                     if (err === 'invalid tag') {
                         success = false;
-                        rangeStringCtrl.$setValidity('rangeString', false);
+                        rangeStringDummyCtrl.$setValidity('rangeString', false);
                     } else {
                         throw err;
                     }
                 }
-                if (success) rangeStringCtrl.$setValidity('rangeString', true);
+                if (success) rangeStringDummyCtrl.$setValidity('rangeString', true);
             };
 
-            scope.$watch(function() {return rangeStringCtrl.$viewValue;}, stringWatcher);
+            scope.$watch(function() {return rangeStringDummyCtrl.$viewValue;}, stringWatcher);
         }
     }
 }]);

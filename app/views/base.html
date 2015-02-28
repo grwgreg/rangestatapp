@@ -1,0 +1,44 @@
+    <deb></deb>
+
+<div class="card-matrix" ng-controller="cardMatrixCtrl as cardMatrix">
+<ul>
+  <li ng-repeat="row in ::cardMatrix.matrix">
+    <preflop-hand ng-repeat="cardData in ::row" 
+                  ranks='{{cardData.cards}}' 
+                  suit-type='{{cardData.type}}' 
+                  active="main.active">
+    </preflop-hand>
+  </li>
+</ul>
+</div><!-- /cardMatrix -->
+
+<div class="board-matrix" ng-controller="boardMatrixCtrl as boardMatrix">
+<ul>
+<li ng-repeat="rank in ::boardMatrix.ranks">
+<board-card ng-repeat="suit in ::boardMatrix.suits" board="boardMatrix.board" rank="{{rank}}" suit="{{suit}}"></board-card>
+</li>
+</ul>
+<div class="board-display">
+  <ul>
+    <li ng-repeat="card in boardMatrix.board">
+      {{card[0]}}<span class="{{boardMatrix.suitIcon[card[1]]}}"></span>
+    </li>
+  </ul>
+</div>
+</div><!-- /board-matrix -->
+
+<div ng-controller="suitMatrixCtrl as suitMatrix">
+<h2>{{main.active.tag}}</h2>
+<ul class="suit-matrix">
+  <li ng-repeat="row in ::suitMatrix.matrix">
+    <hand-suits ng-repeat="suits in ::row" active="main.active" suits="{{suits}}"></hand-suits>
+  </li>
+</ul>
+</div><!-- /suitMatrixCtrl -->
+
+    <input class = 'range-string' 
+      ng-model='main.rangeStringDummy' 
+      range-string-model='main.rangeStringModel'
+      active-input-mode='main.active' 
+      range-string preflop-hands='main.preflopHands' 
+      type='text'>
