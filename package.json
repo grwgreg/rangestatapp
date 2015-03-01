@@ -28,7 +28,9 @@
     "load-grunt-tasks": "^0.4.0",
     "time-grunt": "^0.3.1",
     "grunt-karma": "~0.9.0",
-    "karma-ng-html2js-preprocessor": "~0.1"
+    "karma-ng-html2js-preprocessor": "~0.1",
+    "connect-modrewrite": "~0.7.11",
+    "grunt-connect-rewrite": "~0.2.1"
   },
   "engines": {
     "node": ">=0.10.0"

@@ -21,6 +21,9 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  //for connect middleware config
+  var rewriteRulesSnippet = require('grunt-connect-rewrite/lib/utils').rewriteRequest;
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -71,11 +74,16 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      rules: [
+//this breaks everything
+        //{from: "^/range/(.*)$", to: '/'},
+      ],
       livereload: {
         options: {
           open: true,
           middleware: function (connect) {
             return [
+              rewriteRulesSnippet,
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -91,6 +99,7 @@ module.exports = function (grunt) {
           port: 9001,
           middleware: function (connect) {
             return [
+              rewriteRulesSnippet,
               connect.static('.tmp'),
               connect.static('test'),
               connect().use(
@@ -105,7 +114,12 @@ module.exports = function (grunt) {
       dist: {
         options: {
           open: true,
-          base: '<%= yeoman.dist %>'
+          base: '<%= yeoman.dist %>',
+          middleware: function (connect) {
+            return [
+              rewriteRulesSnippet
+            ];
+          }
         }
       }
     },
@@ -395,6 +409,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'configureRewriteRules',
       'wiredep',
       'concurrent:server',
       'autoprefixer',

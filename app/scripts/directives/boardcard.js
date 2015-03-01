@@ -21,10 +21,9 @@ rangeStatApp.directive('boardCard', ['preflopHands', function(preflopHands) {
                 s: 'spade'
               };
 
-              var on = false;
               $scope.toggleOn = function() {
-                on = !on;
-                if (on) {
+                var on = $scope.isOn();
+                if (!on) {
                   $scope.board.push($scope.rank + $scope.suit);
                 } else {
                   var index = $scope.board.indexOf($scope.rank + $scope.suit);
@@ -33,11 +32,11 @@ rangeStatApp.directive('boardCard', ['preflopHands', function(preflopHands) {
               }
 
               $scope.isOn = function() {
-                return on;
+                return $scope.board.indexOf($scope.rank + $scope.suit) > -1;
               }
 
               $scope.validBoard = function() {
-                return ($scope.board.length >= 5) && !on;
+                return ($scope.board.length >= 5) && !$scope.isOn();
               }
             
   

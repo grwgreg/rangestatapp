@@ -15,12 +15,12 @@
 <div class="board-matrix" ng-controller="boardMatrixCtrl as boardMatrix">
 <ul>
 <li ng-repeat="rank in ::boardMatrix.ranks">
-<board-card ng-repeat="suit in ::boardMatrix.suits" board="boardMatrix.board" rank="{{rank}}" suit="{{suit}}"></board-card>
+<board-card ng-repeat="suit in ::boardMatrix.suits" board="main.board" rank="{{rank}}" suit="{{suit}}"></board-card>
 </li>
 </ul>
 <div class="board-display">
   <ul>
-    <li ng-repeat="card in boardMatrix.board">
+    <li ng-repeat="card in main.board">
       {{card[0]}}<span class="{{boardMatrix.suitIcon[card[1]]}}"></span>
     </li>
   </ul>

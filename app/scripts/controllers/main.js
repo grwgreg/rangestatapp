@@ -1,24 +1,19 @@
 'use strict';
 
-rangeStatApp.controller('MainCtrl', ['$scope', 'preflopHands', 'activeInputMode', '$stateParams', function ($scope, preflopHands, activeInputMode, $stateParams) {
-
-console.log( ' main loaded' );
-console.log($stateParams);
-
+rangeStatApp.controller('MainCtrl', ['$scope', '$rootScope', 'preflopHands', 'activeInputMode', '$state', '$stateParams', function ($scope, $rootScope, preflopHands, activeInputMode, $state, $stateParams) {
 
     var vm = this;    
     vm.preflopHands = preflopHands;
     vm.active = activeInputMode;
-   
-    vm.rangeStringDummy = 'AA';
-    vm.rangeStringModel = 'AA';
+    vm.board=[];
 
-$scope.$watch(function() {return vm.rangeStringModel}, function() {
-console.log(vm.rangeStringModel);
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ 
+      vm.rangeStringModel = toParams.range;
+      vm.rangeStringDummy = toParams.range;
+      vm.board = toParams.board.split(',');
+    });
 
-});
-
-    }])
+}])
 
     
 .directive('deb', function() {
@@ -29,11 +24,7 @@ console.log(vm.rangeStringModel);
                             'ng-click="deb()">DEBUG</button>'].join('');},
         controller: ['$scope', function($scope) { //link works here too
             $scope.deb = function() {
-                console.log($scope.main.preflopHands);
-                console.log($scope.main.active.tag);
-                $scope.main.preflopHands['97'].combos.cc = false;
-                $scope.main.preflopHands['98'].combos.dc = false;
-                $scope.main.preflopHands['99'].combos.cd = false;
+                console.log($scope.main.board);
             };
         }]
     };

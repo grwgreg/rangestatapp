@@ -17,11 +17,10 @@ rangeStatApp.directive('rangeString', ['RangeParser', 'RangeFormatter', '_', fun
             var rangeFormatter = new RangeFormatter(scope.preflopHands);
             var rangeParser = new RangeParser(scope.preflopHands);
 
-            scope.activeInputMode.inputMode = 'userstring';
+//            scope.activeInputMode.inputMode = scope.activeInputMode.inputMode || 'userstring';
             element[0].value = scope.rangeStringModel;
 
             scope.$watch('preflopHands', function(){
-
                 if (scope.activeInputMode.inputMode === 'userstring') {
                   scope.rangeStringModel = rangeStringDummyCtrl.$viewValue;
                   return;

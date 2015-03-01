@@ -8,7 +8,7 @@ rangeStatApp.factory('activeInputMode', ['preflopHands', function(preflopHands) 
             cards: preflopHands['AK'],
             tag: 'AKo',
             type: 'o',
-            inputMode: 'cardmatrix'
+            inputMode: 'userstring'
         };
 
 }]);

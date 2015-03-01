@@ -13,11 +13,17 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <base href="/">
   </head>
   <body ng-app="rangeStatApp">
 
-    <div ui-view></div>
-<a ui-sref="range({flop: 'theflop', range: 'therange'})">range</a>
+<div ng-controller="MainCtrl as main">
+    <div ui-view="rangeSelector"></div>
+    <div ui-view="rangeChart"></div>
+</div>
+
+<a ui-sref="range({board: 'theflop', range: 'KK,QTs,88-22'})">change</a>
+<a ui-sref="range({board: 'theflop', range: 'therange'})">range</a>
 <a ui-sref="index">range</a>
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -65,6 +71,7 @@
         <script src="scripts/controllers/cardmatrix.js"></script>
         <script src="scripts/controllers/suitmatrix.js"></script>
         <script src="scripts/controllers/boardmatrix.js"></script>
+        <script src="scripts/controllers/chart.js"></script>
         <script src="scripts/directives/preflophand.js"></script>
         <script src="scripts/directives/boardcard.js"></script>
         <script src="scripts/services/tagmatrix.js"></script>
