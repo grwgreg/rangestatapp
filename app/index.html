@@ -17,9 +17,9 @@
   </head>
   <body ng-app="rangeStatApp">
 
-<div ng-controller="MainCtrl as main">
-    <div ui-view="rangeSelector"></div>
-    <div ui-view="rangeChart"></div>
+<div ng-controller="MainCtrl as main" class="views-container clearfix">
+    <div ui-view="rangeSelector" class="range-selector"></div>
+    <div ui-view="rangeChart" class="range-chart"></div>
 </div>
 
 <a ui-sref="range({board: 'theflop', range: 'KK,QTs,88-22'})">change</a>
@@ -57,11 +57,13 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/modules/underscore.js"></script>
+        <script src="scripts/modules/d3.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/models/preflophand.js"></script>
         <script src="scripts/models/preflophands.js"></script>
@@ -71,7 +73,8 @@
         <script src="scripts/controllers/cardmatrix.js"></script>
         <script src="scripts/controllers/suitmatrix.js"></script>
         <script src="scripts/controllers/boardmatrix.js"></script>
-        <script src="scripts/controllers/chart.js"></script>
+        <script src="scripts/controllers/rangechart.js"></script>
+        <script src="scripts/directives/barchart.js"></script>
         <script src="scripts/directives/preflophand.js"></script>
         <script src="scripts/directives/boardcard.js"></script>
         <script src="scripts/services/tagmatrix.js"></script>
@@ -80,6 +83,7 @@
         <script src="scripts/directives/handsuits.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <script src="scripts/services/rangeparser.js"></script>
+        <script src="scripts/services/horizontalbarchart.js"></script>
         <!-- endbuild -->
 </body>
 </html>

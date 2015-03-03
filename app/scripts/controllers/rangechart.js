@@ -1,7 +1,7 @@
 
 'use strict';
 
-rangeStatApp.controller('ChartCtrl', ['$stateParams', function ($stateParams) {
+rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function ($stateParams, _) {
 console.log('inchartctrl');
   var vm = this;
   vm.load = function() {
@@ -11,9 +11,28 @@ console.log('loadchart');
   }
 
 
+
   var data = mockRangeData();
   data = JSON.parse(data);
+
+/*
+var keyOrder = [
+];
+*/
+
+/*this should be reduce*/
+data = _.reduce(data, function(m,val,key) {
+  m.push({
+    type: key,
+    percent: val.percent,
+    hands: val.hands
+  });
+  return m;
+}, []);
+vm.data = data;
 console.log(data);
+
+
 
 
 

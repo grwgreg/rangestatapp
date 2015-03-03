@@ -3,7 +3,8 @@
 var rangeStatApp = angular.module('rangeStatApp', [
     'ngResource',
     'ui.router',
-    'underscore'
+    'underscore',
+    'd3js'
 ])
     .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
@@ -16,8 +17,8 @@ var rangeStatApp = angular.module('rangeStatApp', [
         //      controller: 'MainCtrl as main'
             },
             rangeChart: {
-              templateUrl: "views/chart.html",
-              controller: 'ChartCtrl as chart', 
+              templateUrl: "views/rangechart.html",
+              controller: 'RangeChartCtrl as rangeChart', 
             }
           }
         })
