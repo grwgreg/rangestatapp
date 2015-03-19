@@ -4,14 +4,41 @@
 rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function ($stateParams, _) {
   var vm = this;
   vm.load = function() {
-//var x = ['fullHousePlus', 'pairPlusDraw', 'pairs', 'draws', 'overcards', 'main'];
-var x = ['overcards', 'main'];
-var r = Math.floor(Math.random()*2)
+var x = ['fullHousePlus', 'pairPlusDraw', 'pairs', 'draws', 'overcards', 'main'];
+//var x = ['overcards', 'main'];
+var r = Math.floor(Math.random()*6)
     vm.data = chartsData[x[r]];
+    vm.group = x[r];
 console.log('loadfn');
   }
+ 
+  vm.group = 'main';
 
 
+vm.changeChart = function($event) {
+console.log('chart click');
+console.log($event);
+console.log('chart click');
+
+if (vm.group !== 'main') {
+  vm.group = 'main';
+  vm.data = chartsData[vm.group];
+  return;
+}
+
+var $el = $($event.target);
+var $group = $el.closest('g');
+if ($group.data('bar') == 'bar') {
+  var group = $group.data('group');
+  var groupKeys = _.keys(handGroups);
+  var changeGroup = (groupKeys.indexOf(group) > -1) && (group != vm.group);
+  if (changeGroup) {
+console.log('groupchanged');
+    vm.group = group;
+    vm.data = chartsData[group];
+  } 
+}
+}
 
   var data = mockRangeData();
   data = JSON.parse(data);
@@ -29,19 +56,23 @@ var handGroups = {
 var extraData = {
   'Fullhouse+':  {
      percent: percentSum(handGroups.fullHousePlus),
-     hands: [mergeHandArrays(handGroups.fullHousePlus)]
+     hands: [mergeHandArrays(handGroups.fullHousePlus)],
+showNext: 'fullHousePlus'
   },
   'Pair Plus Draw': {
     percent: percentSum(handGroups.pairPlusDraw),
-    hands: [mergeHandArrays(handGroups.pairPlusDraw)]
+    hands: [mergeHandArrays(handGroups.pairPlusDraw)],
+showNext: 'pairPlusDraw'
    },
   'Draws': {
     percent: percentSum(_.difference(handGroups.draws, ['combo_draw'])),
-    hands: [mergeHandArrays(_.difference(handGroups.draws, ['combo_draw']))]
+    hands: [mergeHandArrays(_.difference(handGroups.draws, ['combo_draw']))],
+showNext: 'draws'
   },
   'Over Cards': {
     percent: percentSum(handGroups.overcards),
-    hands: [mergeHandArrays(handGroups.overcards)]
+    hands: [mergeHandArrays(handGroups.overcards)],
+showNext: 'overcards'
   }
 };
 
@@ -60,11 +91,23 @@ function prepData(data, handGroup) {
   return _.reduce(handGroup, function(m, hand) {
     m.push({
       type: prettyLabel(hand),
+      group: nextChart(data[hand], hand),      
       percent: data[hand].percent,
       hands: data[hand].hands 
     });
     return m;
   }, []);
+}
+
+function nextChart(d, hand) {
+var keys = _.keys(d);
+if (keys.indexOf('showNext') > -1) {
+  return d.showNext;
+} else if (hand == 'pair') {
+  return 'pairs';
+} else {
+  return 'main';
+}
 }
 
 function prettyLabel(s) {
@@ -88,7 +131,7 @@ function percentSum(hands) {
   }, 0);
 }
 
-vm.data = chartsData['pairPlusDraw'];
+vm.data = chartsData['main'];
 
 
 

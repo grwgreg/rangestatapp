@@ -91,7 +91,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       }
 
       if (reload) {
-        console.log(this._axesG.select('.y-axis'));
         this._axesG.select('.x-axis').transition()
           .attr("transform", function() {
             return "translate(" + labelOffset + "," + yStart + ")";
@@ -110,7 +109,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       var padding = 5;
 
       if (reload) {
-        console.log(this._svg.transition().select('#body-clip'));
         this._svg.transition().select('#body-clip')
           .attr("width", this.quadrantWidth() + 2 * padding)
           .attr("height", this.quadrantHeight());
@@ -152,7 +150,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       var labelWidth = this._labelWidth;
 
 
-      var bars = this._bodyG.selectAll("g")
+      this._bodyG.selectAll("g")
         .data(this._data, this.key)
         .exit()
         .select('rect, text')
@@ -160,13 +158,13 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .attr("width", "0")
         .remove();
 
-      var bars = this._bodyG.selectAll("g")
+      this._bodyG.selectAll("g")
         .data(this._data, this.key)
         .exit()
         .selectAll('text')
         .remove();
 
-      var bars = this._bodyG.selectAll("g")
+      this._bodyG.selectAll("g")
         .data(this._data, this.key)
         .exit()
         .transition()
@@ -183,6 +181,10 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
       this._bodyG.selectAll("g")
         .data(this._data, this.key)
+        .attr('data-bar', 'bar')
+        .attr('data-group', function(d) {
+          return d.group;
+        })
         .transition()
         .attr("transform", function(d, i) {
           return "translate(" + labelWidth + "," + (i * (barHeight + padding)) + ")";
