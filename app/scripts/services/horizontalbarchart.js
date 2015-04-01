@@ -110,7 +110,8 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
       if (reload) {
         this._svg.transition().select('#body-clip')
-          .attr("width", this.quadrantWidth() + 2 * padding)
+          .attr("width", this.quadrantWidth() + 2 * padding + this._labelWidth)
+          //.attr("width", this.quadrantWidth() + 2 * padding )
           .attr("height", this.quadrantHeight());
       } else {
 
@@ -120,7 +121,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           .append("rect")
           .attr("x", 0)
           .attr("y", 0)
-          .attr("width", this.quadrantWidth() + 2 * padding)
+          .attr("width", this.quadrantWidth() + 2 * padding + this._labelWidth)
           .attr("height", this.quadrantHeight());
       }
     },
@@ -192,7 +193,11 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
       bars.append("rect")
         .attr("class", "bar")
-        .attr("width", 0);
+        .attr("width", 0)
+        .attr('data-combos', function(d) {
+          return d.hands;
+        });
+
 
       this._bodyG.selectAll("rect.bar")
         .data(this._data, this.key)

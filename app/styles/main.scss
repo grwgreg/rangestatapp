@@ -644,9 +644,15 @@ float: left;
 width: 50%;
 margin-right: -100%;
 margin-left: 45%;
-
+position: relative;
 }
 
 .chart-container button {
 display: block;
+}
+
+.bar-combos {
+position: absolute;
+background: #201b15;
+color: white;
 }
