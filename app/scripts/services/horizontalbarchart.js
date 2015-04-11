@@ -19,6 +19,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
     this._svg;
     this._bodyG;
     this._axesG;
+    this.percent_of_group = false;
   };
 
   HorizontalBarChart.prototype = {
@@ -149,6 +150,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       var width = this._width;
       var height = this._height;
       var labelWidth = this._labelWidth;
+      var percent = this.percent.bind(this);
 
 
       this._bodyG.selectAll("g")
@@ -196,6 +198,9 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .attr("width", 0)
         .attr('data-combos', function(d) {
           return d.hands;
+        })
+        .attr('data-hrange', function(d) {
+          return d.handRange;
         });
 
 
@@ -203,7 +208,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .data(this._data, this.key)
         .transition()
         .attr("width", function(d) {
-          return _x(d.percent);
+          return _x(percent(d));
         })
         .attr("height", function(d) {
           return barHeight;
@@ -214,17 +219,17 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .data(this._data, this.key)
         .transition()
         .attr("x", function(d) {
-          var val = d.percent;
-          if (val < 0.1) return _x(d.percent) + 30;
-          else return _x(d.percent) - 10;
+          var val = percent(d);
+          if (val < 0.1) return _x(val) + 30;
+          else return _x(val) - 10;
         })
         .attr("class", function(d) {
-          if (d.percent < 0.1) return 'outside';
+          if (percent(d) < 0.1) return 'outside';
         })
         .attr("y", barHeight / 2)
         .attr("dy", ".35em")
         .text(function(d) {
-          return (100 * d.percent).toFixed(2) + "%";
+          return (100 * percent(d)).toFixed(2) + "%";
         });
 
       bars.append("text").attr("class", "bar-label");
@@ -307,7 +312,11 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
     key: function(d) {
       return d.type;
-    }
+    },
+
+    percent: function(d) {
+      return this.percent_of_group ? d.percent_of_group : d.percent;
+    },
 
   }; //prototype
 

@@ -25,9 +25,14 @@ function link(scope, el, attrs) {
     $(this).hide();
   });
 
+console.log(scope);
+/*greg todo
+  make a 'tip' directive that takes as props the combos, handrange and position, pass in scope vars
+*/
   function showTip($target) {
     var combos = $target.data('combos');
-    var tip = angular.element('.bar-combos').text(combos).show();
+    var hrange = $target.data('hrange');
+    var tip = angular.element('.bar-combos').text(hrange + ' ' + combos).show();
 
     var transform = $target.parent().attr('transform');
     var xyRegex = /\((\d*),(\d*)\)/g;
@@ -38,6 +43,7 @@ function link(scope, el, attrs) {
 
     tip.css('left', '150px');
     tip.css('top', height);
+    scope.tip.height += 10;
 
   }
 
@@ -58,11 +64,20 @@ function link(scope, el, attrs) {
       chart.render(el[0], true);
   });
 
+  scope.$watch(function() {
+      return scope.percentOfGroup;
+    }, function() {
+      chart.percent_of_group = scope.percentOfGroup;
+      chart.render(el[0], true);
+  });
+
 }
         return {
             restrict: 'A',
             scope: {
-              data: '='
+              data: '=',
+              percentOfGroup: '=',
+              tip: '='
             },
             link: link
         };
