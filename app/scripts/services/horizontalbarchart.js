@@ -12,7 +12,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         right: 30,
         bottom: 30
       },
-      this._labelWidth = config.labelWidth || 110;
+    this._labelWidth = config.labelWidth || 110;
     this._x;
     this._y;
     this._data = [];
@@ -34,24 +34,18 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .domain([0, this._data.length])
         .range([this.quadrantHeight(), 0]);
 
-      if (this._svg && reload) {
-        this._svg
-          .attr("height", this._height)
-          .attr("width", this._width + this._labelWidth);
-
-        this.renderAxes(this._svg, reload);
-
-        this.defineBodyClip(this._svg, reload);
-      }
       if (!this._svg) {
         this._svg = d3.select(el)
-          .attr("height", this._height)
-          .attr("width", this._width + this._labelWidth);
-
-        this.renderAxes(this._svg);
-
-        this.defineBodyClip(this._svg);
       }
+
+      this._svg
+        .attr("height", this._height)
+        .attr("width", this._width + this._labelWidth);
+
+      this.renderAxes(this._svg, reload);
+
+      this.defineBodyClip(this._svg, reload);
+
       this.renderBody(this._svg, reload);
     },
 
@@ -92,6 +86,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       }
 
       if (reload) {
+        //keep x-axis transformation incase have to resize for mobile
         this._axesG.select('.x-axis').transition()
           .attr("transform", function() {
             return "translate(" + labelOffset + "," + yStart + ")";
@@ -104,7 +99,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           .call(yAxis);
       }
     },
-
 
     defineBodyClip: function(svg, reload) {
       var padding = 5;
@@ -129,7 +123,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
     renderBody: function(svg, reload) {
       if (reload) {
-        //this._bodyG = null;
         this._bodyG.transition()
           .attr("transform", "translate(" + this.xStart() + "," + this.yEnd() + ")")
       } else if (!this._bodyG) {
@@ -153,37 +146,26 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       var percent = this.percent.bind(this);
 
 
-      this._bodyG.selectAll("g")
-        .data(this._data, this.key)
-        .exit()
+      var bars = this._bodyG.selectAll("g").data(this._data, this.key);
+      var exit = bars.exit();
+      var enter = bars.enter().append("g");
+
+      exit
         .select('rect, text')
         .transition()
         .attr("width", "0")
         .remove();
-
-      this._bodyG.selectAll("g")
-        .data(this._data, this.key)
-        .exit()
+      exit
         .selectAll('text')
         .remove();
-
-      this._bodyG.selectAll("g")
-        .data(this._data, this.key)
-        .exit()
+      exit
         .transition()
         .remove();
 
-
-      var bars = this._bodyG.selectAll("g")
-        .data(this._data, this.key)
-        .enter()
-        .append("g")
+      enter
         .attr("transform", function(d, i) {
           return "translate(" + labelWidth + "," + (i * (barHeight + padding)) + ")";
-        });
-
-      this._bodyG.selectAll("g")
-        .data(this._data, this.key)
+        })
         .attr('data-bar', 'bar')
         .attr('data-group', function(d) {
           return d.group;
@@ -193,7 +175,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           return "translate(" + labelWidth + "," + (i * (barHeight + padding)) + ")";
         });
 
-      bars.append("rect")
+      enter.append("rect")
         .attr("class", "bar")
         .attr("width", 0)
         .attr('data-combos', function(d) {
@@ -203,18 +185,8 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           return d.handRange;
         });
 
-
-      this._bodyG.selectAll("rect.bar")
-        .data(this._data, this.key)
-        .transition()
-        .attr("width", function(d) {
-          return _x(percent(d));
-        })
-        .attr("height", function(d) {
-          return barHeight;
-        });
-
-      bars.append("text");
+      //percent label
+      enter.append("text");
       this._bodyG.selectAll("text")
         .data(this._data, this.key)
         .transition()
@@ -232,7 +204,8 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           return (100 * percent(d)).toFixed(2) + "%";
         });
 
-      bars.append("text").attr("class", "bar-label");
+      //axis label
+      enter.append("text").attr("class", "bar-label");
       this._bodyG.selectAll("text.bar-label")
         .data(this._data, this.key)
         .transition()
@@ -242,11 +215,16 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           return d.type;
         });
 
-
-
-
-
-
+      //resize all bars
+      this._bodyG.selectAll("rect.bar")
+        .data(this._data, this.key)
+        .transition()
+        .attr("width", function(d) {
+          return _x(percent(d));
+        })
+        .attr("height", function(d) {
+          return barHeight;
+        });
 
     },
 
