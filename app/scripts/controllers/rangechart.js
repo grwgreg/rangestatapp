@@ -10,6 +10,7 @@ rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function($stateP
     console.log(vm.tip);
   }
 
+console.log('im so confused');
   vm.group = 'main';
 
   vm.tip = {
@@ -93,6 +94,7 @@ rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function($stateP
 
   function nextChart(d, hand) {
     var keys = _.keys(d);
+//lol this should be one liner ternary
     if (keys.indexOf('showNext') > -1) {
       return d.showNext;
     } else {

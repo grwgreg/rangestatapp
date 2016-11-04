@@ -169,11 +169,13 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .attr('data-bar', 'bar')
         .attr('data-group', function(d) {
           return d.group;
-        })
+        });
+/*
         .transition()
         .attr("transform", function(d, i) {
           return "translate(" + labelWidth + "," + (i * (barHeight + padding)) + ")";
         });
+*/
 
       enter.append("rect")
         .attr("class", "bar")
