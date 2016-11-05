@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function($stateParams, _) {
+rangeStatApp.controller('RangeChartCtrl', ['_', '$scope','$http', function(_, $scope, $http) {
   var vm = this;
   vm.load = function() {
     var x = ['fullHousePlus', 'pairPlusDraw', 'pairs', 'draws', 'overcards', 'main'];
@@ -11,6 +11,33 @@ rangeStatApp.controller('RangeChartCtrl', ['$stateParams', '_', function($stateP
   }
 
 console.log('im so confused');
+/*
+console.log($scope.main);
+$scope.$watch(function(){return $scope.main.board.length},function() {
+console.log('changed');
+var range = $scope.main.rangeStringModel.replace(/\s+/g, '');
+var board = $scope.main.board.join(',').replace(/\s+/g,'');
+$http({
+  method: 'GET',
+  url: 'http://localhost:3000/' + board +'/'+range
+}).then(function successCallback(response) {
+console.log(range);
+console.log(board);
+    var data = JSON.parse(response.data);
+console.log(data);
+    var chartsData = buildChartData(data);
+    vm.data = chartsData['main'];//this line will be in callback we provide to service or maybe do it
+      //via promises in controller, need access to this vm variable?
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+});
+*/
+console.log('im so confused');
+
+
+
   vm.group = 'main';
 
   vm.tip = {
@@ -47,20 +74,17 @@ console.log('im so confused');
     }
   }
 
-  var data = mockRangeData();
-  data = JSON.parse(data);
-
-  var handGroups = {
-    fullHousePlus: ['full_house', 'quads', 'straight_flush'],
-    pairPlusDraw: ['pair_plus_gutshot', 'pair_plus_oesd', 'pair_plus_flush_draw', 'pair_plus_over'],
-    pairs: ['premium_pocket', 'pocket_pair', 'over_pair', 'top_pair', 'high_pair', 'mid_pair', 'low_pair'],
-    draws: ['combo_draw', 'flush_draw', 'oesd', 'doublegut', 'gutshot'],
-    overcards: ['ace_high', 'premium_overs', 'over_cards', 'one_over_card'],
-    main: ['full_house_plus', 'flush', 'straight', 'trips', 'two_pair', 'pair', 'pair_plus_draw', 'draws', 'overcards']
-  };
 
 
-
+var handGroups = {
+  fullHousePlus: ['full_house', 'quads', 'straight_flush'],
+  pairPlusDraw: ['pair_plus_gutshot', 'pair_plus_oesd', 'pair_plus_flush_draw', 'pair_plus_over'],
+  pairs: ['premium_pocket', 'pocket_pair', 'over_pair', 'top_pair', 'high_pair', 'mid_pair', 'low_pair'],
+  draws: ['combo_draw', 'flush_draw', 'oesd', 'doublegut', 'gutshot'],
+  overcards: ['ace_high', 'premium_overs', 'over_cards', 'one_over_card'],
+  main: ['full_house_plus', 'flush', 'straight', 'trips', 'two_pair', 'pair', 'pair_plus_draw', 'draws', 'overcards']
+};
+function buildChartData(data) {
   data.full_house_plus.showNext = 'fullHousePlus';
   data.pair_plus_draw.showNext = 'pairPlusDraw';
   data.overcards.showNext = 'overcards';
@@ -75,6 +99,9 @@ console.log('im so confused');
     draws: prepData(data, handGroups.draws),
     overcards: prepData(data, handGroups.overcards),
   }
+
+  return chartsData;
+}
 
   function prepData(data, handGroup) {
 
@@ -111,8 +138,12 @@ console.log('im so confused');
     return now.join(' ');
   }
 
-  vm.data = chartsData['main'];
 
+//data to show on intial load
+  var data = mockRangeData();
+  data = JSON.parse(data);
+  var chartsData = buildChartData(data);
+  vm.data = chartsData['main'];
 
 
 }]);

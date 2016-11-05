@@ -17,13 +17,77 @@
   </head>
   <body ng-app="rangeStatApp">
 
-<div ng-controller="MainCtrl as main" class="views-container clearfix">
+<div ng-controller="MainCtrl as main" class="views-container main clearfix">
+<!--
     <div ui-view="rangeSelector" class="range-selector"></div>
     <div ui-view="rangeChart" class="range-chart"></div>
-</div>
+-->
+<div class="range-selector">
+    <deb></deb>
 
+<div class="card-matrix" ng-controller="cardMatrixCtrl as cardMatrix">
+<ul>
+  <li ng-repeat="row in ::cardMatrix.matrix">
+    <preflop-hand ng-repeat="cardData in ::row" 
+                  ranks='{{cardData.cards}}' 
+                  suit-type='{{cardData.type}}' 
+                  active="main.active">
+    </preflop-hand>
+  </li>
+</ul>
+</div><!-- /cardMatrix -->
+
+<div class="board-matrix" ng-controller="boardMatrixCtrl as boardMatrix">
+<ul>
+<li ng-repeat="rank in ::boardMatrix.ranks">
+<board-card ng-repeat="suit in ::boardMatrix.suits" board="main.board" rank="{{rank}}" suit="{{suit}}"></board-card>
+</li>
+</ul>
+<div class="board-display">
+  <ul>
+    <li ng-repeat="card in main.board">
+      {{card[0]}}<span class="{{boardMatrix.suitIcon[card[1]]}}"></span>
+    </li>
+  </ul>
+</div>
+</div><!-- /board-matrix -->
+
+<div ng-controller="suitMatrixCtrl as suitMatrix">
+<h2>{{main.active.tag}}</h2>
+<ul class="suit-matrix">
+  <li ng-repeat="row in ::suitMatrix.matrix">
+    <hand-suits ng-repeat="suits in ::row" active="main.active" suits="{{suits}}"></hand-suits>
+  </li>
+</ul>
+</div><!-- /suitMatrixCtrl -->
+
+    <input class = 'range-string' 
+      ng-model='main.rangeStringDummy' 
+      range-string-model='main.rangeStringModel'
+      active-input-mode='main.active' 
+      range-string preflop-hands='main.preflopHands' 
+      type='text'>
+
+</div><!-- /range-selector -->
+
+<div class="range-chart" ng-controller="RangeChartCtrl as rangeChart">
+<svg id="bar-chart" bar-chart tip="rangeChart.tip" percent-of-group=rangeChart.percentOfGroup data="rangeChart.data" ng-click="rangeChart.changeChart($event)"></svg>
+<div class="bar-combos">this is the hover el that shows current bar's hand combos</div>
+<p>Kc, 9s, Th</p>
+<p>AK-2, KK-33 fill this otu later</p>
+<div class="chart-container">
+<button ng-click="rangeChart.load()">Load Chart</button>
+<input ng-model='greg'/>
+<button ng-click="rangeChart.togglePercentOfGroup()" ng-disabled="rangeChart.isMain()">Show Percent of something</button>
+<div class="chart-title">Showing Percent of {{rangeChart.group}}</div>
+</div><!-- chart-container -->
+</div><!-- range-chart -->
+
+</div><!-- /main -->
+<!--
 <a ui-sref="range({board: 'Ah,Kc,Js', range: 'KK,QTs,88-22'})">change</a>
 <a ui-sref="index">range</a>
+-->
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -55,7 +119,6 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
