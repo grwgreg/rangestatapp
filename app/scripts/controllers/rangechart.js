@@ -11,30 +11,33 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope','$http', function(_, $s
   }
 
 console.log('im so confused');
+console.log(this);
+console.log($scope.board);
+$scope.$watch('board.length',fetchRangeData);
+$scope.$watch('range',fetchRangeData);
+function fetchRangeData() {
+  var range = $scope.range.replace(/\s+/g, '');
+  var board = $scope.board.join(',').replace(/\s+/g,'');
+  console.log('changed:',range);
+  console.log('changed:',board);
+  $http({
+    method: 'GET',
+    url: 'http://localhost:3000/' + board +'/'+range
+  }).then(function successCallback(response) {
+  console.log('ajaxsuccess');
+      var data = JSON.parse(response.data);
+  console.log(data);
+      var chartsData = buildChartData(data);
+      vm.data = chartsData['main'];//this line will be in callback we provide to service or maybe do it
+        //via promises in controller, need access to this vm variable?
+    }, function errorCallback(response) {
+      console.log('ajax error', response);
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    });
+  }
 /*
-console.log($scope.main);
-$scope.$watch(function(){return $scope.main.board.length},function() {
-console.log('changed');
-var range = $scope.main.rangeStringModel.replace(/\s+/g, '');
-var board = $scope.main.board.join(',').replace(/\s+/g,'');
-$http({
-  method: 'GET',
-  url: 'http://localhost:3000/' + board +'/'+range
-}).then(function successCallback(response) {
-console.log(range);
-console.log(board);
-    var data = JSON.parse(response.data);
-console.log(data);
-    var chartsData = buildChartData(data);
-    vm.data = chartsData['main'];//this line will be in callback we provide to service or maybe do it
-      //via promises in controller, need access to this vm variable?
-  }, function errorCallback(response) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
-});
 */
-console.log('im so confused');
 
 
 
