@@ -25,13 +25,12 @@ function link(scope, el, attrs) {
     $(this).hide();
   });
 
-console.log(scope);
 /*greg todo
   make a 'tip' directive that takes as props the combos, handrange and position, pass in scope vars
 */
   function showTip($target) {
-    var combos = $target.data('combos');
-    var hrange = $target.data('hrange');
+    var combos = $target[0].getAttribute('data-combos');
+    var hrange = $target[0].getAttribute('data-hrange');
     var tip = angular.element('.bar-combos').text(hrange + ' ' + combos).show();
 
     var transform = $target.parent().attr('transform');
@@ -43,7 +42,7 @@ console.log(scope);
 
     tip.css('left', '150px');
     tip.css('top', height);
-    scope.tip.height += 10;
+    scope.tip.height += 10;//lol wut
 
   }
 

@@ -2,33 +2,37 @@
 
 rangeStatApp.controller('RangeChartCtrl', ['_', '$scope','$http', function(_, $scope, $http) {
   var vm = this;
+  var chartsData;//this is being manipulated by some of the vm.functions, does it belong elsewhere?
+/*
   vm.load = function() {
     var x = ['fullHousePlus', 'pairPlusDraw', 'pairs', 'draws', 'overcards', 'main'];
     var r = Math.floor(Math.random() * 6)
     vm.data = chartsData[x[r]];
     vm.group = x[r];
-    console.log(vm.tip);
+    //console.log(vm.tip);
   }
+*/
 
-console.log('im so confused');
-console.log(this);
-console.log($scope.board);
 $scope.$watch('board.length',fetchRangeData);
 $scope.$watch('range',fetchRangeData);
 function fetchRangeData() {
   var range = $scope.range.replace(/\s+/g, '');
   var board = $scope.board.join(',').replace(/\s+/g,'');
+/*
   console.log('changed:',range);
   console.log('changed:',board);
+*/
   $http({
     method: 'GET',
     url: 'http://localhost:3000/' + board +'/'+range
   }).then(function successCallback(response) {
-  console.log('ajaxsuccess');
+ // console.log('ajaxsuccess');
       var data = JSON.parse(response.data);
-  console.log(data);
-      var chartsData = buildChartData(data);
-      vm.data = chartsData['main'];//this line will be in callback we provide to service or maybe do it
+  //console.log(data);
+      chartsData = buildChartData(data);
+      //vm.data = chartsData['main'];//this line will be in callback we provide to service or maybe do it
+      vm.data = chartsData[vm.group];
+      //vm.group = 'main';//return to main display of ranges
         //via promises in controller, need access to this vm variable?
     }, function errorCallback(response) {
       console.log('ajax error', response);

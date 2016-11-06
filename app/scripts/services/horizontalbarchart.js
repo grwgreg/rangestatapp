@@ -179,13 +179,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
       enter.append("rect")
         .attr("class", "bar")
-        .attr("width", 0)
-        .attr('data-combos', function(d) {
-          return d.hands;
-        })
-        .attr('data-hrange', function(d) {
-          return d.handRange;
-        });
+        .attr("width", 0);
 
       //percent label
       enter.append("text");
@@ -217,7 +211,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
           return d.type;
         });
 
-      //resize all bars
+      //resize all bars and add data attrs for tooltip
       this._bodyG.selectAll("rect.bar")
         .data(this._data, this.key)
         .transition()
@@ -226,6 +220,12 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         })
         .attr("height", function(d) {
           return barHeight;
+        })
+        .attr('data-combos', function(d) {
+          return d.hands;
+        })
+        .attr('data-hrange', function(d) {
+          return d.handRange;
         });
 
     },
