@@ -18,24 +18,9 @@
   <body ng-app="rangeStatApp">
 
 <div ng-controller="MainCtrl as main" class="views-container main clearfix">
-<!--
-    <div ui-view="rangeSelector" class="range-selector"></div>
-    <div ui-view="rangeChart" class="range-chart"></div>
--->
 <div class="range-selector">
-    <deb></deb>
 
-<div class="card-matrix" ng-controller="cardMatrixCtrl as cardMatrix">
-<ul>
-  <li ng-repeat="row in ::cardMatrix.matrix">
-    <preflop-hand ng-repeat="cardData in ::row" 
-                  ranks='{{cardData.cards}}' 
-                  suit-type='{{cardData.type}}' 
-                  active="main.active">
-    </preflop-hand>
-  </li>
-</ul>
-</div><!-- /cardMatrix -->
+<card-matrix active="main.active"></card-matrix>
 
 <div class="board-matrix" ng-controller="boardMatrixCtrl as boardMatrix">
 <ul>
@@ -133,6 +118,7 @@
         <script src="scripts/directives/rangestring.js"></script>
         <script src="scripts/directives/handsuits.js"></script>
         <script src="scripts/directives/rangechart.js"></script>
+        <script src="scripts/directives/cardmatrix.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <script src="scripts/services/rangeparser.js"></script>
         <script src="scripts/services/horizontalbarchart.js"></script>

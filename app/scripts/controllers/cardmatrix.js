@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('cardMatrixCtrl', ['preflopHands', 'tagMatrix', function (preflopHands, tagMatrix) {
+rangeStatApp.controller('CardMatrixCtrl', ['tagMatrix', function (tagMatrix) {
 
     this.matrix = tagMatrix;
 

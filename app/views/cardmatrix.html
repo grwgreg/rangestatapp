@@ -1,0 +1,11 @@
+<div class="card-matrix">
+  <ul>
+    <li ng-repeat="row in ::cardMatrix.matrix">
+      <preflop-hand ng-repeat="cardData in ::row" 
+                    ranks='{{cardData.cards}}' 
+                    suit-type='{{cardData.type}}' 
+                    active="active">
+      </preflop-hand>
+    </li>
+  </ul>
+</div><!-- /cardMatrix -->
