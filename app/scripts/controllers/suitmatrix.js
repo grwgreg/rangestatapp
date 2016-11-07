@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('suitMatrixCtrl', ['suitMatrix', function (suitMatrix) {
+rangeStatApp.controller('SuitMatrixCtrl', ['suitMatrix', function (suitMatrix) {
 
     this.matrix = suitMatrix;
 

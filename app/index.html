@@ -24,14 +24,7 @@
 
 <board-matrix board="main.board"></board-matrix>
 
-<div ng-controller="suitMatrixCtrl as suitMatrix">
-<h2>{{main.active.tag}}</h2>
-<ul class="suit-matrix">
-  <li ng-repeat="row in ::suitMatrix.matrix">
-    <hand-suits ng-repeat="suits in ::row" active="main.active" suits="{{suits}}"></hand-suits>
-  </li>
-</ul>
-</div><!-- /suitMatrixCtrl -->
+<suit-matrix active="main.active"></suit-matrix>
 
     <input class = 'range-string' 
       ng-model='main.rangeStringDummy' 
@@ -45,10 +38,6 @@
 <range-chart board="main.board" range="main.rangeStringModel"></range-chart>
 
 </div><!-- /main -->
-<!--
-<a ui-sref="range({board: 'Ah,Kc,Js', range: 'KK,QTs,88-22'})">change</a>
-<a ui-sref="index">range</a>
--->
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -105,6 +94,7 @@
         <script src="scripts/directives/rangechart.js"></script>
         <script src="scripts/directives/cardmatrix.js"></script>
         <script src="scripts/directives/boardmatrix.js"></script>
+        <script src="scripts/directives/suitmatrix.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <script src="scripts/services/rangeparser.js"></script>
         <script src="scripts/services/horizontalbarchart.js"></script>

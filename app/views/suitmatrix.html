@@ -1,0 +1,8 @@
+<div class="suit-matrix">
+  <h2>{{active.tag}}</h2>
+  <ul class="suit-matrix">
+    <li ng-repeat="row in ::suitMatrix.matrix">
+      <hand-suits ng-repeat="suits in ::row" active="active" suits="{{suits}}"></hand-suits>
+    </li>
+  </ul>
+</div><!-- /suit-matrix -->
