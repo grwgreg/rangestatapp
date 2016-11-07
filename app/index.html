@@ -22,20 +22,7 @@
 
 <card-matrix active="main.active"></card-matrix>
 
-<div class="board-matrix" ng-controller="boardMatrixCtrl as boardMatrix">
-<ul>
-<li ng-repeat="rank in ::boardMatrix.ranks">
-<board-card ng-repeat="suit in ::boardMatrix.suits" board="main.board" rank="{{rank}}" suit="{{suit}}"></board-card>
-</li>
-</ul>
-<div class="board-display">
-  <ul>
-    <li ng-repeat="card in main.board">
-      {{card[0]}}<span class="{{boardMatrix.suitIcon[card[1]]}}"></span>
-    </li>
-  </ul>
-</div>
-</div><!-- /board-matrix -->
+<board-matrix board="main.board"></board-matrix>
 
 <div ng-controller="suitMatrixCtrl as suitMatrix">
 <h2>{{main.active.tag}}</h2>
@@ -113,15 +100,16 @@
         <script src="scripts/directives/barchart.js"></script>
         <script src="scripts/directives/preflophand.js"></script>
         <script src="scripts/directives/boardcard.js"></script>
-        <script src="scripts/services/tagmatrix.js"></script>
-        <script src="scripts/services/suitmatrix.js"></script>
         <script src="scripts/directives/rangestring.js"></script>
         <script src="scripts/directives/handsuits.js"></script>
         <script src="scripts/directives/rangechart.js"></script>
         <script src="scripts/directives/cardmatrix.js"></script>
+        <script src="scripts/directives/boardmatrix.js"></script>
         <script src="scripts/services/rangeformatter.js"></script>
         <script src="scripts/services/rangeparser.js"></script>
         <script src="scripts/services/horizontalbarchart.js"></script>
+        <script src="scripts/services/tagmatrix.js"></script>
+        <script src="scripts/services/suitmatrix.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -1,0 +1,14 @@
+<div class="board-matrix">
+  <ul>
+    <li ng-repeat="rank in ::boardMatrix.ranks">
+      <board-card ng-repeat="suit in ::boardMatrix.suits" board="board" rank="{{rank}}" suit="{{suit}}"></board-card>
+    </li>
+  </ul>
+  <div class="board-display">
+    <ul>
+      <li ng-repeat="card in board">
+        {{card[0]}}<span class="{{boardMatrix.suitIcon[card[1]]}}"></span>
+      </li>
+    </ul>
+  </div>
+</div><!-- /board-matrix -->
