@@ -663,3 +663,11 @@ color: white;
 .invalid svg {
 opacity: 0.8;
 }
+
+.tool-tip {
+position: absolute;
+z-index:9;
+background: #201b15;
+color: white;
+left: 150px;
+}

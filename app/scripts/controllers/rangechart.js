@@ -7,12 +7,23 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', function(_, $
   $scope.$watch('board.length', fetchRangeData);
   $scope.$watch('range', fetchRangeData);
 
+  vm.tip = {};
   $scope.$on('showTip',function(e,combos,hrange,height) {
     console.log('in controller ',combos);
     console.log('in controller ',hrange);
     console.log('in controller ',height);
-//idea is now to set some vm.variables that u can pass into a tooltip
-//i guess have a visible variable too?
+    $scope.$apply(function() {
+      vm.tip.combos = combos;
+      vm.tip.hrange = hrange;
+      vm.tip.height = height;
+      vm.tip.visible = true;
+    });
+  });
+
+  $scope.$on('hideTip',function(e) {
+    $scope.$apply(function() {
+      vm.tip.visible = false;
+    });
   });
 
   function fetchRangeData() {
@@ -61,11 +72,6 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', function(_, $
 
 
   vm.group = 'main';
-
-  vm.tip = {
-    height: 69,
-    combos: ['aj', 'kj']
-  }
 
   vm.percentOfGroup = false;
 
