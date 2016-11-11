@@ -18,24 +18,26 @@
   <body ng-app="rangeStatApp">
 
 <div ng-controller="MainCtrl as main" class="views-container main clearfix">
-<div class="range-selector">
 
-<card-matrix active="main.active"></card-matrix>
+  <div class="range-selector">
+    <div>
+      <card-matrix active="main.active"></card-matrix>
+      <board-matrix board="main.board"></board-matrix>
+    </div>
+    <div>
+      <textarea 
+        class='range-string' 
+        range-string
+        ng-model='main.rangeStringDummy' 
+        range-string-model='main.rangeStringModel'
+        active-input-mode='main.active' 
+        preflop-hands='main.preflopHands'>
+      </textarea>
+      <suit-matrix active="main.active"></suit-matrix>
+    </div>
+  </div><!-- /range-selector -->
 
-<board-matrix board="main.board"></board-matrix>
-
-<suit-matrix active="main.active"></suit-matrix>
-
-    <input class = 'range-string' 
-      ng-model='main.rangeStringDummy' 
-      range-string-model='main.rangeStringModel'
-      active-input-mode='main.active' 
-      range-string preflop-hands='main.preflopHands' 
-      type='text'>
-
-</div><!-- /range-selector -->
-
-<range-chart board="main.board" range="main.rangeStringModel"></range-chart>
+  <range-chart board="main.board" range="main.rangeStringModel"></range-chart>
 
 </div><!-- /main -->
 

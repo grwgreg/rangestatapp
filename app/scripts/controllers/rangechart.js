@@ -7,6 +7,14 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', function(_, $
   $scope.$watch('board.length', fetchRangeData);
   $scope.$watch('range', fetchRangeData);
 
+  $scope.$on('showTip',function(e,combos,hrange,height) {
+    console.log('in controller ',combos);
+    console.log('in controller ',hrange);
+    console.log('in controller ',height);
+//idea is now to set some vm.variables that u can pass into a tooltip
+//i guess have a visible variable too?
+  });
+
   function fetchRangeData() {
     vm.inSync = false; //display spinner
     debouncedRequest();
