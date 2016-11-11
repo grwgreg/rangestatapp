@@ -1,8 +1,6 @@
 <div class="range-chart" ng-class="{invalid: !rangeChart.inSync}">
 <svg id="bar-chart" bar-chart percent-of-group=rangeChart.percentOfGroup data="rangeChart.data" ng-click="rangeChart.changeChart($event)"></svg>
 <tool-tip tip="rangeChart.tip"></tool-tip>
-in rangeChart scope: {{rangeChart.greg.hi}}
-<div class="bar-combos">this is the hover el that shows current bar's hand combos</div>
 <p>display board is: {{rangeChart.board}}</p>
 <p>display range: {{rangeChart.range}}</p>
 <p>board is: {{board}}</p>

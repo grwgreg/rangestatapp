@@ -13,7 +13,7 @@ rangeStatApp.directive('preflopHand', ['preflopHands', function(preflopHands) {
                 suitType: '@',
             },
             templateUrl: '/views/preflopHand.html', 
-            controller: 'preflopHandCtrl'
+            controller: 'PreflopHandCtrl'
 //            controllerAs: 'hand'
 // blah can't use controller as in directives yet ;_; 
 // https://github.com/angular/angular.js/issues/7635

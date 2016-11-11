@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('preflopHandCtrl', ['$scope', 'preflopHands', function ($scope, preflopHands) {
+rangeStatApp.controller('PreflopHandCtrl', ['$scope', 'preflopHands', function ($scope, preflopHands) {
 
     var vm = $scope;//can't use controller as in directive
     var tag = vm.ranks + vm.suitType;
