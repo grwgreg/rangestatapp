@@ -68,6 +68,7 @@ rangeStatApp.factory('chartData', ['_', function(_) {
 
   return {
     prepareData: prepareData,
-    initialData: initialData
+    initialData: initialData,
+    handGroups: handGroups
   };
 }]);

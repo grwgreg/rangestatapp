@@ -1,12 +1,13 @@
 <div class="tool-tip" ng-style="{top: tip.height}" ng-show="tip.visible">
-  <div>
-    combos: {{tip.combos}}
+  <div class="tool-tip-toggle">
+    <button ng-click="toolTip.toggleView('range')" ng-disabled="toolTip.rangeVisible">Range</button>
+    <button ng-click="toolTip.toggleView('combos')" ng-disabled="!toolTip.rangeVisible">Individual Combos</button>
   </div>
-  <div>
-    hrange: {{tip.hrange}}
+  <div ng-show="!toolTip.rangeVisible">
+    {{tip.combos}}
   </div>
-  <div>
-    height: {{tip.height}}
+  <div ng-show="toolTip.rangeVisible">
+    {{tip.hrange}}
   </div>
 </div>
 

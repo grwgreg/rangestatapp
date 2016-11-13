@@ -652,13 +652,6 @@ display: block;
 color: black;
 }
 
-.bar-combos {
-position: absolute;
-z-index:9;
-background: #201b15;
-color: white;
-}
-
 
 .invalid svg {
 opacity: 0.8;
@@ -667,7 +660,35 @@ opacity: 0.8;
 .tool-tip {
 position: absolute;
 z-index:9;
-background: #201b15;
+background: #232323;
+border-radius: 4px;
+padding: 10px;
 color: white;
 left: 150px;
+width: 500px;
+font-size: 13px;
+button {
+color: white;
+box-shadow: none;
+border: none;
+    background: #828282;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 3px;
+&[disabled] {
+background: steelblue;
+}
+}
+}
+.tool-tip-toggle {
+margin-bottom: 10px;
+}
+
+.percent-of-toggle button {
+color: #333;
+background: white;
+box-shadow: none;
+border: none;
+border-radius: 3px;
+
 }

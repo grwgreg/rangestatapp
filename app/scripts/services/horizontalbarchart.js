@@ -4,7 +4,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
   var HorizontalBarChart = function(config) {
     config = config || {};
-    this._width = config.width || 700;
+    this._width = config.width || 500;
     this._height = config.height || 400;
     this._margins = config.margins || {
         top: 0,

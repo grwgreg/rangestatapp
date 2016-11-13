@@ -4,11 +4,18 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
   var vm = this;
 
   vm.range = $scope.range;
-  vm.board = $scope.board.join(',');
+  //vm.board = $scope.board.join(',');
+  vm.board = $scope.board;
   vm.inSync = true;
   vm.group = 'main';
   vm.percentOfGroup = false;
   vm.tip = {};
+  vm.suitIcons = {
+    c: 'club',
+    d: 'diam',
+    h: 'heart',
+    s: 'spade'
+  };
   
   //data to show on intial load
   var initData = chartData.initialData;
@@ -18,8 +25,8 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
 
   $scope.$on('showTip',function(e,combos,hrange,height) {
     $scope.$apply(function() {
-      vm.tip.combos = combos;
-      vm.tip.hrange = hrange;
+      vm.tip.combos = combos.replace(/,/g, ', ');
+      vm.tip.hrange = hrange.replace(/,/g, ', ');
       vm.tip.height = height;
       vm.tip.visible = true;
     });
@@ -41,11 +48,10 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
 
   function fetchRangeData() {
     var range = $scope.range.replace(/\s+/g, '');
+    var boardArr = $scope.board.slice();
     var board = $scope.board.join(',').replace(/\s+/g, '');
     if (range.trim() === '' || board.length < 6) return;
-    var rData = rangeData.get({range: range, board: board});
-
-    rData.then(function(response) {
+    rangeData.get({range: range, board: board}).then(function(response) {
 
       var curRange = $scope.range.replace(/\s+/g, '');
       var curBoard = $scope.board.join(',').replace(/\s+/g, '');
@@ -56,7 +62,7 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
         vm.inSync = true;
       }
 
-      vm.board = board;
+      vm.board = boardArr;
       vm.range = range;
 
       var replyData = JSON.parse(response.data);
@@ -87,7 +93,7 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
     var $group = $el.closest('g');
     if ($group.data('bar') == 'bar') {
       var group = $group.data('group');
-      var groupKeys = _.keys(handGroups);
+      var groupKeys = _.keys(chartData.handGroups);
       var changeGroup = (groupKeys.indexOf(group) > -1) && (group != vm.group);
       if (changeGroup) {
         vm.group = group;

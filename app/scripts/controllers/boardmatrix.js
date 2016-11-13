@@ -6,7 +6,7 @@ rangeStatApp.controller('BoardMatrixCtrl', [function () {
   vm.ranks = "AKQJT98765432".split('');
   vm.suits = "cdhs".split('');
 
-  vm.suitIcon = {
+  vm.suitIcons = {
     c: 'club',
     d: 'diam',
     h: 'heart',

@@ -1,13 +1,15 @@
 <div class="range-chart" ng-class="{invalid: !rangeChart.inSync}">
-<svg id="bar-chart" bar-chart percent-of-group=rangeChart.percentOfGroup data="rangeChart.data" ng-click="rangeChart.changeChart($event)"></svg>
-<tool-tip tip="rangeChart.tip"></tool-tip>
-<p>display board is: {{rangeChart.board}}</p>
-<p>display range: {{rangeChart.range}}</p>
-<p>board is: {{board}}</p>
-<p>range: {{range}}</p>
-<div class="loading" ng-show="!rangeChart.inSync">LOADING</div>
-<div class="chart-container">
-<button ng-click="rangeChart.togglePercentOfGroup()" ng-disabled="rangeChart.isMain()">Show Percent of something</button>
-<div class="chart-title">Showing Percent of {{rangeChart.group}}</div>
-</div><!-- chart-container -->
+  <svg id="bar-chart" bar-chart percent-of-group=rangeChart.percentOfGroup data="rangeChart.data" ng-click="rangeChart.changeChart($event)"></svg>
+  <tool-tip tip="rangeChart.tip"></tool-tip>
+  <div class="loading" ng-show="!rangeChart.inSync">LOADING</div>
+  <p>Currently displaying statistics for the following range and board:</p>
+  <p>Range: {{rangeChart.range}}</p>
+  <p>Board:  
+        <span ng-repeat="card in rangeChart.board">
+          {{card[0]}}<span class="{{rangeChart.suitIcons[card[1]]}}"></span>
+        </span>
+  </p>
+  <div class="percent-of-toggle">
+    <button ng-click="rangeChart.togglePercentOfGroup()" ng-show="rangeChart.group !== 'main'">Show as percent of {{rangeChart.percentOfGroup ? 'entire range' : 'just ' + rangeChart.group}}</button>
+  </div>
 </div><!-- range-chart -->

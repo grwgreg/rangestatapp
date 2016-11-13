@@ -11,11 +11,14 @@ rangeStatApp.directive('toolTip', ['preflopHands', function(preflopHands) {
                 tip: '='
             },
             templateUrl: '/views/tooltip.html', 
-/*
             controllerAs: 'toolTip',
             controller: ['$scope', function($scope) {
-console.log('runned');
-}]
-*/
+              var vm = this;
+              this.rangeVisible = true;
+              this.toggleView = function(view) {
+                this.rangeVisible = view === 'range';
+                return false;
+              };
+            }]
         };
     }]);
