@@ -50,13 +50,12 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
     var range = $scope.range.replace(/\s+/g, '');
     var boardArr = $scope.board.slice();
     var board = $scope.board.join(',').replace(/\s+/g, '');
-    if (range.trim() === '' || board.length < 6) return;
+    if (board.length < 6) return;
     rangeData.get({range: range, board: board}).then(function(response) {
 
       var curRange = $scope.range.replace(/\s+/g, '');
       var curBoard = $scope.board.join(',').replace(/\s+/g, '');
       if (curBoard !== board || curRange !== range) {
-        console.log('the board or range has since changed');
         vm.inSync = false;
       } else {
         vm.inSync = true;
