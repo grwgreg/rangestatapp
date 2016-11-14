@@ -7,13 +7,6 @@ rangeStatApp.controller('PreflopHandCtrl', ['$scope', 'preflopHands', function (
     var twoCardHand = preflopHands[vm.ranks];
     vm.tag = vm.suitType === 'p' ? vm.ranks : tag;
 
-    vm.color = function() {
-        if (vm.suitType === 's') return 'btn-info'; 
-        else if (vm.suitType === 'p') return 'btn-success';
-        else if (vm.suitType === 'o') return 'btn-primary';
-    };
-
-
     vm.toggleOn = function() {
         vm.active.cards = twoCardHand;
         vm.active.tag = tag;

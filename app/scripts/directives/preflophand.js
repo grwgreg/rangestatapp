@@ -14,8 +14,5 @@ rangeStatApp.directive('preflopHand', ['preflopHands', function(preflopHands) {
             },
             templateUrl: '/views/preflopHand.html', 
             controller: 'PreflopHandCtrl'
-//            controllerAs: 'hand'
-// blah can't use controller as in directives yet ;_; 
-// https://github.com/angular/angular.js/issues/7635
         };
     }]);
