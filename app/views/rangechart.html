@@ -1,7 +1,7 @@
 <div class="range-chart" ng-class="{invalid: !rangeChart.inSync}">
   <svg id="bar-chart" bar-chart percent-of-group=rangeChart.percentOfGroup data="rangeChart.data" ng-click="rangeChart.changeChart($event)"></svg>
   <tool-tip tip="rangeChart.tip"></tool-tip>
-  <div class="loading" ng-show="!rangeChart.inSync">LOADING</div>
+  <div class="loading" ng-show="!rangeChart.inSync"><img src="/images/loading.gif"></div>
   <p>Currently displaying statistics for the following range and board:</p>
   <p>Range: {{rangeChart.range}}</p>
   <p>Board:  

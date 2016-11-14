@@ -1,99 +1,26 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+//@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-/* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  font-family: 'Open Sans', sans-serif;
+
+}
+button {
+font-family: 'Open Sans', sans-serif;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
+.clearfix:before,
+.clearfix:after {
+display: table;
+content: '';
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-  }
+.clearfix:after {
+clear: both;
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-
-  p + h4 {
-    margin-top: 28px;
-  }
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
-}
-
-
-/*above is from yeoman generator*/
-/*from old rangeeval app*/
 
 /* Space out content a bit */
 body {
@@ -187,6 +114,8 @@ background: #373737;
 }
 .card-matrix ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .card-matrix li {
@@ -200,25 +129,71 @@ background: #373737;
   margin-right: 1px;
 }
 
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+
+}
+
 .btn-primary {
   border-bottom: 1px solid blue;
   border-right: 1px solid blue;
+    color: #fff;
+    background-color: #337ab7;
+    //border-color: #2e6da4;
+&:focus,
+&:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
 }
 
 .btn-success {
   border-bottom: 1px solid green;
   border-right: 1px solid green;
+    color: #fff;
+    background-color: #5cb85c;
+    //border-color: #4cae4c;
+&:focus,
+&:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
 }
 
 .btn-info {
   border-bottom: 1px solid rgb(52, 141, 255);
   border-right: 1px solid rgb(52, 141, 255);
+    color: #fff;
+    background-color: #5bc0de;
+//    border-color: #46b8da;
+&:hover,
+&:focus {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
 }
 
-.btn-danger {
-  border-bottom: 1px solid rgb(146, 0, 0);
-  border-right: 1px solid rgb(146, 0, 0);
-}
 
 .card-matrix .pressed.notall {
   background: rgb(250, 119, 83);
@@ -232,6 +207,7 @@ line-height: 26px;
 padding-right: 4px;
 }
 
+.card-matrix .pressed.notall:focus,
 .card-matrix .pressed.notall:hover {
   background: rgb(220, 70, 29);
 }
@@ -256,18 +232,18 @@ background: rgb(152, 77, 255);
 /*suitmatrix*/
 .club:before {
   content: "\2663";
-  color: green;
   margin: 2px;
+    color: #224622;
 }
 .diam:before {
   content: "\2666";
-  color: blue;
   margin: 2px;
+color: #171779;
 }
 .heart:before {
   content: "\2665";
-  color: rgb(255, 51, 51);
   margin: 2px;
+    color: #7d1d1d;
 }
 .spade:before {
   content: "\2660";
@@ -275,41 +251,94 @@ background: rgb(152, 77, 255);
   margin: 2px;
 }
 
+.suit-matrix .pressed {
+
+  .club:before {
+    color: #05a705;
+  }
+  .diam:before {
+  color: blue;
+  }
+  .heart:before {
+  color: rgb(255, 51, 51);
+  }
+  .spade:before {
+  }
+
+&:hover {
+  .club:before {
+    color: #224622;
+  }
+  .diam:before {
+color: #171779;
+  }
+  .heart:before {
+    color: #7d1d1d;
+  }
+  .spade:before {
+  color: black;
+  }
+
+}
+}
+
+.range-chart {
+  .club:before {
+    color: #05a705;
+  }
+  .diam:before {
+color: #00a7ff;
+  }
+  .heart:before {
+  color: rgb(255, 51, 51);
+  }
+  .spade:before {
+color: white;
+  }
+
+}
+
 .suit-matrix {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .suit-matrix button {
   width: 40px;
   height: 30px;
-  font-size: 1.6em;
   padding: 0px;
   margin-right: 1px;
   margin-bottom: 1px;
-  background: rgb(239, 255, 254);
-  border-bottom: 2px solid rgb(0, 109, 143);
-  border-right: 2px solid rgb(0, 109, 143);
+background: #b9b9b9;
+  border-bottom: 2px solid #585858;
+  border-right: 2px solid #585858;
 }
 
+.suit-matrix button:focus {
+background: #b9b9b9;
+}
 .suit-matrix button:hover {
-  background-color: #C5E4FF;
+  background-color: #fff;
 }
 
 .suit-matrix button span {
   position: relative;
   top: -3px;
+font-size: 22px;
 }
 
 .suit-matrix button.pressed {
-  background: rgb(165, 183, 255);
-  border-bottom: 1px solid rgb(0, 87, 146);
-  border-right: 1px solid rgb(0, 87, 146);
-  border-top: 3px solid rgb(0, 87, 146);
-  border-left: 3px solid rgb(0, 87, 146);
+  background: #fff;
+  border-bottom: 1px solid #c7c7c7;
+  border-right: 1px solid #c7c7c7;
+  border-top: 2px solid #c7c7c7;
+  border-left: 2px solid #c7c7c7;
 }
 
+.suit-matrix button.pressed:focus,
 .suit-matrix button.pressed:hover {
-  background: rgb(148, 170, 255);
+  background: #fff;
 }
 
 .suit-matrix button[disabled] {
@@ -321,9 +350,37 @@ background: rgb(152, 77, 255);
   opacity: 0.3;
 }
 
+.range-string-container {
+text-align: left;
+padding-top: 8px;
+textarea {
+box-sizing: border-box;
+display: inline-block;
+vertical-align: top;
+width: 423px;
+height: 123px;
+}
+> div {
+display: inline-block;
+vertical-align: top;
+float: right;
+}
+}
+
+.suit-matrix-container {
+h3 {
+margin: 10px 0 0;
+text-align: center;
+font-weight: normal;
+}
+}
+
 .range-string {
   width: 600px;
   color: #333;
+&.ng-invalid {
+border: 2px solid red;
+}
 }
 
 .board-matrix {
@@ -337,6 +394,10 @@ width: 35px;
 font-weight: 700;
 margin-right: 1px;
 margin-bottom: 1px;
+&:disabled {
+opacity: 0.6;
+
+}
 }
 
 .board-matrix ul {
@@ -382,24 +443,47 @@ background-color: inherit;
   border-bottom: 1px solid #AF0000;
   border-right: 1px solid #AF0000;
   color: white;
+&:focus,
+&:hover {
+    background: #961919;
+    border-bottom: 1px solid #611212;
+    border-right: 1px solid #611212;
+}
 }
 .btn-club {
   background: #5cb85c;
   border-bottom: 1px solid green;
   border-right: 1px solid green;
   color: white;
+&:focus,
+&:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
 }
 .btn-diam {
   background: #428bca;
   border-bottom: 1px solid blue;
   border-right: 1px solid blue;
   color: white;
+&:focus,
+&:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
 }
 .btn-spade {
   background: rgb(32, 27, 21);
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   color: white;
+&:focus,
+&:hover {
+    color: #fff;
+    background: #35322e;
+}
 }
 
 .board-display ul {
@@ -410,6 +494,7 @@ padding: 0;
 .board-display li {
 display: inline-block;
 margin-right: 6px;
+font-size: 12px;
 }
 
 /*chart*/
@@ -418,14 +503,7 @@ margin-right: 6px;
   font: 10px sans-serif;
   text-anchor: end;
 }
-.body text.outside {
-  fill: steelblue;
-}
 svg {
-}
-
-.body > g:nth-child(3) > rect {
-fill: pink;
 }
 
 .box {
@@ -549,12 +627,14 @@ fill: pink;
 
 .axis path, .axis line {
     fill: none;
-    stroke: #000;
+    stroke: #8a8a8a;
     shape-rendering: crispEdges;
 }
 
 .axis text {
-    font: 10px sans-serif;
+  font: 10px 'Open Sans';
+  stroke: #8a8a8a;
+
 }
 
 .axis .grid-line{
@@ -633,17 +713,20 @@ fill: pink;
 
 /* end chart */
 
+.main {
+text-align: center;
+}
+
 .range-selector {
-float: left;
-width: 50%;
-margin-right: -100%;
+display: inline-block;
+vertical-align: top;
+width: 622px;
 }
 
 .range-chart {
-float: left;
-width: 50%;
-margin-right: -100%;
-margin-left: 45%;
+display: inline-block;
+vertical-align: top;
+width: 620px;
 position: relative;
 }
 
@@ -654,7 +737,7 @@ color: black;
 
 
 .invalid svg {
-opacity: 0.8;
+opacity: 0.7;
 }
 
 .tool-tip {
@@ -667,6 +750,7 @@ color: white;
 left: 150px;
 width: 500px;
 font-size: 13px;
+text-align: left;
 button {
 color: white;
 box-shadow: none;
@@ -685,10 +769,22 @@ margin-bottom: 10px;
 }
 
 .percent-of-toggle button {
-color: #333;
-background: white;
-box-shadow: none;
-border: none;
-border-radius: 3px;
+    color: white;
+    background: steelblue;
+    box-shadow: none;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 8px;
+    display: inline-block;
+    cursor: pointer;
+}
 
+.loading {
+height: 20px;
+}
+.loading img {
+width: 20px;
+height: 20px;
+display: block;
+margin: 0 auto;
 }

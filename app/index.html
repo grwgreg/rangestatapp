@@ -11,35 +11,37 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/boot.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <!-- endbuild -->
     <base href="/">
   </head>
   <body ng-app="rangeStatApp">
 
-<div ng-controller="MainCtrl as main" class="views-container main clearfix">
+    <div ng-controller="MainCtrl as main" class="views-container main clearfix">
 
-  <div class="range-selector">
-    <div>
-      <card-matrix active="main.active"></card-matrix>
-      <board-matrix board="main.board"></board-matrix>
-    </div>
-    <div>
-      <textarea 
-        class='range-string' 
-        range-string
-        ng-model='main.rangeStringDummy' 
-        range-string-model='main.rangeStringModel'
-        active-input-mode='main.active' 
-        preflop-hands='main.preflopHands'>
-      </textarea>
-      <suit-matrix active="main.active"></suit-matrix>
-    </div>
-  </div><!-- /range-selector -->
+      <div class="range-selector">
+        <div>
+          <card-matrix active="main.active"></card-matrix>
+          <board-matrix board="main.board"></board-matrix>
+        </div>
+        <div class="clearfix range-string-container">
+          <textarea 
+            class='range-string' 
+            range-string
+            ng-model='main.rangeStringDummy' 
+            range-string-model='main.rangeStringModel'
+            active-input-mode='main.active' 
+            preflop-hands='main.preflopHands'>
+          </textarea>
+          <suit-matrix active="main.active"></suit-matrix>
+        </div>
+      </div><!-- /range-selector -->
 
-  <range-chart board="main.board" range="main.rangeStringModel"></range-chart>
+      <range-chart board="main.board" range="main.rangeStringModel"></range-chart>
 
-</div><!-- /main -->
+    </div><!-- /main -->
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>

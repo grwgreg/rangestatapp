@@ -4,7 +4,6 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
   var vm = this;
 
   vm.range = $scope.range;
-  //vm.board = $scope.board.join(',');
   vm.board = $scope.board;
   vm.inSync = true;
   vm.group = 'main';
@@ -62,7 +61,7 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
       }
 
       vm.board = boardArr;
-      vm.range = range;
+      vm.range = range.replace(/,/g, ', ');
 
       var replyData = JSON.parse(response.data);
       data = chartData.prepareData(replyData);
@@ -100,6 +99,6 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
         vm.data = data[group];
       }
     }
-  }
+  };
 
 }]);
