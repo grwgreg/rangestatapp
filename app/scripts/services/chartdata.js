@@ -48,12 +48,7 @@ rangeStatApp.factory('chartData', ['_', function(_) {
 
   function nextChart(d, hand) {
     var keys = _.keys(d);
-    //lol this should be one liner ternary
-    if (keys.indexOf('showNext') > -1) {
-      return d.showNext;
-    } else {
-      return 'main';
-    }
+    return keys.indexOf('showNext') > -1 ? d.showNext : 'main';
   }
 
   function prettyLabel(s) {

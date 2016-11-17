@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('BoardMatrixCtrl', [function () {
+rangeStatApp.controller('BoardMatrixCtrl', [function() {
 
   var vm = this;
   vm.ranks = "AKQJT98765432".split('');

@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 'rangeData', function(_, $scope, $http, chartData, rangeData) {
+rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', 'chartData', 'rangeData', function(_, $scope, chartData, rangeData) {
   var vm = this;
 
   vm.range = $scope.range;
@@ -15,14 +15,14 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
     h: 'heart',
     s: 'spade'
   };
-  
+
   //data to show on intial load
   var initData = chartData.initialData;
   initData = JSON.parse(initData);
   var data = chartData.prepareData(initData);
   vm.data = data['main'];
 
-  $scope.$on('showTip',function(e,combos,hrange,height) {
+  $scope.$on('showTip', function(e, combos, hrange, height) {
     $scope.$apply(function() {
       vm.tip.combos = combos.replace(/,/g, ', ');
       vm.tip.hrange = hrange.replace(/,/g, ', ');
@@ -31,7 +31,7 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
     });
   });
 
-  $scope.$on('hideTip',function(e) {
+  $scope.$on('hideTip', function(e) {
     $scope.$apply(function() {
       vm.tip.visible = false;
     });
@@ -50,7 +50,10 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
     var boardArr = $scope.board.slice();
     var board = $scope.board.join(',').replace(/\s+/g, '');
     if (board.length < 6) return;
-    rangeData.get({range: range, board: board}).then(function(response) {
+    rangeData.get({
+      range: range,
+      board: board
+    }).then(function(response) {
 
       var curRange = $scope.range.replace(/\s+/g, '');
       var curBoard = $scope.board.join(',').replace(/\s+/g, '');
@@ -67,7 +70,7 @@ rangeStatApp.controller('RangeChartCtrl', ['_', '$scope', '$http', 'chartData', 
       data = chartData.prepareData(replyData);
       vm.data = data[vm.group];
 
-    }, function (response) {
+    }, function(response) {
       console.log('ajax error', response);
     });
   }

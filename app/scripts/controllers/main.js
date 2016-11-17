@@ -1,6 +1,6 @@
 'use strict';
 
-rangeStatApp.controller('MainCtrl', ['$scope', '$rootScope', 'preflopHands', 'activeInputMode', function ($scope, $rootScope, preflopHands, activeInputMode) {
+rangeStatApp.controller('MainCtrl', ['preflopHands', 'activeInputMode', function (preflopHands, activeInputMode) {
 
     var vm = this;    
     vm.preflopHands = preflopHands;

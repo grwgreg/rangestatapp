@@ -1,7 +1,7 @@
 'use strict';
 
-rangeStatApp.controller('CardMatrixCtrl', ['tagMatrix', function (tagMatrix) {
+rangeStatApp.controller('CardMatrixCtrl', ['tagMatrix', function(tagMatrix) {
 
-    this.matrix = tagMatrix;
+  this.matrix = tagMatrix;
 
 }]);

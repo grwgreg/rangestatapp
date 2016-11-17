@@ -7,11 +7,11 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
     this._width = config.width || 500;
     this._height = config.height || 400;
     this._margins = config.margins || {
-        top: 0,
-        left: 30,
-        right: 30,
-        bottom: 30
-      },
+      top: 0,
+      left: 30,
+      right: 30,
+      bottom: 30
+    };
     this._labelWidth = config.labelWidth || 110;
     this._x;
     this._y;
@@ -51,7 +51,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
 
     renderAxes: function(svg, reload) {
 
-
       var xAxis = d3.svg.axis()
         .scale(this._x)
         .ticks(10)
@@ -86,6 +85,7 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       }
 
       if (reload) {
+        //todo make responsive
         //keep x-axis transformation incase have to resize for mobile
         this._axesG.select('.x-axis').transition()
           .attr("transform", function() {
@@ -106,7 +106,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
       if (reload) {
         this._svg.transition().select('#body-clip')
           .attr("width", this.quadrantWidth() + 2 * padding + this._labelWidth)
-          //.attr("width", this.quadrantWidth() + 2 * padding )
           .attr("height", this.quadrantHeight());
       } else {
 
@@ -170,12 +169,6 @@ rangeStatApp.factory('HorizontalBarChart', ['d3', function(d3) {
         .attr('data-group', function(d) {
           return d.group;
         });
-/*
-        .transition()
-        .attr("transform", function(d, i) {
-          return "translate(" + labelWidth + "," + (i * (barHeight + padding)) + ")";
-        });
-*/
 
       enter.append("rect")
         .attr("class", "bar")

@@ -2,10 +2,9 @@
 /*
  * Directive for horizontal bar chart
  */
-rangeStatApp.directive('barChart', ['_', 'd3', 'HorizontalBarChart', function(_, d3, HorizontalBarChart) {
+rangeStatApp.directive('barChart', ['_', 'HorizontalBarChart', function(_, HorizontalBarChart) {
 
   function link(scope, el, attrs) {
-
 
     var chart = new HorizontalBarChart();
     chart.setData(scope.data);
@@ -23,7 +22,7 @@ rangeStatApp.directive('barChart', ['_', 'd3', 'HorizontalBarChart', function(_,
         var matches = xyRegex.exec(transform);
         var match = parseInt(matches[2]) + 30;
         var height = match + "px";
-        scope.$emit('showTip', combos, hrange,height);
+        scope.$emit('showTip', combos, hrange, height);
         e.stopPropagation();
         return false;
       }, function(e) {
@@ -31,7 +30,6 @@ rangeStatApp.directive('barChart', ['_', 'd3', 'HorizontalBarChart', function(_,
         return false;
       });
     }
-
 
     el.on('mouseover', function() {
       scope.$emit('hideTip');
@@ -42,7 +40,7 @@ rangeStatApp.directive('barChart', ['_', 'd3', 'HorizontalBarChart', function(_,
     }, function() {
       chart.setData(scope.data);
       chart.render(el[0], true);
-      bindBarHover();//have to rebind events, can't use event delegation because firefox issue?
+      bindBarHover(); //have to rebind events, can't use event delegation because firefox issue?
     });
 
     scope.$watch(function() {

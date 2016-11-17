@@ -12,7 +12,7 @@ rangeStatApp.factory('rangeData', ['$http', function($http) {
   };
 
   return {
-   get: get
+    get: get
   };
 
 }]);
